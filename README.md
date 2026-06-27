@@ -8,7 +8,7 @@ Ground Control Station (GCS) for the **RCSIM)** RC racing project. This applicat
 
 The application is distributed as a pre-compiled standalone package. You do **not** need to install Python or compile the source code!
 
-1. Go to the **[Releases](https://github.com/RCSIM-Git/RCSIM_PC_APP/releases)** section on the right side of this repository.
+1. Go to the **[Releases](https://github.com/RCSIM-Git/RCSIM_Releases_PC_APP/releases)** section on the right side of this repository.
 2. Download the latest release package (e.g., `RCSIM_GCS_vX.Y.Z.zip`).
 3. Extract the downloaded archive to any folder on your computer.
 4. Run the application using the executable:
