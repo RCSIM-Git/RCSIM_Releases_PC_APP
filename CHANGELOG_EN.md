@@ -4,6 +4,32 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.27] - 2026-09-07
+
+### 🚨 Critical Safety & Fail-Safe (CRSF / Direct ELRS Stop Protection)
+- **Immediate Motor Disarm & Neutral Throttle Snap (Emergency Stop):**
+  - Resolved a critical safety condition in CRSF Direct mode (e.g. RadioMaster Nomad) where models failed to stop upon triggering DISARM.
+  - The 100 Hz transmission thread (`crsf_transceiver.py`) immediately resets the `channels_norm` buffer to neutral `1500 µs` (0.0 for throttle and steering) when disarmed (`is_vehicle_armed = False`).
+  - Enforced ExpressLRS safety standard: AUX1 (CH5) is forced to `1000 µs` (-1.0 / DISARMED), instantly triggering hardware motor cut-off in the receiver and ESC.
+  - Added asynchronous *Emergency Flush* sending the STOP frame immediately to the serial port without waiting for the next 100 Hz cycle.
+
+### 🎮 Hardware Input & Fanatec Wheelbase Compatibility
+- **Eliminated Multi-Axis Assignment Lockout in Wizard Dialog:**
+  - Introduced a 300 ms initial warmup delay when opening the axis assignment dialog, preventing sticky load-cell noise (e.g., Fanatec brake pedal) from triggering false detection.
+  - Implemented an `ignored_inputs` filter in `InputBinder`, allowing smooth sequential assignment of throttle, brake, clutch, and steering on the same device.
+  - Implemented robust identifier splitting (`rsplit(":", 2)`) to handle DirectInput controller GUIDs with embedded colons.
+  - Moved listener teardown and signal disconnection to `QDialog.done(result)`, eliminating thread leaks and UI lockups after canceling an assignment.
+- **Unlocked DirectInput Force Feedback for Fanatec Wheelbases (SDL Haptic):**
+  - Updated `SDLHapticBackend` to dynamically enable DirectInput FFB effects for Fanatec wheelbases (constant force, spring, damper, and rumble vibrations).
+
+### 🌍 Localization & Multi-Language Audio Synthesis (Cockpit & TTS)
+- **Dynamic Connection Status Display in Cockpit:**
+  - Implemented dedicated `update_connection_status_display()` in `CockpitTab`, maintaining translated labels (e.g., `Statut : Connecté`, `Status: Vehicle Connected`) across language switches and port state transitions.
+  - Full retranslation for the connection mode selector dropdown in `retranslateUi()`.
+- **Multi-Language Speech Synthesis (TTS Audio Prompts):**
+  - Extended `NotificationService` with localized audio voice prompts (PL, EN, DE, FR, ES) for ARMED/DISARMED states and telemetry link connection/loss.
+  - Updated and compiled full French translation database (`fr.ts`, `fr.qm`, `translations_fr.json`).
+
 ## [v1.3.26] - 2026-09-02
 
 ### 🏎️ Added & Optimized (Dynamic Soundscape, Rev Limiter & Transmission Physics)

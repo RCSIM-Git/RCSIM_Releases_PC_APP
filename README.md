@@ -19,31 +19,25 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.26** |
-| **Data Wydania (Release Date)** | 2026-09-02 |
-| **Rozmiar Pliku (File Size)** | ~2.13 GB (2,237,054,864 B) |
-| **Suma Kontrolna SHA-256** | `5e94d68a28c97e1b48254e51ae702e2cd0a632a79a6ef9bddf90f47673ac9302` |
+| **Aktualna Wersja (Current Version)** | **v1.3.27** |
+| **Data Wydania (Release Date)** | 2026-09-07 |
+| **Rozmiar Pliku (File Size)** | ~616.35 MB (646,288,844 B) |
+| **Suma Kontrolna SHA-256** | `9587639e2a3e679acd615ae66a31f7960ea9bb8feea12b8197d6ff2597bd15f1` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.26 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.27 (Highlights)
 
-- **Mechaniczne sprzężenie obrotów silnika ze skrzynią biegów (Realistic Gearbox RPM Coupling):**
-  - Obroty silnika na biegach 1..6 są mechanicznie zsynchronizowane z prędkością modelu i przełożeniami.
-  - Wyścigowy spadek obrotów przy zmianie w górę (o 35–45%) z 260 ms pauzą flat-shift oraz strzałem z wydechu (DSG shift pop / bang).
-  - Agresywny międzygaz (rev-match blip) przy redukcji biegów.
-- **Hard Cut Rev Limiter & Docięcie Zapłonu (Ignition Cut Pops & Bangs):**
-  - Proceduralna synteza fali uderzeniowej spalin i odcięcia iskry na limiterze (odbicie 200 RPM).
-  - Podniesione limity: I4 Turbo (8800 RPM), Boxer (8200 RPM).
-- **Model Turbosprężarki (Continuous Phase Turbo Spool & Surge Flutter):**
-  - Ciągłofazowy dwuharmoniczny gwizd turbiny (1.4–4.8 kHz) oraz efekt upustu zaworu blow-off (HKS surge).
-- **Dynamiczne Skalowanie Prędkościomierza OSD:**
-  - Radialny łuk prędkościomierza automatycznie skaluje się do teoretycznej prędkości maksymalnej profilu pojazdu (np. 30.8 km/h = 100% tarczy).
-  - Wskaźnik optymalnego punktu zmiany biegu (Gear Shift Marker / Notch).
-- **Skalibrowany Wskaźnik Gazu i Hamulca (OSD ESC Throttle / Brake):**
-  - Pełna zgodność ze standardem 1500 µs (0% spoczynku).
+- **🚨 Zabezpieczenie Awaryjne CRSF DISARM & Stop Silnika:**
+  - Natychmiastowe zerowanie kanałów do neutralnych 1500 µs (0.0) oraz wymuszenie AUX1 = 1000 µs (DISARM) przy wyłączeniu stacji lub klawiszem SPACJA, odcinające natychmiast napęd pojazdu (Emergency Flush).
+- **🎮 Obsługa Baz Fanatec & SC Link (Multi-Axis Mapping):**
+  - Wyeliminowano blokadę bindowania kolejnych osi w kreatorze dzięki 300 ms okresowi karencji (warmup) oraz filtrowi `ignored_inputs`.
+  - Odblokowano i zoptymalizowano DirectInput Force Feedback (FFB) dla kierownic Fanatec w `SDLHapticBackend`.
+- **🌍 Lokalizacja i Pełne Tłumaczenia w Kokpicie (I18n & TTS):**
+  - Zapewniono dynamiczne tłumaczenie statusu połączenia (`update_connection_status_display()`) i selektora trybów.
+  - Wielojęzyczne komunikaty głosowe (TTS) w 5 językach dla zdarzeń ARMED/DISARMED oraz połączenia.
 
 ---
 
@@ -55,9 +49,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.26:
+Oczekiwany hash dla v1.3.27:
 ```
-5e94d68a28c97e1b48254e51ae702e2cd0a632a79a6ef9bddf90f47673ac9302
+9587639e2a3e679acd615ae66a31f7960ea9bb8feea12b8197d6ff2597bd15f1
 ```
 
 ---

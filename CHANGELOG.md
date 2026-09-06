@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.27] - 2026-09-07
+
+### 🚨 Critical Safety & Fail-Safe (CRSF / Direct ELRS Stop Protection)
+- **Natychmiastowe Odcięcie Silnika przy DISARM (Emergency Stop & Neutral Snap):**
+  - Rozwiązano krytyczny problem braku zatrzymania pojazdu po wyzwoleniu stanu DISARM w protokole CRSF Direct (np. RadioMaster Nomad).
+  - Pętla nadawcza 100 Hz (`crsf_transceiver.py`) w stanie wyłączenia stacji (`is_vehicle_armed = False`) natychmiast zeruje bufor `channels_norm` do wartości neutralnych `1500 µs` (wartość 0.0 dla gazu i skrętu).
+  - Wymuszenie standardu ExpressLRS dla wyłącznika bezpieczeństwa: kanał AUX1 (CH5) jest automatycznie ustawiany na `1000 µs` (-1.0 / DISARMED), co natychmiast odcina zasilanie silnika w odbiorniku RC i regulatorze ESC.
+  - Dodano asynchroniczny *Emergency Flush* – pakiet STOP jest formowany i wysyłany bezpośrednio do portu szeregowego UART bez czekania na kolejny interwał pętli.
+
+### 🎮 Hardware Input & Fanatec Wheelbase Compatibility
+- **Eliminacja Blokady Bindowania Kolejnych Osi w Kreatorze (Multi-Axis Binding Fix):**
+  - Wprowadzono 300 ms okres karencji (warmup) przy otwieraniu okna dialogowego przypisywania, co eliminuje fałszywe zatrzaskiwanie osi ze stałym szumem lub dryftem (np. load cell pedału hamulca Fanatec).
+  - Wdrożono dynamiczny filtr `ignored_inputs` w `InputBinder`, dzięki czemu wcześniej przypisana oś (np. skręt lub gaz) jest ignorowana podczas przypisywania kolejnej funkcji tego samego urządzenia.
+  - Zastosowano hermetyczne dzielenie identyfikatorów wejść (`rsplit(":", 2)`), gwarantujące bezbłędne przetwarzanie GUID-ów kontrolerów zawierających znaki dwukropka.
+  - Przeniesiono procedurę zwalniania zasobów dialogu do metody `done(result)`, co zapobiega wyciekom wątków i zawieszaniu nasłuchu po anulowaniu operacji klawiszem Esc lub przyciskiem.
+- **Odblokowanie Force Feedback dla Baz Fanatec (DirectInput SDL):**
+  - W `SDLHapticBackend` dodano dynamiczne odblokowywanie DirectInput FFB dla kierownic marki Fanatec (obsługa stałego oporu, siły sprężystości, tłumienia i wibracji wybojów).
+
+### 🌍 Localization & Multi-Language Audio Synthesis (Cockpit & TTS)
+- **Dynamiczne Tłumaczenie Statusu Połączenia w Kokpicie:**
+  - Wdrożono dedykowaną metodę `update_connection_status_display()` w `CockpitTab`, która zachowuje pełne tłumaczenie etykiet (np. `Statut : Connecté`, `Status : Połączono z pojazdem`) po zmianie języka oraz przy dynamicznym przełączaniu stanu portu.
+  - Zapewniono pełną retranslacja selektora trybów połączenia (`mode_selector`) w `retranslateUi()`.
+- **Wielojęzyczne Komunikaty Głosowe (TTS Multi-Language Support):**
+  - Zaktualizowano `NotificationService` o wielojęzyczne frazy audio (PL, EN, DE, FR, ES) dla komunikatów uzbrojenia/rozbrojenia (ARMED/DISARMED) oraz nawiązania/utraty połączenia radiowego.
+  - Skompilowano i zsynchronizowano bazę tłumaczeń francuskich (`fr.ts`, `fr.qm`, `translations_fr.json`).
+
 ## [v1.3.26] - 2026-09-02
 
 ### 🏎️ Added & Optimized (Dynamic Soundscape, Rev Limiter & Transmission Physics)
