@@ -4,6 +4,19 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.28] - 2026-09-07
+
+### 🌍 Localization & ExpressLRS Configurator (MSP over CRSF I18n)
+- **Full ExpressLRS Configurator Dialog Localization (EN / PL / FR):**
+  - Fully translated ExpressLRS module configurator interface: dialog titles, progress bars, discovery status messages, action buttons, and confirmation modals.
+  - Added comprehensive English and French technical tooltips for all RF module settings (*Packet Rate, Telem Ratio, Switch Mode, Antenna Diversity, Gemini Link Mode, Model Match, TX Power, Dynamic Power, Fan Threshold, RF Band*).
+  - Implemented an internal localization fallback `tr()` in `ELRSConfiguratorDialog` guaranteeing robust translation across all environments.
+
+### 🧭 Performance & Navigation Engine (Monaco SLAM Default Optimization)
+- **Monaco SLAM Engine Disabled by Default (Resource Optimization & Safe Default):**
+  - Changed default `use_slam` flag to `False` across Pydantic configuration models and the mapping engine (`mapping_engine.py`).
+  - GCS now starts with SLAM disabled by default, eliminating background CPU and memory usage until intentionally enabled by the operator.
+
 ## [v1.3.27] - 2026-09-07
 
 ### 🚨 Critical Safety & Fail-Safe (CRSF / Direct ELRS Stop Protection)

@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.28] - 2026-09-07
+
+### 🌍 Localization & ExpressLRS Configurator (MSP over CRSF I18n)
+- **Pełne Tłumaczenie Dialogu Konfiguracji ExpressLRS (PL / EN / FR):**
+  - Przetłumaczono wszystkie elementy interfejsu konfiguratora modułów ExpressLRS: nagłówki, paski postępu, statusy operacji, przyciski akcji oraz okna dialogowe potwierdzeń.
+  - Wdrożono profesjonalne opisy parametrów technicznych (ToolTips) w języku angielskim i francuskim dla wszystkich funkcji modułów ELRS (*Packet Rate, Telem Ratio, Switch Mode, Antenna Diversity, Gemini Link Mode, Model Match, TX Power, Dynamic Power, Fan Threshold, RF Band*).
+  - Dodano wewnętrzny fallback językowy `tr()` w klasie `ELRSConfiguratorDialog`, gwarantujący stabilne działanie tłumaczeń w każdym środowisku.
+
+### 🧭 Performance & Navigation Engine (Monaco SLAM Default Optimization)
+- **Domyślne Wyłączenie Silnika SLAM (Resource Optimization & Safe Default):**
+  - Zmieniono domyślną wartość flagi `use_slam` na `False` w modelu Pydantic `slam.py` oraz silniku mapowania `mapping_engine.py`.
+  - Aplikacja startuje z wyłączonym silnikiem SLAM, co eliminuje obciążenie CPU i pamięci w trakcie standardowej jazdy i pozwala użytkownikowi włączyć nawigację SLAM tylko wtedy, gdy jest faktycznie potrzebna.
+
 ## [v1.3.27] - 2026-09-07
 
 ### 🚨 Critical Safety & Fail-Safe (CRSF / Direct ELRS Stop Protection)

@@ -19,25 +19,26 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.27** |
+| **Aktualna Wersja (Current Version)** | **v1.3.28** |
 | **Data Wydania (Release Date)** | 2026-09-07 |
-| **Rozmiar Pliku (File Size)** | ~2.09 GB (2138 MB) (2,242,047,618 B) |
-| **Suma Kontrolna SHA-256** | `86980c1ac7590e5d6518967c1b46fd1c7140ad1c6ac22079f841139dbef12e11` |
+| **Rozmiar Pliku (File Size)** | ~2.09 GB (2138 MB) (2,242,105,267 B) |
+| **Suma Kontrolna SHA-256** | `b6469da41fece62d5420683a61eede2a49f4d3bb452daf64164a6c1a62880063` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.27 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.28 (Highlights)
 
+- **🌍 Pełna Lokalizacja Konfiguratora ExpressLRS (MSP over CRSF I18n):**
+  - Wielojęzyczny interfejs konfiguracji modułów ELRS (nagłówki, statusy, paski postępu, przyciski).
+  - Precyzyjne opisy techniczne (ToolTips) w języku angielskim i francuskim dla wszystkich parametrów radiowych (Packet Rate, Gemini Link, Dynamic Power, Fan Threshold).
+- **🧭 Domyślna Optymalizacja Silnika Monaco SLAM:**
+  - Silnik SLAM jest teraz domyślnie wyłączony przy starcie, co eliminuje zbędne zużycie zasobów CPU i pamięci.
 - **🚨 Zabezpieczenie Awaryjne CRSF DISARM & Stop Silnika:**
   - Natychmiastowe zerowanie kanałów do neutralnych 1500 µs (0.0) oraz wymuszenie AUX1 = 1000 µs (DISARM) przy wyłączeniu stacji lub klawiszem SPACJA, odcinające natychmiast napęd pojazdu (Emergency Flush).
-- **🎮 Obsługa Baz Fanatec & SC Link (Multi-Axis Mapping):**
-  - Wyeliminowano blokadę bindowania kolejnych osi w kreatorze dzięki 300 ms okresowi karencji (warmup) oraz filtrowi `ignored_inputs`.
-  - Odblokowano i zoptymalizowano DirectInput Force Feedback (FFB) dla kierownic Fanatec w `SDLHapticBackend`.
-- **🌍 Lokalizacja i Pełne Tłumaczenia w Kokpicie (I18n & TTS):**
-  - Zapewniono dynamiczne tłumaczenie statusu połączenia (`update_connection_status_display()`) i selektora trybów.
-  - Wielojęzyczne komunikaty głosowe (TTS) w 5 językach dla zdarzeń ARMED/DISARMED oraz połączenia.
+- **🎮 Obsługa Baz Fanatec & SC Link (Multi-Axis Mapping & FFB):**
+  - 300 ms warmup eliminujący zakłócenia pedałów load cell, filtr `ignored_inputs` oraz obsługa Force Feedback.
 
 ---
 
@@ -49,9 +50,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.27:
+Oczekiwany hash dla v1.3.28:
 ```
-86980c1ac7590e5d6518967c1b46fd1c7140ad1c6ac22079f841139dbef12e11
+b6469da41fece62d5420683a61eede2a49f4d3bb452daf64164a6c1a62880063
 ```
 
 ---
