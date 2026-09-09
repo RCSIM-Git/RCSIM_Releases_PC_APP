@@ -4,6 +4,21 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.29] - 2026-09-09
+
+### ⚡ Zero-Lag Motion Cueing, SimHub & Adaptive IMU Interpolation
+- **Dynamic Time Step (dt) in Orientation Filters (Eliminated 800ms Phase Lag):**
+  - Resolved vehicle orientation phase lag observed at low radio telemetry rates (12 Hz / 20 Hz via ExpressLRS).
+  - All orientation filters (`EKFFilter`, `ComplementaryFilter`, `MadgwickFilter`, `MahonyFilter`) now dynamically accept the live measured monotonic step $dt$, preventing gyro angular undershoot and eliminating slow accelerometer convergence.
+- **Fixed Gravity Correction Fusion in Complementary Filter:**
+  - Optimized gravity vector correction: replaced destructive delta-slerp blending with weighted error rotation $(1 - \alpha)$, preserving 100% of physical angular motion dynamics.
+- **Adaptive IMU Interpolator & Zero-Lag Dead Reckoning:**
+  - Implemented `IMUInterpolator` with buffered SLERP for OSD/HUD (smooth 60 FPS) and dead reckoning extrapolation with auto-decay and watchdog failsafe for SimHub motion platforms and Force Feedback.
+  - Strict filtering of non-IMU auxiliary packets (AI detections, link statistics), preventing stance jitters and 0.0° zeroing.
+- **CRSF Receiver Thread Optimization & Latency Benchmarking:**
+  - Lowered serial read sleep from 10 ms to 1 ms, preventing Windows timer quantum latency.
+  - Implemented hardware ingress performance timestamping (`_ingress_perf`) measuring end-to-end latency from USB arrival to SimHub UDP socket dispatch.
+
 ## [v1.3.28] - 2026-09-07
 
 ### 🌍 Localization & ExpressLRS Configurator (MSP over CRSF I18n)

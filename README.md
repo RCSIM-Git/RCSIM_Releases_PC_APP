@@ -19,26 +19,23 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.28** |
-| **Data Wydania (Release Date)** | 2026-09-07 |
-| **Rozmiar Pliku (File Size)** | ~2.09 GB (2138 MB) (2,242,105,267 B) |
-| **Suma Kontrolna SHA-256** | `b6469da41fece62d5420683a61eede2a49f4d3bb452daf64164a6c1a62880063` |
+| **Aktualna Wersja (Current Version)** | **v1.3.29** |
+| **Data Wydania (Release Date)** | 2026-09-09 |
+| **Rozmiar Pliku (File Size)** | ~2.09 GB (2138 MB) (2,242,154,256 B) |
+| **Suma Kontrolna SHA-256** | `409adf38358997078ea7b35675ca0795818e0cf930b09b0cbafe4db3e3425ac7` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.28 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.29 (Highlights)
 
-- **🌍 Pełna Lokalizacja Konfiguratora ExpressLRS (MSP over CRSF I18n):**
-  - Wielojęzyczny interfejs konfiguracji modułów ELRS (nagłówki, statusy, paski postępu, przyciski).
-  - Precyzyjne opisy techniczne (ToolTips) w języku angielskim i francuskim dla wszystkich parametrów radiowych (Packet Rate, Gemini Link, Dynamic Power, Fan Threshold).
-- **🧭 Domyślna Optymalizacja Silnika Monaco SLAM:**
-  - Silnik SLAM jest teraz domyślnie wyłączony przy starcie, co eliminuje zbędne zużycie zasobów CPU i pamięci.
-- **🚨 Zabezpieczenie Awaryjne CRSF DISARM & Stop Silnika:**
-  - Natychmiastowe zerowanie kanałów do neutralnych 1500 µs (0.0) oraz wymuszenie AUX1 = 1000 µs (DISARM) przy wyłączeniu stacji lub klawiszem SPACJA, odcinające natychmiast napęd pojazdu (Emergency Flush).
-- **🎮 Obsługa Baz Fanatec & SC Link (Multi-Axis Mapping & FFB):**
-  - 300 ms warmup eliminujący zakłócenia pedałów load cell, filtr `ignored_inputs` oraz obsługa Force Feedback.
+- **⚡ Zero-Lag Motion Cueing & Dynamiczny Krok Czasowy (dt):**
+  - Eliminacja 800 ms opóźnienia fazowego w orientacji pojazdu przy niskich częstotliwościach telemetrii radiowej (12 Hz / 20 Hz) dzięki dynamicznemu przekazywaniu czasu kroku $dt$ do filtrów EKF, Complementary, Madgwick i Mahony.
+- **🔄 Adaptacyjny Interpolator IMU & Dead Reckoning:**
+  - Płynna ekstrapolacja orientacji i przeciążeń dla platform SimHub i Force Feedback (FFB) z automatycznym wygaszaniem (Decay) i twardym failsafe.
+- **⏱️ Optymalizacja Wątku CRSF i Pomiar Latencji:**
+  - Redukcja uśpienia pętli szeregowej do 1 ms (eliminacja opóźnień timera Windows) oraz wdrożenie precyzyjnego pomiaru latencji od wejścia pakietu do wysyłki do SimHub.
 
 ---
 
@@ -50,9 +47,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.28:
+Oczekiwany hash dla v1.3.29:
 ```
-b6469da41fece62d5420683a61eede2a49f4d3bb452daf64164a6c1a62880063
+409adf38358997078ea7b35675ca0795818e0cf930b09b0cbafe4db3e3425ac7
 ```
 
 ---

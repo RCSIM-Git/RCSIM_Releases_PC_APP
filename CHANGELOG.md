@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.29] - 2026-09-09
+
+### ⚡ Zero-Lag Motion Cueing, SimHub & Adaptive IMU Interpolation
+- **Dynamiczny Krok Czasowy (dt) w Filtrach Orientacji (Eliminacja 800 ms Opóźnienia):**
+  - Rozwiązano problem opóźnienia fazowego orientacji pojazdu przy niskich częstotliwościach telemetrii radiowej (np. 12 Hz / 20 Hz z ExpressLRS).
+  - Wszystkie filtry orientacji (`EKFFilter`, `ComplementaryFilter`, `MadgwickFilter`, `MahonyFilter`) przyjmują teraz dynamiczny krok czasowy $dt$ mierzony na żywo z zegara monotonicznego, eliminując zaniżanie kąta obrotu żyroskopu i konieczność powolnego doganiania rzeczywistości przez akcelerometr.
+- **Naprawa Fuzji Kwaternionów w Filtrze Komplementarnym:**
+  - Zoptymalizowano korekcję grawitacyjną: zamiast niszczącego obrót żyroskopu slerpa delty kwaternionu, filtr aplikuje ważony obrót korygujący $(1 - \alpha)$, zachowując pełną dynamikę kątów wychylenia nadwozia.
+- **Adaptacyjny Interpolator IMU i Dead Reckoning:**
+  - Wdrożono moduł `IMUInterpolator` z buforowanym algorytmem SLERP dla OSD/HUD (stabilne 60 FPS) oraz ekstrapolacją Dead Reckoning z automatycznym wykładniczym wygaszaniem (Decay) i twardym failsafe dla pętli SimHub i Force Feedback.
+  - Odfiltrowano pakiety nietelemetryczne (detekcje AI, statystyki łącza), zapobiegając chwilowym drganiom i zerowaniu kątów do 0.0°.
+- **Optymalizacja Wątku Odbiorczego CRSF i Pomiar Latencji:**
+  - Zredukowano uśpienie pętli odbiorczej portu szeregowego UART z 10 ms do 1 ms, eliminując kwantyzację opóźnień systemu Windows.
+  - Wprowadzono precyzyjny stempel pomiaru czasu przelotu pakietu (`_ingress_perf`) od wejścia z portu szeregowego do wysyłki UDP do SimHub, z podglądem statystyk (min/avg/max) w logach.
+
 ## [v1.3.28] - 2026-09-07
 
 ### 🌍 Localization & ExpressLRS Configurator (MSP over CRSF I18n)
