@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.30] - 2026-09-11
+
+### 🌍 Pełna Międzynarodowość (100% i18n we wszystkich 8 językach)
+- **Kompletna baza tłumaczeń GUI (PL, EN, DE, ES, FR, IT, CS, ZH):**
+  - Wszystkie etykiety, przyciski, komunikaty i okna dialogowe (m.in. kalibracja IMU, edytor krzywych, konfiguracja AI, telemetria) zostały przetłumaczone i skompilowane do plików `.qm`.
+  - Wdrożono rygorystyczny test weryfikacyjny `test_i18n.py` gwarantujący brak niedokończonych lub brakujących tłumaczeń.
+  - Rozszerzono bazę pomocniczych opisów narzędziowych (Tooltips) dla zaawansowanych parametrów FPV, filtrów i AI.
+- **Optymalizacja Mostka SimHub i Testów Jednostkowych:**
+  - Usprawniono buforowanie i konwersję kątów CRSF do mostka SimHub UDP.
+  - Zaktualizowano i rozszerzono zestaw testów automatycznych stacji naziemnej.
+
 ## [v1.3.29] - 2026-09-09
 
 ### ⚡ Zero-Lag Motion Cueing, SimHub & Adaptive IMU Interpolation

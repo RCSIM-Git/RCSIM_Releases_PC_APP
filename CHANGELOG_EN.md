@@ -4,6 +4,17 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.30] - 2026-09-11
+
+### 🌍 Full Localization (100% i18n Across All 8 Languages)
+- **Complete GUI Translation Coverage (PL, EN, DE, ES, FR, IT, CS, ZH):**
+  - All labels, buttons, tooltips, and modal dialogs (IMU calibration, curve editor, AI trainer, telemetry) are translated and compiled to `.qm` binaries.
+  - Implemented automated verification test `test_i18n.py` ensuring zero missing or unfinished translations.
+  - Expanded comprehensive tooltips for FPV video settings, orientation filters, and autonomous AI modules.
+- **SimHub Bridge & Unit Test Optimization:**
+  - Refined CRSF angle conversion and telemetry packet dispatch to SimHub UDP socket.
+  - Updated automated test suites for communication strategies and SimHub integration.
+
 ## [v1.3.29] - 2026-09-09
 
 ### ⚡ Zero-Lag Motion Cueing, SimHub & Adaptive IMU Interpolation
