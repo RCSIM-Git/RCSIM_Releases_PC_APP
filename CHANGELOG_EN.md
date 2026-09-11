@@ -4,6 +4,20 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.31] - 2026-09-11
+
+### 🛠️ Boot Stability & Environmental Hardening (Hotfix)
+- **Eliminated Startup Freeze During AI Engine Initialization (CUDA Probe Bypass):**
+  - Bypassed unconditional `torch.cuda.is_available()` probing during station boot in `SyncInferenceEngine`. Prevents native C++ Windows Access Violation crashes (`0xC0000005`) on PCs lacking dedicated NVIDIA RTX GPUs or running incompatible drivers. Safe CPU mode is default; GPU availability is checked lazily upon loading model weights.
+- **Fixed Map Tile Cache Directory Permissions (Program Files UAC Guard):**
+  - Relocated default map tile cache directory (`tile_cache`) for packaged installer builds from `C:\Program Files\RCSIM\tile_cache` to `%LOCALAPPDATA%\RCSIM\tile_cache`, completely eliminating `[WinError 5] Access is denied` errors under standard Windows user accounts.
+- **Fault Isolation & Detailed Boot Logging in AppInitializer:**
+  - Added comprehensive stage-by-stage logging (`[INIT]`) and wrapped network/autonomous subsystem instantiation (`RaceNetworkManager`, `RaceDirector`, `SlamController`) in defensive `try...except` safety boundaries.
+- **Reliable C++ Crash Dump Logging (Faulthandler Crash Log):**
+  - Fixed `faulthandler` configuration in windowed GUI mode — low-level C++ faults (SIGSEGV/SIGABRT) are now reliably captured and written to `crash_handler.log` inside the logs directory.
+- **64-bit WSAIoctl Compatibility on MAVLink Bridge:**
+  - Defined explicit 64-bit `argtypes` and `restype` for system `WSAIoctl` calls on UDP sockets, preventing 64-bit handle truncation and stack corruption.
+
 ## [v1.3.30] - 2026-09-11
 
 ### 🌍 Full Localization (100% i18n Across All 8 Languages)

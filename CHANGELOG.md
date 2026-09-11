@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.31] - 2026-09-11
+
+### 🛠️ Stabilność Startu i Bezpieczeństwo Środowiskowe (Hotfix)
+- **Eliminacja Zawieszenia przy Inicjalizacji Silników AI (CUDA Probe Bypass):**
+  - Wyłączono bezwarunkowe odpytywanie `torch.cuda.is_available()` podczas startu stacji w `SyncInferenceEngine`. Zapobiega to natywnym błędom C++ Access Violation (`0xC0000005`) na komputerach bez dedykowanych kart NVIDIA RTX lub z niekompatybilnymi sterownikami. Domyślnym urządzeniem jest zawsze bezpieczne CPU, a weryfikacja GPU następuje wyłącznie przy jawnym wczytaniu wag modelu.
+- **Naprawa Uprawnień Katalogu Bufora Kafelków (Program Files UAC Guard):**
+  - Przeniesiono domyślny katalog pamięci podręcznej kafelków mapy (`tile_cache`) dla wersji instalacyjnej z `C:\Program Files\RCSIM\tile_cache` do `%LOCALAPPDATA%\RCSIM\tile_cache`, eliminując błędy braku dostępu `[WinError 5] Access is denied` na kontach standardowych użytkowników.
+- **Odporność i Granice Błędów w AppInitializer:**
+  - Wdrożono szczegółowe logowanie poszczególnych etapów tworzenia menedżerów (`[INIT]`) oraz zabezpieczono inicjalizację modułów sieciowych i autonomicznych (`RaceNetworkManager`, `RaceDirector`, `SlamController`) blokami `try...except`.
+- **Rejestracja Zrzutów Awarii C++ (Faulthandler Crash Log):**
+  - Naprawiono konfigurację `faulthandler` w trybie bezkonsolowym GUI — zrzuty krytycznych błędów C++ (SIGSEGV/SIGABRT) są teraz niezawodnie rejestrowane w pliku `crash_handler.log` w katalogu logów.
+- **64-bitowa Kompatybilność Mostka MAVLink:**
+  - Zdefiniowano ścisłe typy `argtypes` i `restype` dla wywołań systemowych `WSAIoctl` w gnieździe UDP, eliminując ryzyko uszkodzenia stosu na 64-bitowych systemach Windows.
+
 ## [v1.3.30] - 2026-09-11
 
 ### 🌍 Pełna Międzynarodowość (100% i18n we wszystkich 8 językach)
