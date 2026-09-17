@@ -20,9 +20,9 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 | Parametr | Wartość |
 |---|---|
 | **Aktualna Wersja (Current Version)** | **v1.3.31** |
-| **Data Wydania (Release Date)** | 2026-09-11 |
-| **Rozmiar Pliku (File Size)** | ~2.09 GB (2139 MB) (2,242,444,027 B) |
-| **Suma Kontrolna SHA-256** | `6e285aa06c181516f509951eb8430cd81e596698e2770beb6e77f22281ff90b0` |
+| **Data Wydania (Release Date)** | 2026-09-17 |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2059 MB) (2,159,452,531 B) |
+| **Suma Kontrolna SHA-256** | `d170e4b59458bf937b02991d363cc7dc0c49d651cc12b793b405fd534c6473f6` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
@@ -49,7 +49,7 @@ Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 
 Oczekiwany hash dla v1.3.31:
 ```
-6e285aa06c181516f509951eb8430cd81e596698e2770beb6e77f22281ff90b0
+d170e4b59458bf937b02991d363cc7dc0c49d651cc12b793b405fd534c6473f6
 ```
 
 ---
