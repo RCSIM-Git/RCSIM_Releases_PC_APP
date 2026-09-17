@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.32] - 2026-09-17
+
+### 🚀 Zaawansowany Pakiet Diagnostyczny & Czarna Skrzynka (6-Pillar Diagnostic Suite)
+- **Czarna Skrzynka Telemetrii (FlightRecorder Ring Buffer):**
+  - Wdrożono bezalokacyjny bufor kołowy 50 ostatnich kluczowych zdarzeń (ARM/DISARM, Emergency Stop, przełączanie trybów, telemetria).
+  - W przypadku wystąpienia nieobsłużonego błędu w wątku głównym lub wątkach pobocznych (`sys.excepthook`, `threading.excepthook`), historia operacji jest automatycznie zrzucana do pliku logu przed tracebackiem awarii.
+- **Eksporter Raportów Diagnostycznych w GUI:**
+  - W zakładce *Ustawienia -> Deweloper* dodano przyciski: *Otwórz folder logów* oraz *Eksportuj raport (.zip)*.
+  - Eksport generuje na Pulpicie kompletny pakiet ZIP zawierający specyfikację PC (CPU, RAM, GPU, sterowniki), wersje bibliotek, pliki logów (`rcsim_gcs.log`, `crash_handler.log`) oraz aktualne konfiguracje JSON.
+- **Szczegółowy Inwentarz Urządzeń USB/HID:**
+  - Przy każdym skanowaniu lub podłączeniu urządzenia system szczegółowo loguje: nazwę kontrolera, backend (SDL/DirectInput/Logitech), liczbę osi, przycisków, hats, GUID oraz status gotowości Force Feedback.
+- **Diagnostyka Portów Szeregowych i Watchdog RX CRSF:**
+  - Wprowadzono logowanie parametrów połączenia UART (baudrate, bity, parzystość) oraz 2.5-sekundowy watchdog ostrzegający o braku danych RX, a także potwierdzenie odbioru pierwszej poprawnej ramki CRSF.
+- **Skaner Kamer i Grabberów FPV przy Starcie:**
+  - Automatyczna inwentaryzacja dostępnych urządzeń wideo (`QMediaDevices.videoInputs()`) podczas startu stacji naziemnej z logowaniem ich identyfikatorów i formatów.
+- **Pomiary Czasu Zamykania & Audyt Wiszących Wątków:**
+  - Precyzyjny pomiar czasu zamykania aplikacji w milisekundach oraz audyt aktywnych wątków `threading.enumerate()` wyłapujący wiszące wątki nie-demoniczne.
+- **Wyeliminowanie Fałszywych Alarmów w Logach:**
+  - Brak opcjonalnego pakietu Steamworks w trybie standalone jest teraz logowany czysto na poziomie `INFO` zamiast `ERROR`.
+  - Usunięto ostrzeżenia `Gymnasium Box UserWarning` o precyzji float32/float64 w środowisku symulacji.
+- **Optymalizacja Kodu i 100% i18n:**
+  - Zoptymalizowano `general_tab.py` poniżej limitu 500 linii oraz skompilowano kompletne tłumaczenia `.qm` dla wszystkich 8 języków (PL, EN, DE, ES, FR, IT, CS, ZH) z wynikiem 0 unfinished.
+
 ## [v1.3.31] - 2026-09-11
 
 ### 🛠️ Stabilność Startu i Bezpieczeństwo Środowiskowe (Hotfix)

@@ -19,16 +19,16 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.31** |
+| **Aktualna Wersja (Current Version)** | **v1.3.32** |
 | **Data Wydania (Release Date)** | 2026-09-17 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2059 MB) (2,159,452,531 B) |
-| **Suma Kontrolna SHA-256** | `d170e4b59458bf937b02991d363cc7dc0c49d651cc12b793b405fd534c6473f6` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2060 MB) (2,159,972,585 B) |
+| **Suma Kontrolna SHA-256** | `290040f88d21464bb1b23adf09f2cb8839d3f35eb30eff4baf57e6e1a8d3d912` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.31 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.32 (Highlights)
 
 - **🌍 Pełna Lokalizacja (100% i18n we wszystkich 8 językach):**
   - Kompletna baza tłumaczeń GUI dla PL, EN, DE, ES, FR, IT, CS, ZH ze skompilowanymi plikami .qm i rygorystycznym testem integralności.
@@ -47,9 +47,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.31:
+Oczekiwany hash dla v1.3.32:
 ```
-d170e4b59458bf937b02991d363cc7dc0c49d651cc12b793b405fd534c6473f6
+290040f88d21464bb1b23adf09f2cb8839d3f35eb30eff4baf57e6e1a8d3d912
 ```
 
 ---

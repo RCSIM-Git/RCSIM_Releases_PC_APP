@@ -4,6 +4,29 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.32] - 2026-09-17
+
+### 🚀 Advanced 6-Pillar Diagnostic Suite & Flight Recorder
+- **Telemetry Flight Recorder (Circular Ring Buffer):**
+  - Implemented zero-allocation 50-event circular ring buffer tracking critical station state changes (ARM/DISARM, Emergency Stop, flight modes, telemetry).
+  - Automatically dumps chronological event history to log files right before traceback upon unhandled exceptions in main or background threads.
+- **In-GUI Diagnostic Packager & Logs Exporter:**
+  - Added *Open logs folder* and *Export report (.zip)* buttons directly inside the *Settings -> Developer* tab.
+  - Automatically compiles a Desktop ZIP package containing hardware specs (CPU, RAM, GPU, drivers), package versions, log files (`rcsim_gcs.log`, `crash_handler.log`), and JSON configuration files.
+- **Detailed USB/HID Input Device Inventory:**
+  - Enhanced device scanning to log full controller capabilities: device name, backend (SDL/DirectInput/Logitech), axis count, button count, hats, unique GUID, and DirectInput FFB readiness.
+- **Serial Port Diagnostics & CRSF RX Watchdog:**
+  - Added connection parameter logging (baudrate, data bits, parity), a 2.5-second RX silence watchdog warning, and confirmation of the first valid CRSF packet received.
+- **FPV Video Capture Device Scanner on Boot:**
+  - Automatic inventory of video capture devices and grabbers (`QMediaDevices.videoInputs()`) during startup, logging names, IDs, and formats.
+- **Graceful Shutdown Profiling & Thread Audit:**
+  - Millisecond-level shutdown timing measurement and active thread auditing (`threading.enumerate()`) detecting non-daemon background threads.
+- **Elimination of False-Positive Warnings & Errors:**
+  - Missing optional Steamworks module in standalone mode is logged as clean `INFO` instead of `ERROR`.
+  - Resolved `Gymnasium Box UserWarning` precision deprecations via explicit float32 casting in simulation environments.
+- **Codebase Streamlining & 100% i18n:**
+  - Refactored `general_tab.py` well under 500 lines and compiled complete `.qm` translation binaries across all 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished entries.
+
 ## [v1.3.31] - 2026-09-11
 
 ### 🛠️ Boot Stability & Environmental Hardening (Hotfix)
