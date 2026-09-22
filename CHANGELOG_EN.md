@@ -4,6 +4,20 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.34] - 2026-09-22
+
+### 🎨 GUI Polish & Visual Alignment for Tier 2 / Tier 3 (i18n & Combobox Fixes)
+- **Resolved Vertical Clipping in QComboBox Dropdown Controls:**
+  - Identified and permanently fixed text truncation and baseline shifting in Tier 3 (`ELRS Medium:`, `MAVLink Medium:`) and Tier 2 (`esp_transport_selector`) dropdown selectors.
+  - Root cause resolved: stripped unwanted newlines (`\n`) and leading indentation from `<translation>` tags across `.ts` translation files that caused Qt to treat single-line strings as multiline text.
+  - Hardened translation generators to prevent whitespace injection inside XML tags.
+- **Label Grid Alignment & Nomenclature Consistency:**
+  - Right-aligned connection configuration labels (`Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter`) for a uniform, premium layout grid.
+  - Refined Tier 2 transport option from ambiguous `"Airlink / Wi-Fi (UDP)"` to clear `"Wi-Fi UDP (Lokalny AP / Router)"`.
+- **Complete 100% i18n Coverage (8 Languages):**
+  - Added 18 previously missing `ConnectionTab` strings (including `Transmitter Protocol:`, `Transmission Medium:`, `Firmware Version:`).
+  - Compiled all 8 `.qm` language binaries (`pl`, `en`, `de`, `es`, `fr`, `it`, `cs`, `zh`) with 0 unfinished entries.
+
 ## [v1.3.33] - 2026-09-22
 
 ### 🌐 CRSF & MAVLink over TCP/UDP, ESP32 Tier 2 Pro & Steam Compliance

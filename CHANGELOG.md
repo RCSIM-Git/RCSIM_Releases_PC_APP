@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.34] - 2026-09-22
+
+### 🎨 Doszlifowanie GUI i Pełna Spójność Wizualna Tier 2 / Tier 3 (i18n & Combobox Alignment)
+- **Eliminacja Ucinania Tekstu w Polach Wyboru QComboBox:**
+  - Zidentyfikowano i trwale wyeliminowano problem ucinania tekstu oraz przesuwania go do dolnej krawędzi w polach wyboru medium transmisyjnego Tier 3 (`ELRS Medium:`, `MAVLink Medium:`) oraz Tier 2 (`esp_transport_selector`).
+  - Przyczyną były znaki nowej linii `\n` oraz wcięcia wstrzyknięte do tagów `<translation>` w plikach `.ts`, powodujące traktowanie ciągów znaków przez Qt jako dwuwierszowych.
+  - Oczyszczono wszystkie pliki tłumaczeń i zabezpieczono generator przed dodawaniem zbędnych białych znaków.
+- **Wyrównanie Etykiet i Ujednolicenie Nazewnictwa:**
+  - Wyrównano wszystkie etykiety parametrów połączeń do prawej strony (`Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter`), nadając interfejsowi profesjonalny układ siatki.
+  - Zmieniono etykietę w Tier 2 z mylącej `"Airlink / Wi-Fi (UDP)"` na `"Wi-Fi UDP (Lokalny AP / Router)"`.
+- **Pełne Tłumaczenia 100% i18n (8 Języków):**
+  - Uzupełniono 18 brakujących fraz w kontekście `ConnectionTab` (m.in. `Transmitter Protocol:`, `Transmission Medium:`, `Firmware Version:`).
+  - Skompilowano binarne pliki `.qm` dla wszystkich 8 języków (`pl`, `en`, `de`, `es`, `fr`, `it`, `cs`, `zh`) z wynikiem 0 unfinished.
+
 ## [v1.3.33] - 2026-09-22
 
 ### 🌐 CRSF i MAVLink over TCP/UDP, ESP32 Tier 2 Pro & Zgodność ze Steam
