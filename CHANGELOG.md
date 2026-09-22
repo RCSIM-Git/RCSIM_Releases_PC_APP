@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.33] - 2026-09-22
+
+### 🌐 CRSF i MAVLink over TCP/UDP, ESP32 Tier 2 Pro & Zgodność ze Steam
+- **Natywna Warstwa Transportowa CRSF & MAVLink over TCP/UDP (Airlink / Wi-Fi Backpack / MicroLink VPN):**
+  - Wdrożono modułową abstrakcję I/O `BaseByteTransport` oraz implementacje `serial_transport.py`, `tcp_transport.py` i `udp_transport.py`.
+  - Dodano bezstratną obsługę bezprzewodowych modułów ExpressLRS (Airlink / Backpack) z protokołem `TCP_NODELAY`, buforem kołowym i autoodzyskiwaniem.
+  - Zaimplementowano bezpośrednie łączenie MAVLink Airport (`tcp:IP:PORT` oraz `udpout:IP:PORT`) w `pymavlink` dla mostków telemetrii.
+  - Zintegrowano kontrolki wyboru medium w GUI (`ConnectionTab`) z pełną obsługą 8 języków i18n, dynamicznym ukrywaniem pól i walidacją Pydantic.
+- **ESP32 Tier 2 Pro (CRSF Multi-Link Hub & MicroLink Tailscale VPN):**
+  - Opracowano pokładowe oprogramowanie dla pojazdów RC `ESP32V4_CRSF_MultiLink` z sumą CRC8 DVB-S2, PCA9685 (I2C 400kHz), IMU, GPS i ADC1.
+  - Wdrożono integrację z tunelem VPN MicroLink (Tailscale / WireGuard) do bezpiecznej jazdy przez Internet / LTE bez publicznego IP.
+  - Opracowano dongle nadawczy dla PC `ESP32_CRSF_Dongle_Transmitter` (USB CDC -> ESP-NOW).
+- **Architektura Hybrydowa NanoOWL / OWL-ViT Dual-Engine (Steam-Safe JIT Cache):**
+  - Wdrożono inteligentny detektor fasadowy `SmartOwlDetector` w `vision_engine.py` z automatycznym wykrywaniem obecności GPU NVIDIA i biblioteki TensorRT.
+  - Zaimplementowano 100% bezpieczny i stabilny fallback na silnik `OwlVitDetector` (PyTorch CUDA / CPU) dla graczy z kartami AMD Radeon, Intel lub bez dedykowanego GPU, całkowicie eliminując błędy binarne `invalid engine binary` na platformie Steam.
+  - Wdrożono architekturę lokalnego bufora `%LOCALAPPDATA%\RCSIM\models\nanoowl_vit_b16_{sm_arch}.engine` dopasowanego do mikroarchitektury GPU użytkownika.
+  - Zaktualizowano `vision_worker.py` do obsługi `SmartOwlDetector` w pętli wizji FPV.
+  - Wzbogacono skrypt `build_steam.py` o automatyczną sanitację nieprzenośnych plików `.engine`, obniżając wagę paczki instalacyjnej Steam o ~183 MB.
+- **Remastering i Unowocześnienie Ikony Aplikacji (Carbon Fiber Multi-Resolution Icon):**
+  - Podniesiono jakość graficzną ikony do standardu współczesnych symulatorów wyścigowych przy zachowaniu 100% oryginalnego motywu (pomarańczowo-błękitne aerodynamiczne "R" oraz chromowany logotyp "RCSIM").
+  - Wprowadzono frezowaną ramkę z prawdziwego włókna węglowego (Carbon Fiber) z krawędziowym oświetleniem 3D i ceramicznym połyskiem lakieru.
+  - Usunięto sztywne tło narożników, zastępując je wygładzonym kanałem alfa (100% przezroczystości), co eliminuje artefakty kwadratu na pulpicie i w bibliotece Steam.
+  - Wygenerowano 7-warstwowy plik `.ico` Multi-Resolution (16, 24, 32, 48, 64, 128, 256 px) ze specjalnym filtrem wyostrzającym dla miniatury paska zadań (16px/32px).
+  - Zaktualizowano wszystkie docelowe pliki projektu: `app_icon.ico`, `icon/app_icon.ico`, `iconrcsim.png` (Master RGBA) oraz `app_icon.png`.
+- **Audyt Licencyjny dla Steam & Zgodność Prawna (Steam Compliance & AI Disclosure):**
+  - Przeprowadzono kompleksowy audyt techniczno-prawny dla dystrybucji na Steam (`steam_compliance_report.md`).
+  - Potwierdzono pełną zgodność bibliotek permisywnych (MIT, BSD, Apache-2.0) oraz słabego copyleft (LGPLv3 dla PySide6, LGPLv2.1 dla pygame-ce, Cairo, GStreamer) poprzez dynamiczne linkowanie folderowe Nuitka i prawo do wymiany bibliotek w EULA.
+  - Zaktualizowano `THIRD_PARTY_LICENSES_PL.md` oraz `THIRD_PARTY_LICENSES_EN.md` o model SSDLite MobileNetV3 oraz wymaganą atrybucję zbioru Microsoft COCO (CC BY 4.0).
+  - Przygotowano oficjalną deklarację dla formularza Steam AI Content Disclosure w zakresie przedpremierowych grafik UI (Pre-generated AI assets).
+- **GUI i Pełna Lokalizacja 100% i18n (8 Języków):**
+  - W widżecie `ai_vision_widget.py` dodano grupę *Akceleracja sprzętowa AI* na żywo raportującą aktywny backend (TensorRT, PyTorch CUDA, PyTorch CPU) oraz model wykrytej karty graficznej.
+  - Gruntownie przebudowano panel *Tier 2 (WiFi / Serial ESP32)* w zakładce *Połączenie*: dodano selektory firmware (Tier 2 Pro V4 CRSF Multi-Link vs Classic V1-V3), protokołów transportowych (Wi-Fi UDP, MicroLink VPN Tailscale, ESP-NOW Link, Hardware Serial), podgląd strumienia kamery FPV MJPEG oraz panel specyfikacji sprzętowej I2C/IMU/GPS/ADC.
+  - Wyeliminowano ucinanie tekstu w rozwijanych listach `QComboBox` na Windowsie poprzez optymalizację stylów `dark.qss` i `light.qss` (`min-height: 28px`).
+  - Wygaszono nadmiarowe logowanie 50 Hz braku telemetrii IMU dla Force Feedbacku w `input_manager.py` (throttling 10s).
+  - Wszystkie nowe ciągi znaków opakowano w `self.tr(...)`, przetłumaczono dla wszystkich 8 oficjalnych języków (PL, EN, DE, ES, FR, IT, CS, ZH) i skompilowano pliki `.qm` z wynikiem 0 unfinished.
+  - Utworzono testy jednostkowe w `test_smart_owl_detector.py` oraz `test_connection_tab_gui.py` (wszystkie testy zaliczone).
+
 ## [v1.3.32] - 2026-09-17
 
 ### 🚀 Zaawansowany Pakiet Diagnostyczny & Czarna Skrzynka (6-Pillar Diagnostic Suite)
