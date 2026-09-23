@@ -4,6 +4,17 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.35] - 2026-09-23
+
+### 🛡️ GCS Startup Stabilization & Safe Graphics Initialization (OpenGL Safe Fallback)
+- **Safe QOpenGLWidget Viewport in FPVWindow:**
+  - Implemented safe `QOpenGLWidget` instantiation wrapped in a defensive `try...except` block, preventing native exits/crashes in graphics drivers on PCs lacking full OpenGL support.
+  - Automatically falls back to the robust software rasterizer in case of any hardware acceleration failure.
+- **Eliminated Early Video Race Condition (Smart Video Guard):**
+  - Removed early `manage_stream()` invocation during `MainWindow` initialization, preventing stream startup attempts before application managers are completely wired.
+- **Granular GUI Build Diagnostics (Step 4/6 Build Logging):**
+  - Added detailed logging markers across all tab and editor initialization steps in `MainWindow` and `controller_step_initializer.py`, ensuring full transparency in `rcsim_gcs.log`.
+
 ## [v1.3.34] - 2026-09-22
 
 ### 🎨 GUI Polish & Visual Alignment for Tier 2 / Tier 3 (i18n & Combobox Fixes)

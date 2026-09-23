@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.35] - 2026-09-23
+
+### 🛡️ Stabilizacja Startowa GCS & Bezpieczna Inicjalizacja Grafiki (OpenGL Safe Fallback)
+- **Bezpieczny Viewport QOpenGLWidget w FPVWindow:**
+  - Wdrożono bezpieczną instancjację `QOpenGLWidget` w bloku ochronnym `try...except`, zabezpieczając proces przed natywnym wyjściem/crashem sterownika graficznego na maszynach bez pełnego wsparcia OpenGL.
+  - W przypadku błędu akceleracji sprzętowej następuje automatyczny i płynny fallback na stabilny rasterizer programowy.
+- **Eliminacja Przedwczesnego Wyścigu Wideo (Smart Video Guard):**
+  - Wyeliminowano wywoływanie `manage_stream()` podczas inicjalizacji `MainWindow`, zapobiegając próbom restartu strumienia przed pełnym powiązaniem menedżerów w aplikacji.
+- **Granularna Diagnostyka Budowania Interfejsu (Step 4/6 Build Logging):**
+  - Dodano precyzyjne znaczniki logowania pod-etapów tworzenia wszystkich zakładek i edytorów w `MainWindow` oraz `controller_step_initializer.py`, gwarantując pełną przejrzystość w pliku `rcsim_gcs.log`.
+
 ## [v1.3.34] - 2026-09-22
 
 ### 🎨 Doszlifowanie GUI i Pełna Spójność Wizualna Tier 2 / Tier 3 (i18n & Combobox Alignment)
