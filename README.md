@@ -19,16 +19,16 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.36** |
+| **Aktualna Wersja (Current Version)** | **v1.3.37** |
 | **Data Wydania (Release Date)** | 2026-09-24 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,862,343 B) |
-| **Suma Kontrolna SHA-256** | `443b2ce15b4e2763c188f354e5273528396531578c5017fe146edeb819cfaa77` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,853,418 B) |
+| **Suma Kontrolna SHA-256** | `fe86a0453bb42958b09d1885b256bf96009a31c31b57ad6eeeffd6de5f695426` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.36 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.37 (Highlights)
 
 - **🏎️ Przestrzenna Tablica Startowa AR w Świecie (World-AR Start Board & HUD Fallback):**
   - Trójwymiarowa bramownica startowa (Gantry Truss) z 5 soczewkami LED F1 ze skalowaniem perspektywicznym i automatycznym fallbackiem na HUD 2D.
@@ -47,9 +47,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.36:
+Oczekiwany hash dla v1.3.37:
 ```
-443b2ce15b4e2763c188f354e5273528396531578c5017fe146edeb819cfaa77
+fe86a0453bb42958b09d1885b256bf96009a31c31b57ad6eeeffd6de5f695426
 ```
 
 ---

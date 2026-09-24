@@ -4,7 +4,7 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.3.36] - 2026-09-24
+## [v1.3.37] - 2026-09-24
 
 ### 🏎️ World-AR Start Board & Automatic HUD Fallback (`RaceStartOverlay`)
 - **Gantry Truss and 5-LED F1 Start Lights in 3D Space:**
