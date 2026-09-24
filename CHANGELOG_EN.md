@@ -4,6 +4,17 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.36] - 2026-09-24
+
+### 🛡️ PyTorch & CUDA Thread Initialization Guard (Access Violation Fix)
+- **Eliminated PyTorch/CUDA Initialization Race in GCSVisionThread:**
+  - Shifted `GCSVisionThread` startup to execute after the complete GUI build sequence in `controller_step_initializer.py`. Prevents background PyTorch/Torchvision meta-registration collisions with the main thread during widget creation.
+- **Enforced Safe CUDA Availability Probing (NVML Guard):**
+  - Set `PYTORCH_NVML_BASED_CUDA_CHECK=1` in `main.py` before runtime modules load, preventing destructive `cuInit` calls inside `torch._C._cuda_getDeviceCount()` and Windows Access Violation (0xC0000005) exceptions on systems with legacy or mismatched CUDA 13.0 drivers.
+- **Defensive Vision Model Loading & Fallback Resilience:**
+  - Wrapped SSDLite and OWL-ViT model instantiation in `vision_worker.py` and `vision_engine.py` with guarded `try...except` blocks, ensuring that AI model load errors do not block GCS operation or QR/lane tracking.
+  - Implemented hardware diagnostics caching (`_cached_hw_status`) in `SmartOwlDetector`.
+
 ## [v1.3.35] - 2026-09-23
 
 ### 🛡️ GCS Startup Stabilization & Safe Graphics Initialization (OpenGL Safe Fallback)

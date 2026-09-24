@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.36] - 2026-09-24
+
+### 🛡️ PyTorch & CUDA Thread Initialization Guard (Access Violation Fix)
+- **Eliminacja Wyścigu Inicjalizacji PyTorch/CUDA w GCSVisionThread:**
+  - Przeniesiono start wątku wizyjnego `GCSVisionThread` za etap pełnego skonstruowania interfejsu GUI w `controller_step_initializer.py`. Eliminuje to kolizję rejestracji operatorów PyTorch/Torchvision w tle z wątkiem głównym podczas tworzenia widżetów.
+- **Wymuszenie Bezpiecznej Inspekcji CUDA (NVML Guard):**
+  - Wdrożono zmienną środowiskową `PYTORCH_NVML_BASED_CUDA_CHECK=1` w `main.py`, chroniącą przed wywołaniem natywnego `cuInit` w `torch._C._cuda_getDeviceCount()` i błędem Access Violation (0xC0000005) na maszynach ze starszymi lub niekompatybilnymi sterownikami CUDA 13.0.
+- **Odporność Modułów Wizyjnych na Błędy Bibliotek AI:**
+  - Objęto instancjonowanie modeli SSDLite i OWL-ViT w `vision_worker.py` oraz `vision_engine.py` ochronnymi blokami `try...except`, gwarantując, że awaria ładowania wag nie przerywa działania stacji ani detekcji kodów QR/linii.
+  - Zaimplementowano buforowanie statusu sprzętowego (`_cached_hw_status`) w `SmartOwlDetector`.
+
 ## [v1.3.35] - 2026-09-23
 
 ### 🛡️ Stabilizacja Startowa GCS & Bezpieczna Inicjalizacja Grafiki (OpenGL Safe Fallback)
