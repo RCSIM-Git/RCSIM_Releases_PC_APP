@@ -19,23 +19,19 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.37** |
+| **Aktualna Wersja (Current Version)** | **v1.3.38** |
 | **Data Wydania (Release Date)** | 2026-09-24 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,853,418 B) |
-| **Suma Kontrolna SHA-256** | `fe86a0453bb42958b09d1885b256bf96009a31c31b57ad6eeeffd6de5f695426` |
+| **Rozmiar Pliku (File Size)** | ~2.02 GB (2073 MB) (2,173,820,616 B) |
+| **Suma Kontrolna SHA-256** | `5b25aaa2e3bc2cc9fb19ae6b07991fc8602a96d0c194a820a49035b6804266a3` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.37 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.38 (Highlights)
 
-- **🏎️ Przestrzenna Tablica Startowa AR w Świecie (World-AR Start Board & HUD Fallback):**
-  - Trójwymiarowa bramownica startowa (Gantry Truss) z 5 soczewkami LED F1 ze skalowaniem perspektywicznym i automatycznym fallbackiem na HUD 2D.
-- **🏁 Interaktywny Edytor Wirtualnego Toru na Mapie (GPS / SLAM Virtual Track Editor):**
-  - Wizualne tworzenie i edycja bramek wirtualnych SLAM/GPS, odwracanie kierunku przejazdu, podgląd widmowy (ghost) i pełne 100% i18n (8 języków).
-- **🛡️ PyTorch/CUDA NVML Guard & Współdzielenie OpenGL:**
-  - Ochrona przed Access Violation (0xC0000005) na sterownikach CUDA 13 oraz wymuszenie wspólnego API OpenGL dla QWebEngine i FPV.
+- **🛡️ Stabilne uruchamianie na kartach AMD i Intel:**
+  - Przed sprawdzeniem CUDA aplikacja wykrywa sterownik NVIDIA; bez niego moduły AI uruchamiają się na CPU bez błędu Access Violation.
 
 ---
 
@@ -47,9 +43,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.37:
+Oczekiwany hash dla v1.3.38:
 ```
-fe86a0453bb42958b09d1885b256bf96009a31c31b57ad6eeeffd6de5f695426
+5b25aaa2e3bc2cc9fb19ae6b07991fc8602a96d0c194a820a49035b6804266a3
 ```
 
 ---

@@ -4,6 +4,12 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.38] - 2026-09-24
+
+### 🛡️ AMD and Intel startup fix
+- The application now checks for the NVIDIA driver (`nvcuda.dll`) before probing CUDA.
+- On systems without an NVIDIA GPU, AI modules immediately use CPU mode and do not call `torch.cuda.is_available()`, preventing the startup Access Violation.
+
 ## [v1.3.37] - 2026-09-24
 
 ### 🏎️ World-AR Start Board & Automatic HUD Fallback (`RaceStartOverlay`)
