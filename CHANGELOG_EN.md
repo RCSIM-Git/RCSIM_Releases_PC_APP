@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v1.3.36] - 2026-09-24
 
+### 🏎️ World-AR Start Board & Automatic HUD Fallback (`RaceStartOverlay`)
+- **Gantry Truss and 5-LED F1 Start Lights in 3D Space:**
+  - Implemented a 3D Start Gantry Truss suspended in world space directly above the Start/Finish gate ($H=2.8\,\text{m}$), bridging the left and right gate posts.
+  - Added perspective-scaled 5-LED F1 start board with realistic radial glow for energized lights and green "GO" flash. In classic mode, displays 3D perspective countdown 3–2–1 and "START!".
+- **Intelligent Localization Reliability Filter & Seamless 2D HUD Fallback:**
+  - Added confidence checks (`_localization_is_reliable`): requires GPS `fix >= 3` and `h_accuracy <= 3.0 m`, or SLAM `active=True` and `confidence >= 0.60`.
+  - When localization precision degrades, if no Start/Finish gate is defined, or if the gate is behind the vehicle ($Z \le 0.5\,\text{m}$), the renderer instantly and seamlessly falls back to the clean 2D screen HUD overlay.
+- **Direct Track Stream Integration with FPV OSD:**
+  - Connected virtual track updates directly to `FPVWindow` and `OSDGraphicsItem`, delivering instant visual sync on video HUD without station restarts.
+
+### 🏁 Interactive Virtual Track Map Editor (GPS / SLAM Virtual Track Editor)
+- **Direct Gate Creation and Placement on Map (`VirtualTrackItem` & `MapWidget`):**
+  - Implemented an intuitive on-map track editing workflow: operators can click and drag to place gates with explicit crossing direction and specified track width.
+  - Added a real-time ghost gate preview (`ghost_gate`) while dragging, displaying left (L) and right (R) posts, width in meters, and directional crossing arrow.
+  - Automated gate type assignment: the first gate placed becomes the Start/Finish gate with signature gold styling and checkered pattern, while subsequent gates become sectors (cyan) or checkpoints (orange).
+- **Direction, Sequence, and Property Management (`VirtualTrackEditorWidget`):**
+  - Added a dedicated map toolbar with toggle edit mode, 180° direction reversal `(⇄)`, and gate reordering `(▲/▼)` in the circuit sequence.
+  - Implemented right-click context menu on gates for fast switching between Start/Finish, Sector, and Checkpoint types, reversing traversal direction, or deleting.
+- **Streamlined Mission Editor Layout (`MissionEditorWindow`):**
+  - Reorganized the creator dialog into two clean tabs: `Virtual Track (Gates / Sectors)` and `Navigation Mission (Waypoints)`.
+- **Full 8-Language Localization (100% i18n):**
+  - Translated all new UI elements across 8 languages (`pl`, `en`, `de`, `es`, `fr`, `it`, `cs`, `zh`) with 0 unfinished keys.
+
 ### 🛡️ PyTorch & CUDA Thread Initialization Guard (Access Violation Fix)
 - **Eliminated PyTorch/CUDA Initialization Race in GCSVisionThread:**
   - Shifted `GCSVisionThread` startup to execute after the complete GUI build sequence in `controller_step_initializer.py`. Prevents background PyTorch/Torchvision meta-registration collisions with the main thread during widget creation.

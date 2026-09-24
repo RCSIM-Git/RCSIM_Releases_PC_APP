@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v1.3.36] - 2026-09-24
 
+### 🏎️ Przestrzenna Tablica Startowa AR w Świecie (World-AR Start Board & HUD Fallback)
+- **Kratownica Bramki i 5 Świateł Startowych F1 w Przestrzeni 3D (`RaceStartOverlay`):**
+  - Zaimplementowano trójwymiarową bramownicę startową (Gantry Truss) zawieszoną w przestrzeni świata nad bramką Start/Meta ($H=2.8\,\text{m}$), łączącą słupki lewy i prawy.
+  - Wdrożono tablicę startową F1 z 5 soczewkami LED ze skalowaniem perspektywicznym, realistyczną poświatą radialną dla aktywnych diod i rozbłyskiem zielonej linii "GO". W trybie klasycznym wyświetlane jest przestrzenne odliczanie 3–2–1 i "START!".
+- **Inteligentny Filtr Wiarygodności Lokalizacji i Automatyczny Fallback na HUD 2D:**
+  - Dodano walidator jakości namiaru (`_localization_is_reliable`): dla GPS wymagany jest `fix >= 3` oraz `h_accuracy <= 3.0 m`, dla SLAM `active=True` oraz `confidence >= 0.60`.
+  - W przypadku słabego sygnału pozycjonowania, braku bramki lub gdy bramka znajduje się za plecami pojazdu ($Z \le 0.5\,\text{m}$), stacja natychmiastowo i bezszwowo przełącza się na klasyczną tablicę ekranową HUD 2D.
+- **Bezpośrednia Integracja Strumienia Danych Toru z OSD FPV:**
+  - Spięto sygnały aktualizacji toru wirtualnego z `FPVWindow` i `OSDGraphicsItem`, zapewniając natychmiastowe odzwierciedlenie zmian toru w podglądzie wideo bez restartu stacji.
+
+### 🏁 Interaktywny Edytor Wirtualnego Toru na Mapie (GPS / SLAM Virtual Track Editor)
+- **Bezpośrednie Tworzenie i Edycja Bramek na Mapie (`VirtualTrackItem` & `MapWidget`):**
+  - Zaimplementowano intuicyjny tryb edycji toru wirtualnego na mapie: operator może klikać i przeciągać kursor w celu postawienia bramki wraz z wektorem dozwolonego kierunku przejazdu i zadaną szerokością.
+  - Wdrożono dynamiczny podgląd widmowy (`ghost_gate`) w trakcie przeciągania myszy, prezentujący w czasie rzeczywistym pozycję słupków lewego (L) i prawego (R), szerokość w metrach oraz strzałkę kierunku.
+  - Zapewniono automatyczny dobór typu bramki: pierwsza bramka staje się automatycznie bramką Start/Meta ze specjalnym złotym wykończeniem i wzorem szachownicy, a kolejne bramki stają się sektorami (cyjan) lub punktami kontrolnymi (pomarańcz).
+- **Zarządzanie Kierunkiem, Kolejnością i Właściwościami Bramek (`VirtualTrackEditorWidget`):**
+  - Dodano pasek narzędzi mapy z przyciskami przełączania trybu edycji na mapie, odwracania kierunku bramki `(⇄)` o 180° oraz zmiany kolejności bramek w sekwencji toru `(▲/▼)`.
+  - Wdrożono menu kontekstowe pod prawym przyciskiem myszy na mapie umożliwiające błyskawiczną zmianę typu bramki (Start/Meta, Sektor, Checkpoint), odwrócenie kierunku przejazdu lub jej usunięcie.
+- **Przejrzysty Podział w Kreatorze Misji (`MissionEditorWindow`):**
+  - Zreorganizowano okno kreatora na dwie dedykowane zakładki: `Wirtualny Tor (Bramki / Sektory)` oraz `Misja Nawigacyjna (Waypointy)`, eliminując przeciążenie interfejsu.
+- **Pełne Wsparcie Wielojęzyczności (100% i18n):**
+  - Dodano tłumaczenia dla wszystkich nowych elementów interfejsu we wszystkich 8 językach oficjalnych (`pl`, `en`, `de`, `es`, `fr`, `it`, `cs`, `zh`) z wynikiem 0 unfinished.
+
 ### 🛡️ PyTorch & CUDA Thread Initialization Guard (Access Violation Fix)
 - **Eliminacja Wyścigu Inicjalizacji PyTorch/CUDA w GCSVisionThread:**
   - Przeniesiono start wątku wizyjnego `GCSVisionThread` za etap pełnego skonstruowania interfejsu GUI w `controller_step_initializer.py`. Eliminuje to kolizję rejestracji operatorów PyTorch/Torchvision w tle z wątkiem głównym podczas tworzenia widżetów.
