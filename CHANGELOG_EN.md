@@ -4,6 +4,12 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.40] - 2026-09-24
+
+### 🛠️ Qt and ICU compatibility fix
+- Removed the incompatible ICU 78 library from the application directory so Windows uses its compatible system library.
+- Fixed the `UCNV_TO_U_CALLBACK_SUBSTITUTE` entry-point error that prevented `QtWidgets` from importing.
+
 ## [v1.3.39] - 2026-09-24
 
 ### 🛡️ Qt startup fix on clean Windows systems

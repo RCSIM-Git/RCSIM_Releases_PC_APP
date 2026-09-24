@@ -19,19 +19,19 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.39** |
+| **Aktualna Wersja (Current Version)** | **v1.3.40** |
 | **Data Wydania (Release Date)** | 2026-09-24 |
-| **Rozmiar Pliku (File Size)** | ~2.02 GB (2073 MB) (2,173,503,151 B) |
-| **Suma Kontrolna SHA-256** | `4f5a8875cab744c86673b9e22f3a083e5879bf2365762c05e50f66d1cf195884` |
+| **Rozmiar Pliku (File Size)** | ~2.02 GB (2064 MB) (2,164,745,537 B) |
+| **Suma Kontrolna SHA-256** | `23b135d94f3d5719932d4d3f84a6d4dc87f7b2e15b36f3eafa60439d73dc4c37` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.39 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.40 (Highlights)
 
-- **🛡️ Stabilne uruchamianie na kartach AMD i Intel:**
-  - Przed sprawdzeniem CUDA aplikacja wykrywa sterownik NVIDIA; bez niego moduły AI uruchamiają się na CPU bez błędu Access Violation.
+- **🛠️ Naprawa uruchamiania Qt na Windows:**
+  - Usunięto niezgodną bibliotekę ICU z paczki, która blokowała import QtWidgets błędem brakującego punktu wejścia.
 
 ---
 
@@ -43,9 +43,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.39:
+Oczekiwany hash dla v1.3.40:
 ```
-4f5a8875cab744c86673b9e22f3a083e5879bf2365762c05e50f66d1cf195884
+23b135d94f3d5719932d4d3f84a6d4dc87f7b2e15b36f3eafa60439d73dc4c37
 ```
 
 ---
