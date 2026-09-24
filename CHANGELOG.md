@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.39] - 2026-09-24
+
+### 🛡️ Naprawa uruchamiania Qt na czystych komputerach Windows
+- Usunięto konflikt dwóch wersji bibliotek Microsoft C++ dołączanych przez PyInstaller i PySide6.
+- `QtWidgets` ładuje teraz zgodny zestaw bibliotek PySide6, eliminując komunikat „DLL load failed … specified procedure could not be found”.
+
 ## [v1.3.38] - 2026-09-24
 
 ### 🛡️ Naprawa uruchamiania na kartach AMD i Intel

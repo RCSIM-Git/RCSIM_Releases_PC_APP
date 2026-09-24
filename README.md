@@ -19,16 +19,16 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.38** |
+| **Aktualna Wersja (Current Version)** | **v1.3.39** |
 | **Data Wydania (Release Date)** | 2026-09-24 |
-| **Rozmiar Pliku (File Size)** | ~2.02 GB (2073 MB) (2,173,820,616 B) |
-| **Suma Kontrolna SHA-256** | `5b25aaa2e3bc2cc9fb19ae6b07991fc8602a96d0c194a820a49035b6804266a3` |
+| **Rozmiar Pliku (File Size)** | ~2.02 GB (2073 MB) (2,173,503,151 B) |
+| **Suma Kontrolna SHA-256** | `4f5a8875cab744c86673b9e22f3a083e5879bf2365762c05e50f66d1cf195884` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.38 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.3.39 (Highlights)
 
 - **🛡️ Stabilne uruchamianie na kartach AMD i Intel:**
   - Przed sprawdzeniem CUDA aplikacja wykrywa sterownik NVIDIA; bez niego moduły AI uruchamiają się na CPU bez błędu Access Violation.
@@ -43,9 +43,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.38:
+Oczekiwany hash dla v1.3.39:
 ```
-5b25aaa2e3bc2cc9fb19ae6b07991fc8602a96d0c194a820a49035b6804266a3
+4f5a8875cab744c86673b9e22f3a083e5879bf2365762c05e50f66d1cf195884
 ```
 
 ---

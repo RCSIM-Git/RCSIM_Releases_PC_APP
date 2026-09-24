@@ -4,6 +4,12 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.39] - 2026-09-24
+
+### 🛡️ Qt startup fix on clean Windows systems
+- Removed the conflict between two Microsoft C++ runtime versions bundled by PyInstaller and PySide6.
+- `QtWidgets` now loads its matching PySide6 runtime, eliminating the “DLL load failed … specified procedure could not be found” error.
+
 ## [v1.3.38] - 2026-09-24
 
 ### 🛡️ AMD and Intel startup fix
