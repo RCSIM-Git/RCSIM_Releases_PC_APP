@@ -30,12 +30,12 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 ## 🌟 Najważniejsze Nowości w v1.3.36 (Highlights)
 
-- **🌍 Pełna Lokalizacja (100% i18n we wszystkich 8 językach):**
-  - Kompletna baza tłumaczeń GUI dla PL, EN, DE, ES, FR, IT, CS, ZH ze skompilowanymi plikami .qm i rygorystycznym testem integralności.
-- **💡 Rozszerzona Baza Tooltipów i Pomocy Konfiguracyjnej:**
-  - Precyzyjne opisy techniczne parametrów telemetrycznych, filtrów orientacji, modułów AI oraz kart wideo FPV.
-- **🏎️ Optymalizacja Mostka SimHub i Pętli Kontrolera:**
-  - Płynniejsza konwersja kątów CRSF do SimHub oraz stabilizacja zestawu testów automatycznych stacji naziemnej.
+- **🏎️ Przestrzenna Tablica Startowa AR w Świecie (World-AR Start Board & HUD Fallback):**
+  - Trójwymiarowa bramownica startowa (Gantry Truss) z 5 soczewkami LED F1 ze skalowaniem perspektywicznym i automatycznym fallbackiem na HUD 2D.
+- **🏁 Interaktywny Edytor Wirtualnego Toru na Mapie (GPS / SLAM Virtual Track Editor):**
+  - Wizualne tworzenie i edycja bramek wirtualnych SLAM/GPS, odwracanie kierunku przejazdu, podgląd widmowy (ghost) i pełne 100% i18n (8 języków).
+- **🛡️ PyTorch/CUDA NVML Guard & Współdzielenie OpenGL:**
+  - Ochrona przed Access Violation (0xC0000005) na sterownikach CUDA 13 oraz wymuszenie wspólnego API OpenGL dla QWebEngine i FPV.
 
 ---
 
