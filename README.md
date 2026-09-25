@@ -33,8 +33,8 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 | **Wersja (Version)** | **v1.4.01 AlfaTest** |
 | **Data Wydania (Release Date)** | 2026-09-25 |
 | **Plik (File)** | `setup_RCSIM_v1.4.01_alpha.exe` |
-| **Rozmiar (Size)** | ~2.01 GB (2062.66 MB) |
-| **Suma Kontrolna SHA-256** | `833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1` |
+| **Rozmiar (Size)** | ~541.16 MB |
+| **Suma Kontrolna SHA-256** | `9be20d33c386d882298f46d63261bce3a9fe36885f0741773342e06436856130` |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM_v1.4.01_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.01_alpha.exe) |
 
 ---
