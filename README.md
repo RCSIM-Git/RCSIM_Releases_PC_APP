@@ -15,18 +15,30 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 ---
 
-## 🚀 Pobieranie Najnowszej Wersji (Latest Download)
+## 🚀 Dostępne Wydania (Available Releases)
 
+### 1️⃣ Wersja Stabilna Beta (Zalecana / Monolityczna)
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.01** |
+| **Wersja (Version)** | **v1.3.41 Beta** |
 | **Data Wydania (Release Date)** | 2026-09-25 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,855,314 B) |
-| **Suma Kontrolna SHA-256** | `833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1` |
-| **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
+| **Plik (File)** | `setup_RCSIM.exe` |
+| **Rozmiar (Size)** | ~2.01 GB (2063 MB) |
+| **Suma Kontrolna SHA-256** | `92aad85165aef2f0850f18eba6d7bba4569648b53e442876c3dd3833c1c813de` |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
+### 2️⃣ Wersja Testowa Alfa (Multi-Installer / Wybór Komponentów)
+| Parametr | Wartość |
+|---|---|
+| **Wersja (Version)** | **v1.4.01 AlfaTest** |
+| **Data Wydania (Release Date)** | 2026-09-25 |
+| **Plik (File)** | `setup_RCSIM_v1.4.01_alpha.exe` |
+| **Rozmiar (Size)** | ~2.01 GB (2062.66 MB) |
+| **Suma Kontrolna SHA-256** | `833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1` |
+| **Bezpośredni Link CDN (R2)** | [setup_RCSIM_v1.4.01_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.01_alpha.exe) |
+
 ---
+
 
 ## 🌟 Najważniejsze Nowości w v1.4.01 (Highlights)
 
