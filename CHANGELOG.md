@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.41] - 2026-09-25
+
+### 🛡️ Bezpieczne wykrywanie CUDA i ochrona przed crashem na kartach AMD/Intel
+- Wprowadzono weryfikację fizycznych urządzeń NVIDIA (`cuDeviceGetCount`) w sterowniku Driver API przed jakąkolwiek próbą użycia PyTorch CUDA.
+- Wyeliminowano błąd Access Violation (`0xc0000005`) na komputerach z kartami graficznymi AMD Radeon lub Intel, na których w systemie pozostał plik `nvcuda.dll`. Moduły AI płynnie i natychmiastowo przechodzą w tryb CPU.
+
 ## [v1.3.40] - 2026-09-24
 
 ### 🛠️ Naprawa zgodności Qt i ICU

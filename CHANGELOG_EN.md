@@ -4,6 +4,12 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.41] - 2026-09-25
+
+### 🛡️ Safe CUDA detection and crash prevention on AMD/Intel systems
+- Added physical NVIDIA device verification (`cuDeviceGetCount`) via Driver API before probing PyTorch CUDA.
+- Prevented the startup Access Violation (`0xc0000005`) crash on PCs with AMD Radeon or Intel GPUs where legacy `nvcuda.dll` remains in System32. AI modules now safely and immediately fall back to CPU mode.
+
 ## [v1.3.40] - 2026-09-24
 
 ### 🛠️ Qt and ICU compatibility fix
