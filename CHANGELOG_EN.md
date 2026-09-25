@@ -4,6 +4,13 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.4.01] - 2026-09-25
+
+### 📦 Multi-Installer (Modular Component Setup)
+- Introduced a modular Inno Setup Windows installer with installation profiles (`Standard / Sim-Racing`, `Full AI Studio`, `Custom`).
+- The core component (Controls, FFB, FPV, Telemetry, ELRS/CRSF) is separated from heavy PyTorch libraries, dramatically speeding up installation and saving storage for sim-racing users.
+- Implemented *Graceful Degradation* architecture in the vision engine (`vision_engine.py`): the application starts seamlessly without PyTorch, retaining classic OpenCV vision and informing users that the optional AI module can be installed via setup.
+
 ## [v1.3.41] - 2026-09-25
 
 ### 🛡️ Safe CUDA detection and crash prevention on AMD/Intel systems

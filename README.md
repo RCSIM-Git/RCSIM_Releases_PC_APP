@@ -19,20 +19,21 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.3.41** |
+| **Aktualna Wersja (Current Version)** | **v1.4.01** |
 | **Data Wydania (Release Date)** | 2026-09-25 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,855,174 B) |
-| **Suma Kontrolna SHA-256** | `92aad85165aef2f0850f18eba6d7bba4569648b53e442876c3dd3833c1c813de` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2063 MB) (2,162,855,314 B) |
+| **Suma Kontrolna SHA-256** | `833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.3.41 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.01 (Highlights)
 
-- **🛡️ Bezpieczne wykrywanie CUDA i ochrona przed crashem na kartach AMD/Intel:**
-  - Wprowadzono weryfikację fizycznych urządzeń NVIDIA (`cuDeviceGetCount`) w sterowniku Driver API przed jakąkolwiek próbą użycia PyTorch CUDA.
-  - Wyeliminowano błąd Access Violation (`0xc0000005`) na komputerach z kartami graficznymi AMD Radeon lub Intel, na których w systemie pozostał plik `nvcuda.dll`. Moduły AI płynnie przechodzą w tryb CPU.
+- **📦 Multi-Installer (Modułowa Instalacja Komponentów):**
+  - Wprowadzono modularny instalator Windows Inno Setup z podziałem na profile (`Standard / Sim-Racing`, `Pełne Studio AI`, `Własna instalacja`).
+  - Podstawowa instalacja Core jest odchudzona o ciężkie pakiety PyTorcha, umożliwiając błyskawiczny start i minimalne zużycie dysku.
+  - Zabezpieczono silnik wizji (Graceful Degradation): aplikacja uruchamia się bezbłędnie bez modułu AI z aktywną klasyczną wizją OpenCV.
 
 ---
 
@@ -44,9 +45,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.3.41:
+Oczekiwany hash dla v1.4.01:
 ```
-92aad85165aef2f0850f18eba6d7bba4569648b53e442876c3dd3833c1c813de
+833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1
 ```
 
 ---
