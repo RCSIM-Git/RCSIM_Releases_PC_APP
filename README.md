@@ -15,32 +15,20 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 ---
 
-## 🚀 Dostępne Wydania (Available Releases)
+## 🚀 Pobieranie Najnowszej Wersji (Latest Download)
 
-### 1️⃣ Wersja Stabilna Beta (Zalecana / Monolityczna)
 | Parametr | Wartość |
 |---|---|
-| **Wersja (Version)** | **v1.3.41 Beta** |
-| **Data Wydania (Release Date)** | 2026-09-25 |
-| **Plik (File)** | `setup_RCSIM.exe` |
-| **Rozmiar (Size)** | ~2.01 GB (2063 MB) |
-| **Suma Kontrolna SHA-256** | `92aad85165aef2f0850f18eba6d7bba4569648b53e442876c3dd3833c1c813de` |
+| **Aktualna Wersja (Current Version)** | **v1.4.02** |
+| **Data Wydania (Release Date)** | 2026-09-27 |
+| **Rozmiar Pliku (File Size)** | ~2.02 GB (2065 MB) (2,165,007,950 B) |
+| **Suma Kontrolna SHA-256** | `b43901a537ac5c83925bcf3723790a04532a98cb752c288255dd03b5ceea8bea` |
+| **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
-
-### 2️⃣ Wersja Testowa Alfa (Multi-Installer / Wybór Komponentów)
-| Parametr | Wartość |
-|---|---|
-| **Wersja (Version)** | **v1.4.01 AlfaTest** |
-| **Data Wydania (Release Date)** | 2026-09-25 |
-| **Plik (File)** | `setup_RCSIM_v1.4.01_alpha.exe` |
-| **Rozmiar (Size)** | ~541.16 MB |
-| **Suma Kontrolna SHA-256** | `9be20d33c386d882298f46d63261bce3a9fe36885f0741773342e06436856130` |
-| **Bezpośredni Link CDN (R2)** | [setup_RCSIM_v1.4.01_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.01_alpha.exe) |
 
 ---
 
-
-## 🌟 Najważniejsze Nowości w v1.4.01 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.02 (Highlights)
 
 - **📦 Multi-Installer (Modułowa Instalacja Komponentów):**
   - Wprowadzono modularny instalator Windows Inno Setup z podziałem na profile (`Standard / Sim-Racing`, `Pełne Studio AI`, `Własna instalacja`).
@@ -57,9 +45,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.01:
+Oczekiwany hash dla v1.4.02:
 ```
-833121fba116964f7cabd8a6deb12f57a861b876ab70c38c31caa72b68329be1
+b43901a537ac5c83925bcf3723790a04532a98cb752c288255dd03b5ceea8bea
 ```
 
 ---

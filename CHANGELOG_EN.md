@@ -4,6 +4,29 @@ All notable changes to the RCSIM project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 🛠️ MAVLink — real-time telemetry without stale data
+- The MAVLink strategy publishes a telemetry snapshot only after new sensor data arrives instead of repeatedly copying the same state every 50 ms.
+- When the queue exceeds 50 packets, the GCS retains the five newest `telemetry` snapshots and preserves map and command packets.
+- Disconnecting clears received packets so the GUI does not replay stale telemetry after a link loss.
+- The map SLAM-layer visibility is persisted as `monaco_slam.slam_layer_visible`; it does not affect the SLAM engine.
+
+### ⚙️ MAVLink FC parameter configuration
+- Added an ArduPilot parameter editor available only on an active `MAVLINK_RF` connection: it loads FC values, filters them, and writes individual values after controller confirmation.
+- The **RCSIM Rover + mLRS** preset changes only the documented safe parameters (`MAV_GCS_SYSID`, `MAV_OPTIONS`, `RC_OVERRIDE_TIME`, channel mapping, and `MODE_CH`); `SERIALn` port and `MAVx` stream settings remain operator decisions.
+- The interface, status messages, and `.qm` files are available in all eight languages.
+
+### 📡 ArduPilot/SIYI telemetry profile
+- Added an optional `MAVLINK_RF` profile which, after detecting the FC, requests COMMAND_ACK-confirmed rates of 1 Hz HEARTBEAT, 2 Hz SYS_STATUS, 5 Hz GPS and position, and 10 Hz ATTITUDE.
+- The profile is disabled by default. When selected, it replaces the recurring grouped stream request to reduce mLRS and SIYI link load without affecting RC control.
+
+### ⚡ Faster startup
+- Startup diagnostics no longer import PyTorch solely to log its version; package presence is checked without loading the module, and AI initializes it on first use.
+
+### 👁️ Safe AI Vision default
+- New configurations disable every detection overlay: SSDLite, OWL-ViT, OpenCV lines, and cones. Operators can enable selected features in AI Hub.
+
 ## [v1.4.01] - 2026-09-25
 
 ### 📦 Multi-Installer (Modular Component Setup)

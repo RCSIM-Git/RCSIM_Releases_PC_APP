@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 🛠️ MAVLink — bieżąca telemetria bez zaległych danych
+- Strategia MAVLink publikuje migawkę telemetrii tylko po nowych danych czujnikowych, zamiast stale kopiować ten sam stan co 50 ms.
+- Przy kolejce powyżej 50 pakietów GCS zachowuje pięć najnowszych migawek `telemetry` i nie usuwa pakietów map ani komend.
+- Rozłączenie czyści odebrane pakiety, więc GUI nie odtwarza starej telemetrii po utracie połączenia.
+- Widoczność warstwy SLAM na mapie jest zapisywana jako `monaco_slam.slam_layer_visible`; nie zmienia ona działania silnika SLAM.
+
+### ⚙️ Konfiguracja parametrów FC przez MAVLink
+- Dodano edytor parametrów ArduPilot dostępny wyłącznie przy aktywnym połączeniu `MAVLINK_RF`: pobiera wartości z FC, filtruje je i zapisuje pojedyncze wartości po potwierdzeniu przez kontroler.
+- Preset **RCSIM Rover + mLRS** ustawia wyłącznie bezpieczne parametry zgodne z instrukcją (`MAV_GCS_SYSID`, `MAV_OPTIONS`, `RC_OVERRIDE_TIME`, mapowanie kanałów i `MODE_CH`); parametry portu `SERIALn` oraz strumieni `MAVx` pozostają decyzją operatora.
+- Interfejs, komunikaty i pliki `.qm` są dostępne w ośmiu językach.
+
+### 📡 Profil telemetrii ArduPilot/SIYI
+- Dodano opcjonalny profil dla `MAVLINK_RF`, który po wykryciu FC ustawia potwierdzane przez `COMMAND_ACK` stawki HEARTBEAT 1 Hz, SYS_STATUS 2 Hz, GPS i pozycję 5 Hz oraz ATTITUDE 10 Hz.
+- Profil nie jest domyślnie włączony. Po zaznaczeniu zastępuje cykliczne żądanie grupowego strumienia, ograniczając obciążenie łącza mLRS i SIYI bez wpływu na sterowanie RC.
+
+### ⚡ Szybszy start
+- Diagnostyka uruchomienia nie importuje już PyTorch tylko po to, aby wypisać wersję; obecność pakietu sprawdza bez ładowania modułu, a AI inicjalizuje go przy pierwszym użyciu.
+
+### 👁️ Bezpieczny domyślny stan AI Vision
+- Nowe konfiguracje mają wyłączone wszystkie nakładki detekcji: SSDLite, OWL-ViT, linie OpenCV i pachołki. Operator może włączyć wybrane funkcje w AI Hub.
+
 ## [v1.4.01] - 2026-09-25
 
 ### 📦 Multi-Installer (Modułowa Instalacja Komponentów)
