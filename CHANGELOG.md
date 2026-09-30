@@ -6,6 +6,89 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.03] - 2026-09-30
+
+### 📦 Architektura Modułowa (DLC Ecosystem) & Dual Release
+
+- Wprowadzono podział na wersję Modułową (Alfa Multi-Installer ~500 MB) oraz wersję Pełną (Full Suite ~2.01 GB).
+- Zaimplementowano architekturę Slim Core z obsługą wymiennych rozszerzeń DLC (`dlc_ai_studio`, `dlc_racing_multiplayer`, `dlc_slam_robotics`).
+- Wdrożono Graceful Degradation: stacja uruchamia się bezbłędnie z klasyczną wizją OpenCV nawet w środowisku bez zainstalowanego PyTorcha.
+
+### Wyłączanie detekcji AI w FPV
+
+- Wyłączenie AI Vision usuwa ostatnie ramki i linie oraz odrzuca spóźnione wyniki pracownika. Warstwy FPV respektują tryb Hidden i wybór SSD/OpenCV. Pracownik sprawdza aktualne włączniki detektorów przy każdej klatce.
+
+### Przywrócenie paneli rozszerzeń
+
+- Po załadowaniu rozszerzenia SLAM Robotics ukryto powieloną zakładkę mapy w Diagnostyce. Bez rozszerzenia dotychczasowa mapa pozostaje dostępna.
+
+- AI Studio, SLAM Robotics i Multiplayer otwierają właściwe panele zamiast pustych widoków. Panele powstają przy pierwszym wyborze zakładki; błąd ładowania pokazuje komunikat i możliwość ponowienia.
+- Lobby współdzieli jedną sesję MQTT z telemetrią aplikacji. SLAM korzysta z istniejącej usługi i aktualizuje mapę oraz statystyki. Komunikaty ładowania przetłumaczono na osiem języków.
+
+### 🖥️ Telemetria w OSD
+
+- Wysokościomierz i wariometr korzystają ze świeżych danych FC. Konfigurowalny widget telemetrii wyświetla Vspd, prąd, zużytą pojemność, tryb lotu, jakość łącza, RSSI obu anten, moc TX i satelity.
+- Profile lotniczy, terenowy i wyścigowy zawierają dodatkowe, rozdzielone pola telemetrii. Edytor pozwala wybrać pomiar z listy; brakujące lub przeterminowane dane pokazują kreskę, a prawidłowe wartości zerowe pozostają widoczne. Nowe etykiety przetłumaczono na wszystkie osiem języków.
+
+### 📡 Rozszerzona telemetria CRSF i MAVLink
+
+- CRSF dekoduje ALT/Vspd, ciśnienie i temperaturę barometru, magnetometr, standardowe pełne IMU 6DOF, tryb lotu, osobne grupy napięć oraz wszystkie dziesięć pól statystyk łącza z mocą TX w mW. Prąd i zużyta pojemność baterii są zachowywane w całym torze przetwarzania.
+- MAVLink udostępnia dodatkowe strumienie wysokości, prędkości pionowej, ciśnienia, baterii i IMU oraz więcej pól GPS. Jawne Vspd ma pierwszeństwo przed wyliczaniem pochodnej; częściowe aktualizacje nie odświeżają wieku starych pomiarów.
+- Inspektor zachowuje ograniczony wykaz ostatnich typów ramek CRSF i wiadomości MAVLink, także nieznanych dekoderom, z licznikami i czasem odbioru. Poprawiono mapowanie wysokości/kursu GPS i obsługę wysokości zero bez tworzenia fikcyjnego fix GPS.
+
+### 🛠️ Motion — Thanos AMC i SimHub
+
+- Watchdog Thanosa monitoruje skuteczne wysyłanie pakietów zamiast wymagać ciągłych odpowiedzi kontrolera; niepełny zapis pakietu zatrzymuje strumień.
+- Pozycja neutralna Thanosa odpowiada połowie skonfigurowanego zakresu motion, zamiast wysyłać zera.
+- Motion wykrywa nieaktualne migawki przez czas odbioru, `timestamp` lub starszy `sys_time` i wraca do neutralu po 500 ms bez świeżych danych.
+- Mostek SimHub poprawnie rozróżnia jednostki żyroskopu stopnie/s i rad/s. Kompensacja grawitacji uwzględnia przechylenie po rozpoznaniu konwencji IMU na nieruchomym pomiarze; niejednoznaczne źródła zachowują wcześniejsze działanie.
+- Ustawienia szybkości, skalowania i inwersji osi SimHub pozostają bez zmian. Walidacja programowa: 68 testów zaliczonych; próba na fizycznym Thanos AMC pozostaje do wykonania.
+
+### 🎮 FFB — wspólna obsługa SDL/DirectInput
+
+- Telemetria CRSF zawierająca tylko orientację generuje efekty kątowe z kolejnych rzeczywistych pomiarów: reakcję na zmianę yaw i ograniczone drgania przy zmianach roll/pitch. Uwzględniono zawijanie kątów i przerwy w odbiorze; łączna siła tego trybu jest ograniczona do 20% przed globalnym gain.
+- Dodano ręcznie uruchamiany test FFB bez telemetrii (około 0,8 s, maksymalnie 5% siły), bez zmiany zapisanych ustawień.
+- FFB rozróżnia brak pomiaru prędkości od zmierzonego postoju; brak GPS nie wycisza siły bocznej. Dane CRSF w jednostkach g są przeliczane na m/s², a syntetyczna grawitacja z orientacji FC nie generuje fałszywych wstrząsów.
+- Wspólna fuzja FFB 6DOF estymuje grawitację z akcelerometru i żyroskopu, odejmuje ją od sił ruchu i nie wymaga GPS ani kompasu. Początkową bazę montażu ustala przy spokojnym pomiarze; aktualna prędkość GPS może wspomagać detekcję postoju.
+- Usunięto równoległe rumble Pygame przy aktywnym FFB kierownicy. Niezmienione efekty SDL nie są ponownie aktualizowane przy każdym ticku; krótkie dzierżawy sił nadal są odnawiane.
+- Rzeczywisty czas pomiaru IMU i akcelerometru jest śledzony oddzielnie od pakietów baterii i GPS; zaległe pomiary zachowują swój wiek. Prędkość GPS traci ważność po utracie fix lub po trzech sekundach bez aktualizacji.
+- Poprawiono dynamiczny krok czasu Madgwick/Mahony, parametry Mahony i pracę EKF bez magnetometru. MAVLink RAW_IMU udostępnia wszystkie sześć osi; kolejka zachowuje niezależne strumienie IMU/GPS/baterii, a nieprawidłowe długości CRSF nie zatrzymują odbiornika.
+- SDL/DirectInput jest domyślną i jedyną ścieżką sił kierownicy; dodatki SDK producentów dla wejść, LED-ów i zakresu obrotu są opcjonalne i domyślnie wyłączone.
+- Wykrywanie możliwości urządzenia zastępuje domyślne wykluczanie marek. Obsługiwane są gain, stała siła, sprężyna, tłumienie, tarcie oraz sprzętowa bezwładność, jeśli urządzenie ją udostępnia.
+- Efekty wygasają po 250 ms bez odświeżenia; wyłączenie FFB i błędne dane zatrzymują siły. GUI pokazuje gotowość urządzenia FFB w ośmiu językach.
+
+### ⚙️ Konfiguracja i telemetria GCS
+
+- Inspektor telemetrii scala częściowe pakiety przed odświeżeniem, pokazuje rzeczywiste dane przetworzone oraz jednostki zależne od źródła. Usunięto podwójne połączenia sygnałów i kolejne warstwy pomijania aktualizacji; odbiornik CRSF odzyskuje synchronizację po błędzie CRC. Logi rozróżniają opóźnienia odbioru, workera i UI.
+- Poprawiono zapis i odtwarzanie trybu połączenia, źródła wideo, kamery USB oraz odłączonych portów COM i adaptera audio. Własny URL wideo synchronizuje się między Connection Settings i Video; wartości AUX uruchamiają automatyczny zapis.
+- Przywrócono rozwijane listy wyboru połączenia i źródła wideo. Dodano eksport diagnostyczny ustawień z usuwaniem danych poufnych.
+- Kolejka wejściowa telemetrii ma limit 256 pakietów, usuwa zaległe migawki i ogranicza czas pracy workera. Inferencja PyTorch ładuje się dopiero przy użyciu AI.
+- Zaktualizowano testy procesora telemetrii do bieżącego API i usunięto globalne mocki zakłócające inne testy.
+
+### 🛠️ GCS — expo i wygładzanie gazu osi dzielonej
+- Sygnał PWM gazu w trybie osi dzielonej uwzględnia expo i wygładzanie przed zastosowaniem limitu skrzyni biegów, zarówno przy jeździe do przodu, jak i wstecz.
+
+### 🛡️ GCS — bezpieczne profile przełączników PWM
+- Puste listy wartości przełączników chwilowych i zatrzaskowych wracają do skonfigurowanego minimum oraz maksimum PWM, zamiast przerywać pętlę sterowania błędem indeksu.
+
+### 🛡️ BioPilot — bezpieczne osie wirtualnego kontrolera
+- Wirtualny kontroler BioPilot odrzuca wartości `NaN` i nieskończoności na każdej osi lotu oraz natychmiast wraca do położenia neutralnego, zamiast przekazywać skrajne wychylenie do XInput.
+
+### 🛡️ Telemetria — poprawne składanie fragmentów mapy
+- Asembler map odrzuca fragmenty z niepoprawnym rozmiarem, indeksem lub danymi oraz składa mapę wyłącznie po otrzymaniu pełnego zbioru indeksów. Zmiana deklarowanego rozmiaru mapy resetuje poprzedni transfer.
+
+### 🛠️ DonkeySim — liczby telemetryczne z przecinkiem dziesiętnym
+- Most Unity normalizuje lokalny przecinek dziesiętny wyłącznie w wartościach liczbowych obiektów JSON, zachowując prawidłowe tablice i tekst; telemetria z systemów europejskich może zostać poprawnie odczytana.
+
+### 🛡️ Sterowanie — izolacja podłączonych urządzeń
+- Mapowanie akcji ignoruje dane wejściowe do czasu potwierdzenia połączenia przypisanego urządzenia oraz po jego rozłączeniu; oś innego kontrolera nie może przejąć akcji.
+
+### 🛡️ Konfiguracja MCS — spójność zapisu
+- Gdy atomowe zastąpienie pliku konfiguracji nie powiedzie się, stan MCS w pamięci pozostaje zgodny z ostatnią zapisaną konfiguracją.
+
+### 🛡️ GCS — odporność bufora telemetrii
+- Bufor szeregów telemetrycznych bezpiecznie ignoruje błędne zagnieżdżone sekcje pakietu zamiast przerywać aktualizację przy wartości `null`.
+
 ### 🛠️ MAVLink — bieżąca telemetria bez zaległych danych
 - Strategia MAVLink publikuje migawkę telemetrii tylko po nowych danych czujnikowych, zamiast stale kopiować ten sam stan co 50 ms.
 - Przy kolejce powyżej 50 pakietów GCS zachowuje pięć najnowszych migawek `telemetry` i nie usuwa pakietów map ani komend.

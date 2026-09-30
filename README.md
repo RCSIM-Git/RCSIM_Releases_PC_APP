@@ -19,16 +19,16 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.02** |
+| **Aktualna Wersja (Current Version)** | **v1.4.03** |
 | **Data Wydania (Release Date)** | 2026-09-27 |
 | **Rozmiar Pliku (File Size)** | ~2.02 GB (2065 MB) (2,165,007,950 B) |
-| **Suma Kontrolna SHA-256** | `b43901a537ac5c83925bcf3723790a04532a98cb752c288255dd03b5ceea8bea` |
+| **Suma Kontrolna SHA-256** | `af4a01c39094462a6498c2f80073d9e584c441257696c494903f2b939d7f922c` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.02 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.03 (Highlights)
 
 - **📦 Multi-Installer (Modułowa Instalacja Komponentów):**
   - Wprowadzono modularny instalator Windows Inno Setup z podziałem na profile (`Standard / Sim-Racing`, `Pełne Studio AI`, `Własna instalacja`).
@@ -45,9 +45,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.02:
+Oczekiwany hash dla v1.4.03:
 ```
-b43901a537ac5c83925bcf3723790a04532a98cb752c288255dd03b5ceea8bea
+af4a01c39094462a6498c2f80073d9e584c441257696c494903f2b939d7f922c
 ```
 
 ---

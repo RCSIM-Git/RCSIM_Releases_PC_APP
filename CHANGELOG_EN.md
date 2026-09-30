@@ -6,6 +6,89 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.03] - 2026-09-30
+
+### 📦 Modular DLC Architecture & Dual Release
+
+- Introduced dual release channels: Modular Edition (Alfa Multi-Installer ~500 MB) and Full Suite (~2.01 GB).
+- Implemented Slim Core architecture with hot-pluggable DLC extensions (`dlc_ai_studio`, `dlc_racing_multiplayer`, `dlc_slam_robotics`).
+- Enforced graceful degradation: GCS runs reliably with classical OpenCV vision even without PyTorch installed.
+
+### Disabling AI detection in FPV
+
+- Turning AI Vision off clears previous boxes and lines and rejects late worker results. FPV layers respect Hidden and SSD/OpenCV display modes. The worker checks current detector switches for each frame.
+
+### Restored extension panels
+
+- Loading SLAM Robotics hides the duplicate map tab in Diagnostics. The existing diagnostics map remains available without the extension.
+
+- AI Studio, SLAM Robotics and Multiplayer open their functional panels instead of empty views. Panels load on first selection; loading failures show a message and retry button.
+- The lobby shares one MQTT session with application telemetry. SLAM uses the existing service to update its map and performance statistics. Loading messages are translated into eight languages.
+
+### 🖥️ OSD telemetry
+
+- Altitude and vertical-speed instruments use fresh FC measurements. A configurable telemetry widget displays vertical speed, current, consumed capacity, flight mode, link quality, both antenna RSSI readings, TX power, and satellites.
+- Aircraft, offroad, and racing presets include additional separate telemetry fields. The editor offers a measurement selector; missing or expired readings display a dash while valid zero readings remain visible. New labels are translated into all eight languages.
+
+### 📡 Extended CRSF and MAVLink telemetry
+
+- CRSF decodes altitude/vertical speed, barometer pressure and temperature, magnetometer, standard full 6DOF IMU, flight mode, separate voltage groups, and all ten link-statistics fields with TX power in mW. Battery current and consumed capacity survive the complete processing path.
+- MAVLink exposes additional altitude, vertical-speed, pressure, battery, and IMU streams plus more GPS fields. Explicit vertical speed takes precedence over differentiated altitude; partial updates do not refresh old measurement ages.
+- The inspector preserves a bounded inventory of recent CRSF frame types and MAVLink messages, including types unknown to the decoders, with counters and receipt timestamps. GPS altitude/course mapping and valid zero altitude are corrected without inventing a GPS fix.
+
+### 🛠️ Motion — Thanos AMC and SimHub
+
+- The Thanos watchdog monitors successful packet writes instead of requiring continuous controller replies; incomplete packet writes stop streaming.
+- Thanos neutral positions match the midpoint of the configured motion range instead of sending zeros.
+- Motion detects stale snapshots using arrival time, `timestamp`, or legacy `sys_time`, and returns to neutral after 500 ms without fresh data.
+- The SimHub bridge distinguishes degrees/s from rad/s gyro inputs. Gravity compensation accounts for tilt after identifying the IMU convention from a stationary measurement; ambiguous sources retain the previous behavior.
+- SimHub axis speed, scaling, and inversion settings remain unchanged. Software validation: 68 tests passed; physical Thanos AMC verification remains pending.
+
+### 🎮 FFB — shared SDL/DirectInput support
+
+- Attitude-only CRSF telemetry derives angular effects from consecutive actual samples: yaw-motion force and bounded roll/pitch-motion vibration. Angle wrapping and reception gaps are handled; combined force in this mode is capped at 20% before global gain.
+- Added a manually triggered FFB test without telemetry (approximately 0.8 s, at most 5% force), preserving saved settings.
+- FFB distinguishes missing speed measurements from a measured standstill, so missing GPS no longer suppresses lateral force. CRSF acceleration in g is converted to m/s²; synthetic gravity derived from FC attitude no longer generates false bump effects.
+- Shared 6DOF FFB fusion estimates gravity from accelerometer and gyro measurements and removes it from motion forces without requiring GPS or a compass. A quiet initial measurement establishes the mounting baseline; current GPS speed can assist standstill detection.
+- Active wheel FFB no longer also triggers Pygame rumble. Unchanged SDL effects avoid redundant per-tick updates while short force leases remain renewed.
+- Actual IMU and accelerometer arrival times are tracked independently of battery and GPS packets; queued measurements retain their age. GPS speed expires after fix loss or three seconds without an update.
+- Fixed variable Madgwick/Mahony time steps, Mahony tuning, and EKF operation without a magnetometer. MAVLink RAW_IMU exposes all six axes; queue pruning preserves independent IMU/GPS/battery streams, and invalid CRSF lengths no longer stall the receiver.
+- SDL/DirectInput is the default and sole steering-force path; manufacturer SDK extensions for inputs, LEDs, and steering range are optional and disabled by default.
+- Device capability detection replaces default brand exclusions. Supported effects include gain, constant force, spring, damper, friction, and hardware inertia where available.
+- Effects expire after 250 ms without refresh; disabling FFB or receiving invalid force data stops effects. The GUI reports FFB device readiness in all eight languages.
+
+### ⚙️ GCS configuration and telemetry
+
+- The telemetry inspector merges partial packets before refreshing, displays actual processed data, and labels units according to the source. Removed duplicate signal connections and successive update-dropping layers; the CRSF receiver resynchronizes after CRC errors. Logs distinguish receiver, worker, and UI delays.
+- Fixed saving and restoring connection mode, video source, USB camera selection, and disconnected COM ports and audio adapters. Custom video URLs stay synchronized between Connection Settings and Video; AUX changes trigger autosave.
+- Restored dropdown selectors for connection mode and video source. Added diagnostic settings export with sensitive data redaction.
+- The incoming telemetry queue is bounded to 256 packets, removes stale snapshots, and limits worker processing time. PyTorch inference loads only when AI is used.
+- Updated telemetry processor tests to the current API and removed global mocks that interfered with other tests.
+
+### 🛠️ GCS — split-axis throttle expo and smoothing
+- Split-axis throttle PWM now applies expo and smoothing before the gearbox throttle limit, for both forward and reverse gears.
+
+### 🛡️ GCS — safe PWM switch profiles
+- Empty value lists for momentary and latch switches fall back to the configured minimum and maximum PWM values instead of interrupting the control loop with an index error.
+
+### 🛡️ BioPilot — safe virtual-controller axes
+- The BioPilot virtual controller rejects `NaN` and infinite values on every flight axis and immediately returns to neutral instead of sending an extreme XInput deflection.
+
+### 🛡️ Telemetry — reliable map-chunk assembly
+- The map assembler rejects fragments with an invalid size, index, or data and completes a map only after receiving the full index set. A changed declared map size resets the prior transfer.
+
+### 🛠️ DonkeySim — locale decimal telemetry
+- The Unity bridge normalizes locale decimal commas only in numeric JSON object values while preserving valid arrays and text, allowing telemetry from European system locales to be parsed correctly.
+
+### 🛡️ Controls — connected-device isolation
+- Action mapping ignores input until its assigned device is confirmed connected and after it disconnects; an axis from another controller cannot take over the action.
+
+### 🛡️ MCS configuration — write consistency
+- When atomic replacement of the configuration file fails, the in-memory MCS state remains consistent with the last saved configuration.
+
+### 🛡️ GCS — resilient telemetry buffer
+- The telemetry time-series buffer safely ignores malformed nested packet sections instead of interrupting an update on a `null` value.
+
 ### 🛠️ MAVLink — real-time telemetry without stale data
 - The MAVLink strategy publishes a telemetry snapshot only after new sensor data arrives instead of repeatedly copying the same state every 50 ms.
 - When the queue exceeds 50 packets, the GCS retains the five newest `telemetry` snapshots and preserves map and command packets.
