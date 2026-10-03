@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CI/CD
+
+- Pakowanie GCS uwzględnia zasoby AHRS (w tym `WMM2025/WMM.COF`). Dodano pełne odkrywanie testów Windows/Linux i kontrolę importów startowych oraz pętli Qt gotowego EXE przed publikacją nightly. Pełna kolekcja ujawniła 19 błędów starszych testów; walidacja całego zestawu pozostaje nieukończona.
+
+- Przywrócono kompletne deklaracje submodułów dla aplikacji wydań PC i skryptów Radiomaster. GitHub Actions może teraz zainicjalizować wszystkie śledzone gitlinki zamiast kończyć się błędem braku adresu URL w `.gitmodules`. GCS otrzymał oddzielny, bezpieczny pipeline nocny dla Cloudflare R2, który publikuje wyłącznie wersjonowane archiwa pod `nightly/`.
+
+## [v1.4.04] - 2026-10-03
+
+### ⚖️ Bezpieczeństwo Prawne, Audyt Licencji & Zgodność LGPL
+- **Zgodność z LGPL dla PyInstaller:** Wdrożono `module_collection_mode={'paramiko': 'py', 'pymavlink': 'py'}` w specyfikacji buildera, gwarantując jawne pliki źródłowe `.py` w katalogu `_internal/` dla komponentów objętych licencją LGPL.
+- **Kompletna Dokumentacja Prawna w 8 Językach:** Wdrożono EULA oraz Politykę Prywatności w 8 wersjach językowych (PL, EN, DE, ES, FR, IT, CS, ZH), oświadczenia zgodności (Compliance Statements) oraz pakiet licencji `PYTHON_LICENSES.txt` i pełne teksty licencji SPDX w instalatorze.
+- **Ochrona Repozytorium i Własności Intelektualnej:** Wykluczono własnościowe binaria SDK producentów kontrolerów z publicznego repozytorium.
+
+### 🔊 Silnik Dźwięku i Synteza Audio (Realtime Combustion Engine & Turbo)
+- **Synteza Akustyczna Silnika Spalinowego:** Dodano dynamiczne profile silników spalinowych (`combustion_profiles.py`) i zaawansowaną syntezę obrotów, obciążenia i harmonicznych w czasie rzeczywistym (`realtime_engine.py`).
+- **Zawór Upustowy Turbo (Blow-off / Wastegate):** Zaimplementowano fizyczny model ciśnienia doładowania i symulację zaworu upustowego turbo z realistycznym odgłosem upustu ciśnienia przy odpuszczeniu gazu (`turbo_blowoff.py`).
+
+### 🧭 CI/CD & Pakowanie AHRS
+- Pakowanie GCS uwzględnia zasoby AHRS (w tym model geomagnetyczny `WMM2025/WMM.COF`).
+- Zaktualizowano tłumaczenia dla wszystkich 8 języków ze 100% pokryciem translacji (0 unfinished).
+
 ## [v1.4.03] - 2026-09-30
 
 ### 📦 Architektura Modułowa (DLC Ecosystem) & Dual Release
@@ -29,6 +50,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Wysokościomierz i wariometr korzystają ze świeżych danych FC. Konfigurowalny widget telemetrii wyświetla Vspd, prąd, zużytą pojemność, tryb lotu, jakość łącza, RSSI obu anten, moc TX i satelity.
 - Profile lotniczy, terenowy i wyścigowy zawierają dodatkowe, rozdzielone pola telemetrii. Edytor pozwala wybrać pomiar z listy; brakujące lub przeterminowane dane pokazują kreskę, a prawidłowe wartości zerowe pozostają widoczne. Nowe etykiety przetłumaczono na wszystkie osiem języków.
+
+### 🏁 Wyścigi QR — kompletność sektorów
+
+- Meta zalicza okrążenie toru z sektorami tylko po wykryciu wszystkich skonfigurowanych bramek pośrednich. Zasada obejmuje definicje markerów zapisane jako enumy i tekst, a tory bez sektorów zachowują dotychczasowe działanie.
+
+### 🧭 SLAM — kurs 0°
+
+- Telemetria SLAM zachowuje prawidłowy kurs `0°` z pola głównego zamiast zastępować go kursem zapasowym z orientacji, symulatora albo GPS. Wartości zapasowe są używane wyłącznie, gdy źródło o wyższym priorytecie jest nieobecne.
+
+### 🛠️ GCS — zakres biegów H-shiftera Moza
+
+- Kody H-shiftera Moza są ograniczane do skonfigurowanej liczby przełożeń: kod `0` wybiera wsteczny, `8` neutralny, a nadmiarowy lub nieprawidłowy kod bezpiecznie wybiera neutral zamiast tworzyć nieistniejące przełożenie lub przerywać pętlę sterowania.
 
 ### 📡 Rozszerzona telemetria CRSF i MAVLink
 

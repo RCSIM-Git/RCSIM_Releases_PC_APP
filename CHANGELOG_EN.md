@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CI/CD
+
+- GCS packaging includes AHRS resources (including `WMM2025/WMM.COF`). Added full Windows/Linux test discovery and a packaged EXE startup-import/Qt event-loop gate before nightly publication. Full collection exposed 19 legacy test errors; complete suite validation remains pending.
+
+- Restored complete submodule declarations for the PC release application and Radiomaster game scripts. GitHub Actions can now initialize every tracked gitlink instead of failing because `.gitmodules` lacks a URL. GCS now has a separate safe Cloudflare R2 nightly pipeline that publishes only versioned archives under `nightly/`.
+
+## [v1.4.04] - 2026-10-03
+
+### ⚖️ Legal Compliance, License Audit & LGPL Packaging
+- **LGPL Compliance in PyInstaller:** Configured `module_collection_mode={'paramiko': 'py', 'pymavlink': 'py'}` in build specifications, ensuring unbundled readable `.py` sources in `_internal/` for LGPL components.
+- **Complete Legal Suite in 8 Languages:** Deployed comprehensive EULA and Privacy Policy in 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH), compliance statements, `PYTHON_LICENSES.txt` audit manifest, and full SPDX license texts in installer.
+- **Intellectual Property & Repository Hygiene:** Explicitly excluded proprietary vendor SDK binaries from public repository tracking.
+
+### 🔊 Realtime Audio Engine & Sound Synthesis (Combustion & Turbo)
+- **Acoustic Combustion Engine Synthesis:** Integrated procedural ICE audio synthesis with dynamic load, RPM, harmonic simulation, and cylinder firing profiles (`combustion_profiles.py`, `realtime_engine.py`).
+- **Turbo Blow-Off Valve & Wastegate:** Implemented boost pressure physics model and blow-off valve sound generator upon rapid throttle release (`turbo_blowoff.py`).
+
+### 🧭 CI/CD & AHRS Packaging
+- GCS packaging now bundles complete AHRS geomagnetic models (`WMM2025/WMM.COF`).
+- Completed 100% translation coverage across all 8 languages (0 unfinished).
+
 ## [v1.4.03] - 2026-09-30
 
 ### 📦 Modular DLC Architecture & Dual Release
@@ -29,6 +50,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Altitude and vertical-speed instruments use fresh FC measurements. A configurable telemetry widget displays vertical speed, current, consumed capacity, flight mode, link quality, both antenna RSSI readings, TX power, and satellites.
 - Aircraft, offroad, and racing presets include additional separate telemetry fields. The editor offers a measurement selector; missing or expired readings display a dash while valid zero readings remain visible. New labels are translated into all eight languages.
+
+### 🏁 QR racing — complete sectors
+
+- The finish line records a lap on a sectorized track only after every configured intermediate gate is detected. The rule supports enum and string marker definitions, while tracks without sectors keep their existing behavior.
+
+### 🧭 SLAM — 0° heading
+
+- SLAM telemetry preserves a valid `0°` top-level heading instead of replacing it with orientation, simulator, or GPS fallback data. Fallbacks are used only when the higher-priority source is absent.
+
+### 🛠️ GCS — Moza H-shifter gear range
+
+- Moza H-shifter codes are bounded to the configured number of forward gears: code `0` selects reverse, `8` neutral, and an excessive or malformed code safely selects neutral instead of creating a phantom gear or interrupting the control loop.
 
 ### 📡 Extended CRSF and MAVLink telemetry
 
