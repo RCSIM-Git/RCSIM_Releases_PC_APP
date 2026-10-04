@@ -19,21 +19,26 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.05** |
+| **Aktualna Wersja (Current Version)** | **v1.4.06** |
 | **Data Wydania (Release Date)** | 2026-10-04 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,154,086,599 B) |
-| **Suma Kontrolna SHA-256** | `8fbdd8d2b7b07dd0eb05f084e8fe9f5f18cd9dbff1b4424d9ea8c4c1f5c45097` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2055 MB) (2,154,920,411 B) |
+| **Suma Kontrolna SHA-256** | `8f84c333d5bcb44d52203b281cb03af82d1c73e1039b150a2a00e6abcb2b2485` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.05 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.06 (Highlights)
 
-- **🏎️ Integracja z Assetto Corsa (Shared Memory & UDP):**
-  - Bezpośredni odczyt fizyki, obrotów RPM, prędkości, uślizgu kół i przeciążeń z symulatora Assetto Corsa przez pamięć współdzieloną Windows (`acpmf_physics`, `acpmf_graphics`, `acpmf_static`).
-  - Rozbudowano dwukierunkowy mostek telemetryczny `simhub_bridge.py` z automatyczną translacją danych dla platform ruchowych (Motion Cueing) oraz haptyki FFB.
-  - Dodano pełną konfigurację portów i parametrów w GUI oraz 100% lokalizacji w 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH).
+- **🏎️ Optymalizacja Wideo USB (MJPG 60 FPS & Zero-Copy BGR888):**
+  - Minimalna latencja sterownika DirectShow (`CAP_PROP_BUFFERSIZE = 1`) oraz zerokopiowy renderer FPV (`QImage.Format_BGR888`), oszczędzający ~1.8 ms na klatkę i 372 MB/s pamięci RAM.
+  - Wymuszone sprzętowe MJPG w konstruktorze DirectShow eliminujące dławienie do 9.4 FPS na USB 2.0.
+  - Standaryzacja formatu kamery w GUI i konfiguracji wyłącznie na MJPG.
+- **🔊 Eliminacja Przycinania Dźwięku Silnika (Audio Dropout Fix):**
+  - Zwiększenie bufora blokowego audio z 512 do 1024 próbek (~46.4 ms marginesu), likwidujące dropouts pod obciążeniem telemetrią.
+  - Zastąpienie kosztownej walidacji Pydantic bezpośrednią propagacją danych w pętli 50 Hz.
+- **🏎️ Odblokowanie FFB Simucube & Assetto Corsa:**
+  - Naprawiono przepływ telemetrii i odblokowano generowanie efektów FFB na kierownicach DirectInput/Simucube.
 
 ---
 
@@ -45,9 +50,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.05:
+Oczekiwany hash dla v1.4.06:
 ```
-8fbdd8d2b7b07dd0eb05f084e8fe9f5f18cd9dbff1b4424d9ea8c4c1f5c45097
+8f84c333d5bcb44d52203b281cb03af82d1c73e1039b150a2a00e6abcb2b2485
 ```
 
 ---

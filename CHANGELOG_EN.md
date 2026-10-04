@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Restored complete submodule declarations for the PC release application and Radiomaster game scripts. GitHub Actions can now initialize every tracked gitlink instead of failing because `.gitmodules` lacks a URL. GCS now has a separate safe Cloudflare R2 nightly pipeline that publishes only versioned archives under `nightly/`.
 
+## [v1.4.06] - 2026-10-04
+
+### 🏎️ USB Video Pipeline Optimization (MJPG 60 FPS), Audio Smoothness & Force Feedback
+- **Zero-Copy USB Video Pipeline & MJPG 60 FPS:** Completely redesigned and optimized USB video stream acquisition for FPV cameras and HDMI capture cards. Implemented minimal hardware driver latency (`CAP_PROP_BUFFERSIZE = 1`), automatic hardware `MJPG` compression negotiation in DirectShow constructor eliminating the 9.4 FPS lock caused by uncompressed YUY2 over USB 2.0, and fast grab-based frame draining `cap.grab()` (~0.1 ms) when GUI thread is busy.
+- **Zero-Copy FPV Renderer (QImage Format_BGR888):** Replaced expensive main-thread color conversions `cv2.cvtColor(BGR2RGB)` with direct zero-copy wrapping via `QImage.Format.Format_BGR888`, saving ~1.8 ms per frame and 372 MB/s of RAM churn at 1080p 60 FPS.
+- **GUI USB Format Standardization:** Standardized the video format selector in `video_tab.py` and default config (`connection.json`) exclusively to reliable hardware `MJPG`, removing legacy/unsupported codecs (`YUY2`, `XVID`) with automatic backwards-compatibility coercion.
+- **Audio Dropout & Underrun Elimination:** Increased `RealtimeEngineStream` audio blocksize from 512 to 1024 samples (~46.4 ms DAC buffer headroom), eliminating audio crackles and underflows caused by Python GIL contention under heavy 50 Hz telemetry load. Replaced per-frame Pydantic `TypeAdapter` validation in the audio loop with direct attribute propagation.
+- **Simucube / DirectInput FFB & Telemetry Unblock:** Resolved Assetto Corsa telemetry ingestion block and re-enabled dynamic FFB haptic effect generation on DirectInput/Simucube wheelbases.
+- **Simulation Network Error Suppression (WinError 10054):** Silenced repetitive socket 10054 errors and added select polling in `sim_network.py` to prevent CPU busy-loops during simulation disconnect.
+
 ## [v1.4.05] - 2026-10-04
 
 ### 🏎️ Assetto Corsa Integration & SimHub Telemetry Bridge

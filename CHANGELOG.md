@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Przywrócono kompletne deklaracje submodułów dla aplikacji wydań PC i skryptów Radiomaster. GitHub Actions może teraz zainicjalizować wszystkie śledzone gitlinki zamiast kończyć się błędem braku adresu URL w `.gitmodules`. GCS otrzymał oddzielny, bezpieczny pipeline nocny dla Cloudflare R2, który publikuje wyłącznie wersjonowane archiwa pod `nightly/`.
 
+## [v1.4.06] - 2026-10-04
+
+### 🏎️ Optymalizacja Wideo USB (MJPG 60 FPS) & Płynność Audio & Force Feedback
+- **Zero-Copy USB Video Pipeline & MJPG 60 FPS:** Przepisano i zoptymalizowano potok akwizycji wideo USB dla kamer i grabberów HDMI. Wprowadzono minimalną latencję sprzętową (`CAP_PROP_BUFFERSIZE = 1`), zautomatyzowane negocjowanie kompresji sprzętowej `MJPG` w konstruktorze DirectShow eliminujące blokadę do 9.4 FPS w YUY2 na USB 2.0, oraz szybkie opróżnianie kolejki sterownika `cap.grab()` (~0.1 ms) przy zajętości GUI.
+- **Zerokopiowy Renderer FPV (QImage Format_BGR888):** Zastąpiono kosztowną konwersję kolorów `cv2.cvtColor(BGR2RGB)` na wątku głównym bezpośrednim mapowaniem natywnego bufora OpenCV na `QImage.Format.Format_BGR888`, oszczędzając ~1.8 ms na klatkę i 372 MB/s przepustowości pamięci RAM przy 1080p 60 FPS.
+- **Standaryzacja Formatu Kamery USB w GUI:** Zestawiono wybór formatu w zakładce Wideo (`video_tab.py`) oraz domyślną konfigurację (`connection.json`) wyłącznie na stabilny i niezawodny standard `MJPG`, usuwając problematyczne i nieobsługiwane formaty (`YUY2`, `XVID`) oraz zapewniając automatyczne mapowanie starych konfiguracji.
+- **Eliminacja Przycinania Dźwięku (Audio Dropout / Underrun Fix):** Zwiększono bufor blokowy `RealtimeEngineStream` z 512 do 1024 próbek (~46.4 ms marginesu bufora DAC), likwidując zakłócenia i dropouts wywoływane blokadą wątkową GIL w pętli 50 Hz pod obciążeniem telemetrią. Zastąpiono powolną walidację Pydantic `TypeAdapter` w pętli audio bezpośrednią propagacją atrybutów.
+- **Odblokowanie FFB i Telemetrii Simucube / DirectInput:** Naprawiono przekazywanie telemetrii w trybie Assetto Corsa i odblokowano generowanie efektów haptycznych FFB na kierownicach DirectInput/Simucube.
+- **Wyciszenie Błędów Sieciowych Symulacji (WinError 10054):** Wyeliminowano zapętlenie obsługi błędów gniazda UDP w `sim_network.py` odciążając procesor podczas rozłączenia mostka symulatora.
+
 ## [v1.4.05] - 2026-10-04
 
 ### 🏎️ Integracja z Assetto Corsa & SimHub Telemetry Bridge
