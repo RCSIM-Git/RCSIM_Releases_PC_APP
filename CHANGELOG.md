@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Przywrócono kompletne deklaracje submodułów dla aplikacji wydań PC i skryptów Radiomaster. GitHub Actions może teraz zainicjalizować wszystkie śledzone gitlinki zamiast kończyć się błędem braku adresu URL w `.gitmodules`. GCS otrzymał oddzielny, bezpieczny pipeline nocny dla Cloudflare R2, który publikuje wyłącznie wersjonowane archiwa pod `nightly/`.
 
+## [v1.4.05] - 2026-10-04
+
+### 🏎️ Integracja z Assetto Corsa & SimHub Telemetry Bridge
+- **Pamięć Współdzielona Assetto Corsa (Windows Shared Memory):** Zaimplementowano bezpośredni odczyt fizyki, obrotów RPM, prędkości, uślizgu kół, przeciążeń G oraz telemetrii toru z pamięci współdzielonej symulatora Assetto Corsa (`acpmf_physics`, `acpmf_graphics`, `acpmf_static`).
+- **Dwukierunkowy Mostek Telemetryczny SimHub:** Rozbudowano moduł `simhub_bridge.py` o automatyczną translację pakietów telemetrycznych i dynamiczne przesyłanie danych do platform ruchowych (Motion Cueing) oraz haptyki FFB.
+- **Konfiguracja Połączenia i GUI:** Dodano dedykowaną sekcję konfiguracji telemetrii Assetto Corsa / SimHub w zakładce Połączenie z możliwością wyboru portów, trybu pamięci współdzielonej oraz parametrów odświeżania.
+- **Wielojęzyczność (100% i18n):** Zapewniono pełne tłumaczenia wszystkich nowych elementów interfejsu w 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH) bez brakujących kluczy.
+- **Testy Jednostkowe:** Dodano 16 kompleksowych testów weryfikujących strukturę struktur pamięci współdzielonej, dekodowanie danych oraz mostkowanie telemetrii (`test_assetto_corsa.py`).
+
 ## [v1.4.04] - 2026-10-03
 
 ### ⚖️ Bezpieczeństwo Prawne, Audyt Licencji & Zgodność LGPL

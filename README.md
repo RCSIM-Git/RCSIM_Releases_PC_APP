@@ -19,21 +19,21 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.04** |
+| **Aktualna Wersja (Current Version)** | **v1.4.05** |
 | **Data Wydania (Release Date)** | 2026-10-04 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,154,095,982 B) |
-| **Suma Kontrolna SHA-256** | `d6c92ae31c495cd561c7da674563bb7c238b8c9555b3acf789cb3abceda30dbe` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,154,086,599 B) |
+| **Suma Kontrolna SHA-256** | `8fbdd8d2b7b07dd0eb05f084e8fe9f5f18cd9dbff1b4424d9ea8c4c1f5c45097` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.04 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.05 (Highlights)
 
-- **📦 Multi-Installer (Modułowa Instalacja Komponentów):**
-  - Wprowadzono modularny instalator Windows Inno Setup z podziałem na profile (`Standard / Sim-Racing`, `Pełne Studio AI`, `Własna instalacja`).
-  - Podstawowa instalacja Core jest odchudzona o ciężkie pakiety PyTorcha, umożliwiając błyskawiczny start i minimalne zużycie dysku.
-  - Zabezpieczono silnik wizji (Graceful Degradation): aplikacja uruchamia się bezbłędnie bez modułu AI z aktywną klasyczną wizją OpenCV.
+- **🏎️ Integracja z Assetto Corsa (Shared Memory & UDP):**
+  - Bezpośredni odczyt fizyki, obrotów RPM, prędkości, uślizgu kół i przeciążeń z symulatora Assetto Corsa przez pamięć współdzieloną Windows (`acpmf_physics`, `acpmf_graphics`, `acpmf_static`).
+  - Rozbudowano dwukierunkowy mostek telemetryczny `simhub_bridge.py` z automatyczną translacją danych dla platform ruchowych (Motion Cueing) oraz haptyki FFB.
+  - Dodano pełną konfigurację portów i parametrów w GUI oraz 100% lokalizacji w 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH).
 
 ---
 
@@ -45,9 +45,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.04:
+Oczekiwany hash dla v1.4.05:
 ```
-d6c92ae31c495cd561c7da674563bb7c238b8c9555b3acf789cb3abceda30dbe
+8fbdd8d2b7b07dd0eb05f084e8fe9f5f18cd9dbff1b4424d9ea8c4c1f5c45097
 ```
 
 ---
