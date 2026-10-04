@@ -20,9 +20,9 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 | Parametr | Wartość |
 |---|---|
 | **Aktualna Wersja (Current Version)** | **v1.4.04** |
-| **Data Wydania (Release Date)** | 2026-10-03 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,154,011,808 B) |
-| **Suma Kontrolna SHA-256** | `3daab5f24ebbffe764e68420c238fb69181d1fec737fcc4a4a7a85228a02f771` |
+| **Data Wydania (Release Date)** | 2026-10-04 |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,154,095,982 B) |
+| **Suma Kontrolna SHA-256** | `d6c92ae31c495cd561c7da674563bb7c238b8c9555b3acf789cb3abceda30dbe` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
@@ -47,7 +47,7 @@ Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 
 Oczekiwany hash dla v1.4.04:
 ```
-3daab5f24ebbffe764e68420c238fb69181d1fec737fcc4a4a7a85228a02f771
+d6c92ae31c495cd561c7da674563bb7c238b8c9555b3acf789cb3abceda30dbe
 ```
 
 ---
