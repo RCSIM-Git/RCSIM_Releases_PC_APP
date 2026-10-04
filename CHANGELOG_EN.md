@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔊 Realtime Audio Engine & Sound Synthesis (Combustion & Turbo)
 - **Acoustic Combustion Engine Synthesis:** Integrated procedural ICE audio synthesis with dynamic load, RPM, harmonic simulation, and cylinder firing profiles (`combustion_profiles.py`, `realtime_engine.py`).
 - **Turbo Blow-Off Valve & Wastegate:** Implemented boost pressure physics model and blow-off valve sound generator upon rapid throttle release (`turbo_blowoff.py`).
+- **Induction Layers, Starter & Supercharger Sounds:** Enhanced the audio engine with procedural engine starter acoustics (`engine_starter.py`), intake manifold induction layers (`induction_layers.py`), and mechanical supercharger whine with complete GUI volume adjustment.
 
 ### 🧭 CI/CD & AHRS Packaging
 - GCS packaging now bundles complete AHRS geomagnetic models (`WMM2025/WMM.COF`).

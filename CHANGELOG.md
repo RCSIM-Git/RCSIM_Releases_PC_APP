@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔊 Silnik Dźwięku i Synteza Audio (Realtime Combustion Engine & Turbo)
 - **Synteza Akustyczna Silnika Spalinowego:** Dodano dynamiczne profile silników spalinowych (`combustion_profiles.py`) i zaawansowaną syntezę obrotów, obciążenia i harmonicznych w czasie rzeczywistym (`realtime_engine.py`).
 - **Zawór Upustowy Turbo (Blow-off / Wastegate):** Zaimplementowano fizyczny model ciśnienia doładowania i symulację zaworu upustowego turbo z realistycznym odgłosem upustu ciśnienia przy odpuszczeniu gazu (`turbo_blowoff.py`).
+- **Warstwy Indukcji, Starter i Kompresor:** Wzbogacono silnik audio o proceduralną symulację rozrusznika silnika (`engine_starter.py`), warstwy indukcji układu dolotowego (`induction_layers.py`) oraz mechanicznego kompresora z pełną parametryzacją głośności w GUI.
 
 ### 🧭 CI/CD & Pakowanie AHRS
 - Pakowanie GCS uwzględnia zasoby AHRS (w tym model geomagnetyczny `WMM2025/WMM.COF`).
