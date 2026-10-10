@@ -19,16 +19,16 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.08** |
-| **Data Wydania (Release Date)** | 2026-10-10 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,153,759,954 B) |
-| **Suma Kontrolna SHA-256** | `877c4ec55717ea9774a3aa0e0e3008d7105435e1a6858c8ed94cfdc516b8f028` |
+| **Aktualna Wersja (Current Version)** | **v1.4.09** |
+| **Data Wydania (Release Date)** | 2026-10-11 |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2058 MB) (2,158,439,110 B) |
+| **Suma Kontrolna SHA-256** | `5d4ab96a29306e8163762a9ceb4d9cb91b166751bec7a1536305ed12f9c1a8f6` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.08 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.09 (Highlights)
 
 - **🔓 Wydanie Samodzielne (Standalone / Non-Steam):**
   - Całkowicie uniezależniono instalator pobierany z `rcsim.org` od platformy Steam. Aplikacja uruchamia się bez konieczności instalowania Steam ani zakupu licencji na Steam.
@@ -62,9 +62,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.08:
+Oczekiwany hash dla v1.4.09:
 ```
-877c4ec55717ea9774a3aa0e0e3008d7105435e1a6858c8ed94cfdc516b8f028
+5d4ab96a29306e8163762a9ceb4d9cb91b166751bec7a1536305ed12f9c1a8f6
 ```
 
 ---

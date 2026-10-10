@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.09] - 2026-10-10
+
+### 🚀 Highlights
+- **⚡ Fast Delta Patch Updates:** Introduced a lightweight patch installer (~15–25 MB instead of 2.01 GB). It downloads and updates modified application binaries only, preserving existing PyTorch/AI runtimes and user configs.
+- **🛡️ Steam Guard for SteamPipe:** Full Steam compliance – external HTTP .exe update checks are silenced in Steam mode, delegating delta delivery entirely to SteamPipe.
+- **🎯 Kalman EKF Packaging Fix:** Bundled `filterpy` properly into PyInstaller production distributions, restoring sensor fusion EKF pose estimation.
+- **🖥️ 4K High-DPI & UI Scaling Polish:** Fixed DPI scale configuration loading from split config (`general.json`), increased progress bar height, improved checkboxes, and rebalanced Cockpit layout columns on UHD monitors.
+- **🌍 Complete 8-Language Localization:** 100% finished translations across all 8 supported languages (PL, EN, DE, ES, FR, IT, CS, ZH).
+
 ## [v1.4.08] - 2026-10-10
 
 ### 🚀 Highlights

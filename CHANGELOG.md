@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.09] - 2026-10-10
+
+### 🚀 Najważniejsze Nowości (Highlights)
+- **⚡ Szybkie Aktualizacje Różnicowe (Delta Patch):** Wdrożono lekki instalator aktualizacji (~15–25 MB zamiast 2.01 GB). Pobiera wyłącznie zmienione pliki i moduły, zachowując pobrane wcześniej środowisko AI (PyTorch/CUDA) oraz ustawienia użytkownika.
+- **🛡️ Steam Guard dla SteamPipe:** Pełna zgodność z certyfikacją Steam – w środowisku Steam auto-updater zewnętrznych plików .exe jest wyłączony, a aktualizacjami zarządza natywnie silnik SteamPipe.
+- **🎯 Poprawka Filtra Kalmana EKF w Instalatorze:** Dołączono bibliotekę `filterpy` do paczki produkcyjnej PyInstallera, przywracając pełne działanie fuzji sensorów EKF i wyznaczania orientacji.
+- **🖥️ Optymalizacja Skalowania 4K High-DPI & Interfejsu:** Rozwiązano problem odczytu skali GUI ze split-configu (`general.json`), powiększono paski postępu, wycentrowano wskaźniki i zoptymalizowano proporcje kolumn Kokpitu na ekranach UHD.
+- **🌍 Pełna Lokalizacja (8 języków):** 100% przetłumaczonych fraz we wszystkich 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH).
+
 ## [v1.4.08] - 2026-10-10
 
 ### 🚀 Najważniejsze Nowości (Highlights)
