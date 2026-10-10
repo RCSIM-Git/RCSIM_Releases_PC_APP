@@ -19,38 +19,28 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.09** |
+| **Aktualna Wersja (Current Version)** | **v1.4.10** |
 | **Data Wydania (Release Date)** | 2026-10-11 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2058 MB) (2,158,439,110 B) |
-| **Suma Kontrolna SHA-256** | `5d4ab96a29306e8163762a9ceb4d9cb91b166751bec7a1536305ed12f9c1a8f6` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2059 MB) (2,158,651,792 B) |
+| **Suma Kontrolna SHA-256** | `b49ea7c0745cecb183318602b5b80ee3a728280e2d4abd75de1988647c6c315a` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.09 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.10 (Highlights)
 
-- **🔓 Wydanie Samodzielne (Standalone / Non-Steam):**
-  - Całkowicie uniezależniono instalator pobierany z `rcsim.org` od platformy Steam. Aplikacja uruchamia się bez konieczności instalowania Steam ani zakupu licencji na Steam.
-  - Weryfikacja DRM jest uruchamiana wyłącznie w dedykowanych kompilacjach sklepowych (`RCSIM_STEAM_BUILD=1`).
-  - Bezpieczny fallback przy starcie zapobiega jakimkolwiek crashom czy oknom błędów licencyjnych.
-- **📡 Bezprzewodowy Mostek CRSF Wi-Fi TX Backpack (CRWF v1 Protocol):**
-  - Bezpośrednie sterowanie RC przez sieć Wi-Fi i port UDP 8888 do modułów TX Backpack (RadioMaster Nomad / Pocket / MT12) w trybie EdgeTX Master/CRSF.
-  - Zabezpieczenie losowym 32-bitowym tokenem sesji, odnawialny 300 ms lease oraz dwukierunkowy odbiór telemetrii CRSF downlink na gnieździe klienta.
-- **🔋 Zaawansowane Zarządzanie Akumulatorami & Niezależna Telemetria Baterii:**
-  - Konfiguracja pakietów 1S–12S, profile chemii (LiPo, Li-Ion, LiFePO4, NiMH), opcjonalna estymacja naładowania SoC.
-  - Niezależne czasy świeżości napięcia i prądu w OSD eliminujące przekłamania przy częściowych pakietach telemetrii.
-- **🏁 Race Director, Klasyfikacja i Stabilne Lobby:**
-  - Sortowanie według liczby ukończonych okrążeń i łącznego czasu, tryb Hotlap, zatrzymanie zegara sesji na mecie.
-  - Odporność na awarie wbudowanego brokera MQTT oraz filtrowanie błędnych pakietów UDP discovery.
-- **✨ Odświeżony Ekran Startowy (Startup Window) & Pasek Profilu Kierowcy:**
-  - Nowoczesny asynchroniczny splash screen z weryfikacją assetów graficznych i dynamicznym paskiem postępu.
-  - Pasek szybkiego wyboru profilu kierowcy, pojazdu i aparatury w kokpicie bez wchodzenia do ustawień.
-- **🛡️ Bezpieczeństwo Sprzętowe RP2350 & Poprawki Nawigacji:**
-  - Odporne na awarie sterownika USB CDC rozłączanie portu szeregowego, twardy limit czasu zapisu 100 ms.
-  - Korekta kąta powrotu RTH (bearing-to-home), obsługa punktów bazowych GPS na równiku/południku zerowym oraz poprawki kafelkowania mapy Mercatora.
-- **💼 Model Licencyjny Steam i Sim-Center Commercial Pass:**
-  - Przygotowanie na publikację Steam i Steam PC Café, manifesty dla Sim-Center Commercial Pass oraz odseparowane DLC Racing & Multiplayer.
+- **🗺️ Poprawka Śladu GPS i Czysty Obraz Minimapy FPV:**
+  - Wyeliminowano wypełnianie śladu czarnym wielokątem na widoku FPV (`painter.setBrush(NoBrush)`).
+  - Wyłączono nakładanie mleczno-szarej siatki SLAM na mapy OpenStreetMap w trybie GPS.
+- **🏁 Pełne Renderowanie Bramek Toru na Minimapie FPV:**
+  - Dodano wizualizację bramek wirtualnego toru (`virtual_track`): złote linie start/meta, neonowe sektory, pomarańczowe checkpointy, słupki i strzałki kierunkowe.
+- **🔍 Optymalizacja Zbliżenia Minimapy dla Skali RC:**
+  - Zwiększono poziom zoomu na postoju do Zoom 19 (dwukrotnie bliższy podgląd w skali mikro-toru).
+- **🛠️ Autouzupełnianie w Kreatorze Toru:**
+  - Automatyczne generowanie unikalnych ID bramek oraz wymuszenie typu start/meta dla pierwszej bramki toru.
+- **🌍 Pełna Lokalizacja (8 języków):**
+  - 100% przetłumaczonych fraz we wszystkich 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH) wraz ze zaktualizowanymi plikami `.qm`.
 
 ---
 
@@ -62,9 +52,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.09:
+Oczekiwany hash dla v1.4.10:
 ```
-5d4ab96a29306e8163762a9ceb4d9cb91b166751bec7a1536305ed12f9c1a8f6
+b49ea7c0745cecb183318602b5b80ee3a728280e2d4abd75de1988647c6c315a
 ```
 
 ---

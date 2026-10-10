@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.10] - 2026-10-11
+
+### 🚀 Highlights
+- **🗺️ FPV Minimap GPS Trail Fix:** Eliminated black polygon interior fill by enforcing `NoBrush` in the trail path rendering. Trail is now rendered as a clean, sharp cyan line.
+- **✨ SLAM Haze Removal on Maps:** Prevented SLAM occupancy grid rendering on OpenStreetMap tiles when SLAM is inactive in GPS mode, restoring clear satellite and street imagery.
+- **🏁 Virtual Track Gates Rendering in FPV:** Added live rendering of virtual track gates (`virtual_track`): golden start/finish lines, neon cyan sectors, orange checkpoints, gate posts, and directional race vectors.
+- **🔍 RC Scale Minimap Zoom Polish:** Increased default stationary/low-speed zoom to Level 19, delivering a 2x closer field of view tailored for RC scale circuits.
+- **🛠️ Virtual Track Creator Auto-ID:** Added automated gate ID generation and enforced required start/finish gate type for track creation, eliminating configuration errors.
+- **🌍 Complete 8-Language Localization:** 100% finished translations across all 8 supported languages (PL, EN, DE, ES, FR, IT, CS, ZH).
+
 ## [v1.4.09] - 2026-10-10
 
 ### 🚀 Highlights

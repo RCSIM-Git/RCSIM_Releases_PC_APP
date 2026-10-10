@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.10] - 2026-10-11
+
+### 🚀 Najważniejsze Nowości (Highlights)
+- **🗺️ Poprawka Śladu GPS w Minimapie FPV:** Wyeliminowano błąd wypełniania wnętrza śladu czarnym wielokątem (wymuszenie `NoBrush` w silniku renderowania ścieżki). Ślad przejazdu wyświetla się teraz jako czysta, cienka linia cyan.
+- **✨ Usunięcie Szarej Poświaty SLAM:** Wyeliminowano nakładanie siatki zajętości SLAM na kafelki OpenStreetMap w trybie GPS. Mapa satelitarna i drogowa jest w pełni ostra i kontrastowa.
+- **🏁 Pełne Renderowanie Bramek Wirtualnego Toru na Minimapie FPV:** Dodano wizualizację bramek toru (`virtual_track`): złote linie start/meta, neonowe niebieskie sektory, pomarańczowe checkpointy, słupki oraz wskaźniki kierunku przejazdu bezpośrednio na minimapie widoku z kamery.
+- **🔍 Optymalizacja Zbliżenia Minimapy dla Modeli RC:** Zwiększono poziom zbliżenia na postoju i przy małej prędkości do Zoom 19 (dwukrotnie bliższy podgląd w skali mikro-toru).
+- **🛠️ Autouzupełnianie w Kreatorze Toru:** Dodano automatyczne generowanie unikalnego ID bramki oraz wymuszenie wymaganego typu start/meta dla pierwszej bramki toru, zapobiegając błędom walidacji.
+- **🌍 Pełna Lokalizacja (8 języków):** 100% przetłumaczonych fraz we wszystkich 8 językach (PL, EN, DE, ES, FR, IT, CS, ZH).
+
 ## [v1.4.09] - 2026-10-10
 
 ### 🚀 Najważniejsze Nowości (Highlights)
