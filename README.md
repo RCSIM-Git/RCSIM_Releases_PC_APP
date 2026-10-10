@@ -19,26 +19,34 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.06** |
-| **Data Wydania (Release Date)** | 2026-10-04 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2055 MB) (2,154,920,411 B) |
-| **Suma Kontrolna SHA-256** | `8f84c333d5bcb44d52203b281cb03af82d1c73e1039b150a2a00e6abcb2b2485` |
+| **Aktualna Wersja (Current Version)** | **v1.4.07** |
+| **Data Wydania (Release Date)** | 2026-10-10 |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,153,798,148 B) |
+| **Suma Kontrolna SHA-256** | `bcadde62f4e208467614e91f8ec0d060f054ed6d6b2293413fb8da835183f3a7` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.06 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.07 (Highlights)
 
-- **🏎️ Optymalizacja Wideo USB (MJPG 60 FPS & Zero-Copy BGR888):**
-  - Minimalna latencja sterownika DirectShow (`CAP_PROP_BUFFERSIZE = 1`) oraz zerokopiowy renderer FPV (`QImage.Format_BGR888`), oszczędzający ~1.8 ms na klatkę i 372 MB/s pamięci RAM.
-  - Wymuszone sprzętowe MJPG w konstruktorze DirectShow eliminujące dławienie do 9.4 FPS na USB 2.0.
-  - Standaryzacja formatu kamery w GUI i konfiguracji wyłącznie na MJPG.
-- **🔊 Eliminacja Przycinania Dźwięku Silnika (Audio Dropout Fix):**
-  - Zwiększenie bufora blokowego audio z 512 do 1024 próbek (~46.4 ms marginesu), likwidujące dropouts pod obciążeniem telemetrią.
-  - Zastąpienie kosztownej walidacji Pydantic bezpośrednią propagacją danych w pętli 50 Hz.
-- **🏎️ Odblokowanie FFB Simucube & Assetto Corsa:**
-  - Naprawiono przepływ telemetrii i odblokowano generowanie efektów FFB na kierownicach DirectInput/Simucube.
+- **📡 Bezprzewodowy Mostek CRSF Wi-Fi TX Backpack (CRWF v1 Protocol):**
+  - Bezpośrednie sterowanie RC przez sieć Wi-Fi i port UDP 8888 do modułów TX Backpack (RadioMaster Nomad / Pocket / MT12) w trybie EdgeTX Master/CRSF.
+  - Zabezpieczenie losowym 32-bitowym tokenem sesji, odnawialny 300 ms lease oraz dwukierunkowy odbiór telemetrii CRSF downlink na gnieździe klienta.
+- **🔋 Zaawansowane Zarządzanie Akumulatorami & Niezależna Telemetria Baterii:**
+  - Konfiguracja pakietów 1S–12S, profile chemii (LiPo, Li-Ion, LiFePO4, NiMH), opcjonalna estymacja naładowania SoC.
+  - Niezależne czasy świeżości napięcia i prądu w OSD eliminujące przekłamania przy częściowych pakietach telemetrii.
+- **🏁 Race Director, Klasyfikacja i Stabilne Lobby:**
+  - Sortowanie według liczby ukończonych okrążeń i łącznego czasu, tryb Hotlap, zatrzymanie zegara sesji na mecie.
+  - Odporność na awarie wbudowanego brokera MQTT oraz filtrowanie błędnych pakietów UDP discovery.
+- **✨ Odświeżony Ekran Startowy (Startup Window) & Pasek Profilu Kierowcy:**
+  - Nowoczesny asynchroniczny splash screen z weryfikacją assetów graficznych i dynamicznym paskiem postępu.
+  - Pasek szybkiego wyboru profilu kierowcy, pojazdu i aparatury w kokpicie bez wchodzenia do ustawień.
+- **🛡️ Bezpieczeństwo Sprzętowe RP2350 & Poprawki Nawigacji:**
+  - Odporne na awarie sterownika USB CDC rozłączanie portu szeregowego, twardy limit czasu zapisu 100 ms.
+  - Korekta kąta powrotu RTH (bearing-to-home), obsługa punktów bazowych GPS na równiku/południku zerowym oraz poprawki kafelkowania mapy Mercatora.
+- **💼 Model Licencyjny Steam i Sim-Center Commercial Pass:**
+  - Gotowość na publikację Steam i Steam PC Café, manifesty dla Sim-Center Commercial Pass oraz odseparowane DLC Racing & Multiplayer.
 
 ---
 
@@ -50,9 +58,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.06:
+Oczekiwany hash dla v1.4.07:
 ```
-8f84c333d5bcb44d52203b281cb03af82d1c73e1039b150a2a00e6abcb2b2485
+bcadde62f4e208467614e91f8ec0d060f054ed6d6b2293413fb8da835183f3a7
 ```
 
 ---

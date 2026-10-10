@@ -6,7 +6,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.07] - 2026-10-10
+
+### 🚀 Najważniejsze Nowości (Highlights)
+- **Bezprzewodowy mostek CRSF Wi-Fi TX Backpack (CRWF v1 Protocol):** Pełna integracja z modułami nadawczymi TX Backpack (RadioMaster Nomad / Pocket / MT12) przez sieć Wi-Fi i port UDP 8888 z sesją 32-bit, lease 300 ms i odbiorem telemetrii CRSF downlink w trybie EdgeTX Master/CRSF.
+- **Zaawansowane zarządzanie akumulatorami & profile chemii:** Konfiguracja ogniw 1S–12S, profile LiPo/Li-Ion/LiFePO4/NiMH, opcjonalna estymacja stanu naładowania SoC oraz niezależne czasy świeżości napięcia i prądu w OSD eliminujące przekłamania przy częściowych pakietach.
+- **Race Director, Klasyfikacja i Stabilne Lobby:** Precyzyjne wyliczanie pozycji według ukończonych okrążeń i skumulowanych czasów, tryb Hotlap, automatyczne zatrzymanie zegara sesji na mecie oraz odporność na błędy brokera MQTT i zapytania UDP discovery.
+- **Odświeżony ekran ładowania (Startup Window) & Pasek profilu kierowcy:** Asynchroniczny ekran startowy z weryfikacją assetów graficznych i dynamicznym postępem oraz nowy pasek szybkiego wyboru profilu kierowcy i pojazdu w GUI.
+- **Wzmocnione bezpieczeństwo RP2350 & Korekty Nawigacji:** Odporne na awarie sterownika USB CDC rozłączanie portu szeregowego, limit czasu zapisu 100 ms, korekta kierunku powrotu RTH (`bearing_to_home`), obsługa współrzędnych zerowych na równiku oraz poprawki kafelkowania mapy Mercatora.
+- **Model Licencyjny Steam i Sim-Center Commercial Pass:** Przygotowanie do publikacji na Steam, obsługa programu Steam PC Café, manifesty dla "Sim-Center Annual Commercial Pass" oraz separacja "Racing Pro & Multiplayer DLC".
+- **Pełna lokalizacja i18n (8 języków):** 100% przetłumaczonych tekstów GUI dla wszystkich 8 języków (PL, EN, DE, ES, FR, IT, CS, ZH) wraz ze zaktualizowanymi plikami `.qm`.
+
+### GCS
+
+- Dodano eksperymentalny mostek bezprzewodowy `BackpackCRSFTransport` (`backpack_transport.py`) przesyłający ramki RC channels (typ 0x16) w datagramach CRWF v1 przez Wi-Fi UDP (port 8888). Zabezpieczenie losowym 32-bitowym tokenem sesji, odnawialny lease 300 ms, sekwencjonowanie pakietów, odrzucanie duplikatów i przeterminowanych tokenów. Odbiór telemetrii CRSF downlink na tym samym gnieździe klienta. Wsparcie dla EdgeTX 2.11+ (Master/CRSF).
+- Nowy asynchroniczny ekran startowy (`startup_window.py`) z weryfikacją assetów graficznych, splash screen i dynamicznym paskiem postępu.
+- Nowy pasek profilu kierowcy (`driver_profile_bar.py`) umożliwiający szybki podgląd i wybór profilu kierowcy oraz aparatury w głównym oknie.
+- Rozdzielono ustawienia zaawansowane GCS na sekcje bezpieczeństwa, baterii i ACC. Dodano profil akumulatora (chemia, liczba ogniw, napięcia pusta/pełna na ogniwo) oraz opcjonalne, orientacyjne szacowanie naładowania z napięcia. Dotychczasowe progi alarmów napięcia pozostają niezależne. Ładowanie profilu nie emituje częściowych ustawień; 110 testów baterii, formularza, telemetrii, OSD i CRSF przeszło. Nowe etykiety przetłumaczono i skompilowano dla ośmiu języków.
+- Napięcie i prąd baterii mają niezależne czasy odbioru. Pakiet z samym napięciem nie odmładza starego prądu w OSD; brakujące lub niepoprawne odczyty zachowują poprzednią wartość i jej czas. Częściowe pakiety baterii nie zerują brakujących odczytów prądu ani naładowania.
+- Poprawiono klasyfikację wyścigów według ukończonych okrążeń i czasu ich ukończenia; Hotlap porównuje najlepsze okrążenie. Czas sesji zatrzymuje się na mecie. Lobby czeka na gotowość brokera przed dołączeniem hosta, sprawdza port połączenia i obsługuje błędy startu; niepoprawne komunikaty MQTT są odrzucane.
+- Klient multiplayer mierzy limity wysyłania telemetrii, ponawiania połączeń i timeouty graczy zegarem monotonicznym. Korekta czasu systemowego nie wstrzymuje wysyłania ani nie powoduje przedwczesnego znikania przeciwników; zachowano limity 10 Hz, 5 s i 2 s.
+- Nieudany start nasłuchu wykrywania lobby zamyka utworzone gniazdo i czyści stan usługi, także po błędzie konfiguracji lub uruchomienia wątku. Wykrywanie lobby UDP odrzuca błędne kodowanie UTF-8, JSON innego typu niż obiekt oraz niepoprawne dane serwera bez przerywania nasłuchu.
+- Poprawiono `bearing_to_home`: namiar jest liczony od pojazdu do bazy, a nie odwrotnie. Wskaźnik RTH korzysta teraz z właściwego kierunku; dystans pozostaje bez zmian. Siedem regresji obejmuje kierunki główne, południk ±180° i trasę sferyczną; 51 testów GPS i telemetrii przeszło.
+- GPS ustawia bazę również dla poprawnego fixa na równiku (lat=0) i południku zerowym. Brakujące, niefinitywne lub poza zakresem współrzędne nie ustawiają bazy ani nie aktualizują nawigacji; przetwarzanie wysokości nadal działa. 44 testy GPS i procesora telemetrii przeszły.
+- Zabezpieczono rozłączanie RP2350 przed błędem sterownika podczas zamykania portu: stan jest czyszczony, a sygnał rozłączenia nadal wysyłany. Błąd zapisu ARM/E-STOP RP2350 zamyka połączenie i zgłasza rozłączenie; zapis szeregowy ma twardy limit 100 ms zamiast nieograniczonego oczekiwania.
+- Ujednolicono wyznaczanie kafelków i przesunięć pikselowych na granicach mapy Mercatora; współrzędne niefinitywne są odrzucane. Cel lokalny przez południk ±180° korzysta z krótszej różnicy długości geograficznej.
+- Odświeżanie GUI i mapy korzysta z zegara monotonicznego (25 Hz GUI i 10 Hz mapa). Pakiety `speed_kmh` odświeżają ważność i czas odbioru prędkości, także dla zera.
+- Zapis profilu wskazanego samą nazwą pliku używa bieżącego katalogu. Błędy scalania zagnieżdżonych ustawień nawigacji są bezpiecznie obsługiwane z blokadą zapisu. Cache konfiguracji jest zastępowany dopiero po udanym zapisie wszystkich plików. Błąd zapisu modułu nawigacji przerywa zapis konfiguracji i zwraca niepowodzenie.
+- Wdrożono architekturę licencjonowania komercyjnego: manifesty i obsługa dla centrów sim-racingu ("Sim-Center Annual Commercial Pass") oraz subskrypcji Steam PC Café. Wyodrębnienie modułu multiplayer jako DLC ("Racing Pro & Multiplayer DLC") z zachowaniem bezpłatnych uprawnień edukacyjnych i transmisyjnych. Aktualizacja umów licencyjnych EULA w 8 językach.
+
+### MCS
+
+- Budowa obrazu ARM64 wymaga poprawnego CI tego samego commitu i zweryfikowanej SHA256 przypiętego systemu bazowego. Dodano kontrolę instalacji MCS w chroot oraz integralności obrazu i ZIP przed publikacją. Ręczny build domyślnie tworzy tylko artefakty. Usunięto puste hasło SSH i niezweryfikowane pobieranie PiShrink; pierwszy start regeneruje klucze hosta i importuje klucz publiczny operatora z partycji boot. Rozruch na RPi 5 wymaga osobnej walidacji sprzętowej.
+
+- Skrzynia biegów mierzy odstęp 250 ms zegarem monotonicznym. Cofnięcie czasu systemowego nie blokuje zmian biegów, a przesunięcie go do przodu nie omija blokady. Pierwsza zmiana pozostaje dostępna od razu; dodano testy regresyjne zegara, odstępu i granic biegów.
+
+### Embedded (RPi)
+
+- Pure Pursuit korzysta z istniejącego loggera modułu zamiast niezdefiniowanego `self.logger`. Usunięto `AttributeError`, który przerywał śledzenie ścieżki przed obliczeniem skrętu i gazu; regresje obejmują jazdę prosto, oba kierunki skrętu i zatrzymanie przy przeszkodzie.
+
+- Pakiety ścieżki `PT` z zerową liczbą fragmentów, indeksem poza zakresem lub niespójną liczbą fragmentów są odrzucane przed zmianą bufora. Zapobiega to `KeyError` i przedwczesnemu złożeniu ścieżki; poprawne fragmenty mogą nadal przychodzić w dowolnej kolejności i z duplikatami.
+
 ### CI/CD
+
+- Usunięto globalną podmianę NumPy atrapą podczas importowania testów mapy. Dodano regresję w osobnym interpreterze sprawdzającą zachowanie NumPy; wszystkie 6 testów modułu przeszło. Pełna kolekcja wykrywa 1159 testów, lecz nadal ma 16 błędów: inne moduły również podmieniają zależności globalnie.
+
+- Zweryfikowano lokalny build Windows po poprawce ICU: gotowy EXE przeszedł kontrolę importów startowych i pętli Qt (`--smoke-test`, kod 0, raport `ok`); 13 testów regresyjnych przeszło. Nie jest to test pełnego GUI ani konfiguracji sprzętowych.
+
+- Wykluczono z pakowania Windows kolidującą bibliotekę `icuuc.dll` znalezioną w zewnętrznym `PATH` (Poppler). Qt korzysta z systemowego API ICU; obca biblioteka z symbolami `_78` powodowała błąd ładowania QtWidgets/Qt6Core (127). Prywatne biblioteki ICU pozostają w paczce.
+
+- Poprawiono importy testów fizyki Ackermanna, menedżera zasobów i heurystyk po wydzieleniu repozytorium GCS. Te trzy moduły nie wymagają już nazw katalogów monorepo; ich 9 testów przeszło w samodzielnym checkoutcie. Pełna kolekcja wykrywa obecnie 1156 testów i zgłasza 16 pozostałych błędów (wcześniej 19).
 
 - Pakowanie GCS uwzględnia zasoby AHRS (w tym `WMM2025/WMM.COF`). Dodano pełne odkrywanie testów Windows/Linux i kontrolę importów startowych oraz pętli Qt gotowego EXE przed publikacją nightly. Pełna kolekcja ujawniła 19 błędów starszych testów; walidacja całego zestawu pozostaje nieukończona.
 

@@ -6,7 +6,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.07] - 2026-10-10
+
+### 🚀 Highlights
+- **CRSF Wi-Fi TX Backpack Wireless Bridge (CRWF v1 Protocol):** Full integration with TX Backpack modules (RadioMaster Nomad / Pocket / MT12) over Wi-Fi UDP port 8888 with 32-bit random session, 300 ms renewable lease, and bidirectional CRSF telemetry downlink in EdgeTX Master/CRSF mode.
+- **Advanced Battery Profiles & Power Telemetry:** Added support for 1S–12S cells, chemistry profiles (LiPo, Li-Ion, LiFePO4, NiMH), optional voltage-based state-of-charge (SoC) estimation, and independent receipt timestamps for voltage and current in OSD.
+- **Race Director, Standings & Robust Lobby:** Accurate race standings sorted by completed laps and elapsed times, Hotlap comparison mode, session clock freeze at finish line, and fault-tolerant MQTT embedded broker and UDP discovery handlers.
+- **Redesigned Startup Window & Driver Profile Bar:** Polished asynchronous startup screen with asset integrity checks and dynamic progress bar, plus a quick driver profile and transmitter bar in the main view.
+- **Hardened RP2350 Communications & Navigation Fixes:** Resilient USB CDC serial disconnection guarding against driver exceptions, 100 ms write timeout, corrected RTH bearing-to-home direction, equator/prime meridian GPS fix support, and Mercator dateline tiling.
+- **Steam Commercial Licensing & Sim-Center Pass:** Steam DRM readiness, Steam PC Café support, "Sim-Center Annual Commercial Pass" manifests, and standalone "Racing Pro & Multiplayer DLC" packaging.
+- **Complete 8-Language Localization (i18n):** 100% translation coverage for all new UI elements across PL, EN, DE, ES, FR, IT, CS, and ZH with updated compiled `.qm` binaries.
+
+### GCS
+
+- Added experimental wireless bridge `BackpackCRSFTransport` (`backpack_transport.py`) forwarding RC channels (type 0x16) in CRWF v1 datagrams over Wi-Fi UDP port 8888. Protected with a 32-bit session token, 300 ms renewable lease, packet sequence numbering, and duplicate/expired token rejection. Receives CRSF downlink telemetry on the same client socket. Compatible with EdgeTX 2.11+ (Master/CRSF).
+- Added redesigned asynchronous startup window (`startup_window.py`) with asset verification, splash screen rendering, and dynamic progress bar.
+- Added driver profile bar (`driver_profile_bar.py`) providing instant visibility and selection of active driver, vehicle, and transmitter profiles from the cockpit.
+- Separated advanced GCS settings into safety, battery, and ACC sections. Added battery chemistry, cell count, empty/full per-cell voltages, and optional approximate voltage-based charge estimation. Existing voltage alarm thresholds remain independent. Loading a profile no longer emits partial settings; 110 battery, form, telemetry, OSD, and CRSF tests passed. New labels were translated and compiled for all eight languages.
+- Battery voltage and current now have independent receipt times. Voltage-only packets no longer make old current readings appear fresh in the OSD; missing or invalid measurements retain their previous value and timestamp. Partial battery packets do not reset omitted current or charge readings.
+- Fixed race standings to use completed laps and their completion time; Hotlap compares the best lap. The session clock freezes at the finish. The lobby waits for broker readiness before joining the host, validates connection ports, and handles startup failures; malformed MQTT messages are rejected.
+- Multiplayer telemetry throttling, connection debounce, and opponent timeouts now use a monotonic clock. System clock adjustments no longer stall transmission or expire opponents prematurely; the existing 10 Hz, 5 s, and 2 s limits remain unchanged.
+- Failed lobby discovery startup closes the allocated socket and clears service state, including socket configuration and thread startup failures. UDP lobby discovery rejects malformed UTF-8, non-object JSON, and invalid server data without terminating the listener.
+- Fixed `bearing_to_home` to calculate the vehicle-to-home bearing rather than the reverse. The RTH indicator now receives the correct direction; distance is unchanged. Seven regressions cover cardinal directions, dateline crossings, and a spherical route; 51 GPS and telemetry tests passed.
+- GPS now sets home for a valid fix on the equator (lat=0) and prime meridian. Missing, non-finite, or out-of-range coordinates neither set home nor update navigation; altitude processing remains active. 44 GPS and telemetry-processor tests passed.
+- Hardened RP2350 disconnection against driver errors when closing the port: state is cleared and disconnection is still reported. RP2350 ARM/E-STOP write failures now close the connection and report disconnection, matching channel-write failures. RP2350 serial writes have a 100 ms timeout instead of unlimited waiting.
+- Unified tile and pixel-offset calculations at Mercator map boundaries; non-finite coordinates are rejected. Local goals across ±180° use the shorter longitude difference.
+- GUI/map refresh uses a monotonic clock, so wall-clock rollback no longer stalls updates (25 Hz GUI and 10 Hz map-grid limits). `speed_kmh` samples refresh speed validity and receipt time, including zero.
+- Saving a profile specified by a bare filename now uses the current directory. Nested navigation merge errors use the profile validation fallback and protect files from being overwritten. The configuration cache is replaced only after all files are saved successfully. Navigation configuration write failures abort the save and report failure.
+- Implemented commercial licensing model: manifests and support for "Sim-Center Annual Commercial Pass" and Steam PC Café subscription. Separated multiplayer into "Racing Pro & Multiplayer DLC" while preserving educational and streaming rights. Updated multilingual EULAs across 8 languages.
+
+### MCS
+- ARM64 image builds now require successful CI for the same commit and verification of the pinned base OS SHA256. Added MCS installation checks in chroot and image/ZIP integrity checks before publication. Manual builds default to artifacts only. Removed empty SSH passwords and unverified PiShrink downloads; first boot regenerates host keys and imports the operator's public key from the boot partition. Physical RPi 5 boot requires separate hardware validation.
+
+- The gearbox measures its 250 ms debounce interval with a monotonic clock. Backward system clock adjustments no longer block shifts, and forward adjustments cannot bypass the debounce. The first shift remains immediately available; regression tests cover clock adjustments, debounce timing and gear limits.
+
+### Embedded (RPi)
+
+- Pure Pursuit uses the existing module logger instead of undefined `self.logger`. Fixed an `AttributeError` interrupting path tracking before steering and throttle calculation; regressions cover straight driving, both turn directions and stopping near an obstacle.
+
+- Path packets (`PT`) with a zero fragment count, an out-of-range index or an inconsistent fragment count are rejected before modifying the buffer. This prevents `KeyError` and premature path assembly; valid fragments may still arrive out of order or with duplicates.
+
 ### CI/CD
+
+- Removed the global NumPy mock installed while importing map tests. Added an isolated-interpreter regression checking NumPy preservation; all 6 module tests passed. Full collection discovers 1159 tests but still reports 16 errors: other modules also replace dependencies globally.
+
+- Verified the local Windows build after the ICU fix: the packaged EXE passed startup-import and Qt event-loop checks (`--smoke-test`, exit 0, report `ok`); 13 regression tests passed. This does not validate the full GUI or hardware configurations.
+
+- Excluded the root-level Windows `icuuc.dll` picked up from an external `PATH` (Poppler). Qt uses the Windows ICU API; the foreign library exporting `_78` symbols caused QtWidgets/Qt6Core loading error 127. Private ICU libraries remain bundled.
+
+- Fixed Ackermann physics, asset manager and heuristic test imports after extracting the GCS repository. These three modules no longer depend on monorepo directory names; all 9 tests passed in a standalone checkout. Full collection now discovers 1156 tests and reports 16 remaining errors (previously 19).
 
 - GCS packaging includes AHRS resources (including `WMM2025/WMM.COF`). Added full Windows/Linux test discovery and a packaged EXE startup-import/Qt event-loop gate before nightly publication. Full collection exposed 19 legacy test errors; complete suite validation remains pending.
 
