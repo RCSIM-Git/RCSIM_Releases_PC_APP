@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.08] - 2026-10-10
+
+### 🚀 Highlights
+- **Standalone Non-Steam Release:** Removed Steam client license enforcement when running directly (`setup_RCSIM.exe` downloaded from rcsim.org).
+- **Flexible DRM Verification:** Steam AppID 5383000 ownership checks are now strictly restricted to dedicated Steam storefront builds (`RCSIM_STEAM_BUILD=1` or `--steam-drm`).
+- **Resilient Boot Fallback:** Added safe boot handling – absence of Steam client or unowned app ID in standalone mode bypasses DRM without terminating the application process.
+- **Full Feature Availability:** Standalone edition retains full access to telemetry, sim-racing, and robotics tooling.
+
 ## [v1.4.07] - 2026-10-10
 
 ### 🚀 Highlights

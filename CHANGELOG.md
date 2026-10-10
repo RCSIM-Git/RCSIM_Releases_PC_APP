@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.08] - 2026-10-10
+
+### 🚀 Najważniejsze Nowości (Highlights)
+- **Wydanie Samodzielne (Standalone / Non-Steam):** Usunięto wymóg posiadania licencji klienta Steam przy bezpośrednim uruchamianiu aplikacji (`setup_RCSIM.exe` pobranego ze strony rcsim.org).
+- **Elastyczna weryfikacja DRM:** Weryfikacja licencji Steam AppID 5383000 jest teraz aktywowana wyłącznie w dedykowanych kompilacjach sklepowych (`RCSIM_STEAM_BUILD=1` lub przełącznik `--steam-drm`).
+- **Odporność na błędy startowe:** Dodano bezpieczny fallback przy bootowaniu – w przypadku braku klienta Steam lub działania w trybie standalone aplikacja startuje płynnie bez zamykania procesu dialogiem błędu licencji.
+- **Pełny dostęp do funkcji:** Tryb samodzielny zachowuje 100% dostępu do modułów telemetrycznych, wyścigowych oraz symulacyjnych.
+
 ## [v1.4.07] - 2026-10-10
 
 ### 🚀 Najważniejsze Nowości (Highlights)

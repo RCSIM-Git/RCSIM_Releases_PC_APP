@@ -19,17 +19,21 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.07** |
+| **Aktualna Wersja (Current Version)** | **v1.4.08** |
 | **Data Wydania (Release Date)** | 2026-10-10 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,153,798,148 B) |
-| **Suma Kontrolna SHA-256** | `bcadde62f4e208467614e91f8ec0d060f054ed6d6b2293413fb8da835183f3a7` |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2054 MB) (2,153,759,954 B) |
+| **Suma Kontrolna SHA-256** | `877c4ec55717ea9774a3aa0e0e3008d7105435e1a6858c8ed94cfdc516b8f028` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.07 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.08 (Highlights)
 
+- **🔓 Wydanie Samodzielne (Standalone / Non-Steam):**
+  - Całkowicie uniezależniono instalator pobierany z `rcsim.org` od platformy Steam. Aplikacja uruchamia się bez konieczności instalowania Steam ani zakupu licencji na Steam.
+  - Weryfikacja DRM jest uruchamiana wyłącznie w dedykowanych kompilacjach sklepowych (`RCSIM_STEAM_BUILD=1`).
+  - Bezpieczny fallback przy starcie zapobiega jakimkolwiek crashom czy oknom błędów licencyjnych.
 - **📡 Bezprzewodowy Mostek CRSF Wi-Fi TX Backpack (CRWF v1 Protocol):**
   - Bezpośrednie sterowanie RC przez sieć Wi-Fi i port UDP 8888 do modułów TX Backpack (RadioMaster Nomad / Pocket / MT12) w trybie EdgeTX Master/CRSF.
   - Zabezpieczenie losowym 32-bitowym tokenem sesji, odnawialny 300 ms lease oraz dwukierunkowy odbiór telemetrii CRSF downlink na gnieździe klienta.
@@ -46,7 +50,7 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
   - Odporne na awarie sterownika USB CDC rozłączanie portu szeregowego, twardy limit czasu zapisu 100 ms.
   - Korekta kąta powrotu RTH (bearing-to-home), obsługa punktów bazowych GPS na równiku/południku zerowym oraz poprawki kafelkowania mapy Mercatora.
 - **💼 Model Licencyjny Steam i Sim-Center Commercial Pass:**
-  - Gotowość na publikację Steam i Steam PC Café, manifesty dla Sim-Center Commercial Pass oraz odseparowane DLC Racing & Multiplayer.
+  - Przygotowanie na publikację Steam i Steam PC Café, manifesty dla Sim-Center Commercial Pass oraz odseparowane DLC Racing & Multiplayer.
 
 ---
 
@@ -58,9 +62,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.07:
+Oczekiwany hash dla v1.4.08:
 ```
-bcadde62f4e208467614e91f8ec0d060f054ed6d6b2293413fb8da835183f3a7
+877c4ec55717ea9774a3aa0e0e3008d7105435e1a6858c8ed94cfdc516b8f028
 ```
 
 ---
