@@ -19,28 +19,28 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.10** |
-| **Data Wydania (Release Date)** | 2026-10-11 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2059 MB) (2,158,622,203 B) |
-| **Suma Kontrolna SHA-256** | `062eb162cbde35017c54e9628b4d963a82207f1e3dad68d1beb9dd5317d2f2b0` |
+| **Aktualna Wersja (Current Version)** | **v1.4.11** |
+| **Data Wydania (Release Date)** | 2026-10-12 |
+| **Rozmiar Pliku (File Size)** | ~2.01 GB (2060 MB) (2,159,719,391 B) |
+| **Suma Kontrolna SHA-256** | `80103a4138093ae4990167924de36390b933cda5f19ecc13be3d821aa1626f17` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.10 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.11 (Highlights)
 
-- **🗺️ Poprawka Śladu GPS i Czysty Obraz Minimapy FPV:**
-  - Wyeliminowano wypełnianie śladu czarnym wielokątem na widoku FPV (`painter.setBrush(NoBrush)`).
-  - Wyłączono nakładanie mleczno-szarej siatki SLAM na mapy OpenStreetMap w trybie GPS.
-- **🏁 Pełne Renderowanie Bramek Toru na Minimapie FPV:**
-  - Dodano wizualizację bramek wirtualnego toru (`virtual_track`): złote linie start/meta, neonowe sektory, pomarańczowe checkpointy, słupki i strzałki kierunkowe.
-- **🔍 Optymalizacja Zbliżenia Minimapy dla Skali RC:**
-  - Zwiększono poziom zoomu na postoju do Zoom 19 (dwukrotnie bliższy podgląd w skali mikro-toru).
-- **🛠️ Autouzupełnianie w Kreatorze Toru:**
-  - Automatyczne generowanie unikalnych ID bramek oraz wymuszenie typu start/meta dla pierwszej bramki toru.
+- **📈 Zero-Lag Telemetria w Czasie Rzeczywistym (Decoupled Plotter):**
+  - Wyeliminowano ~2-sekundowe opóźnienie wykresów w zakładce Real time Telemetry.
+  - O(1) buforowanie próbek oraz odseparowany timer renderowania pyqtgraph (30 FPS, QTimer 33ms) z czasem monotonicznym.
+- **🧭 Zaawansowane Narzędzie Orientacji Montażu FC 3D (Alignment Tool):**
+  - Interaktywny sześcian 3D `FCCubeWidget`, rotacje Roll/Pitch/Yaw, presety, przypisywanie magnetometru i zapis do EEPROM.
+- **🔌 Matryca Portów Szeregowych FC (UART Ports Matrix):**
+  - Wizualna konfiguracja UART1–UART8 kontrolera lotu (MSP, Serial RX, Telemetria, GPS, VTX) bezpośrednio w GCS.
+- **⚡ Natywna Łączność Betaflight / INAV MSP:**
+  - Bezpośrednia obsługa protokołu MSP przez USB CDC w Kokpicie i Konfiguracji z pętlą 100 Hz.
 - **🌍 Pełna Lokalizacja (8 języków):**
-  - 100% przetłumaczonych fraz we wszystkich 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH) wraz ze zaktualizowanymi plikami `.qm`.
+  - 100% przetłumaczonych fraz we wszystkich 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH) wraz ze skompilowanymi plikami `.qm`.
 
 ---
 
@@ -52,9 +52,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.10:
+Oczekiwany hash dla v1.4.11:
 ```
-062eb162cbde35017c54e9628b4d963a82207f1e3dad68d1beb9dd5317d2f2b0
+80103a4138093ae4990167924de36390b933cda5f19ecc13be3d821aa1626f17
 ```
 
 ---

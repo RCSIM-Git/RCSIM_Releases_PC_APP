@@ -6,6 +6,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.11] - 2026-10-12
+
+- **Zero-Lag Real-Time Telemetry Plotter (Decoupled Plotter Rendering):**
+  - Completely eliminated the ~2-second visual delay and Qt event loop backlog in the "Real time Telemetry" diagnostics tab.
+  - Implemented event-decoupled rendering: packets are appended into in-memory buffers in $O(1)$, while pyqtgraph curve redraws (`setData()`) execute on a decoupled 30 FPS timer (`QTimer`, 33ms) only when fresh data exists and the tab is currently visible (`isVisible()`).
+  - Switched from synthetic incremental stepping to true monotonic time (`time.monotonic()`), guaranteeing precise real-time synchronization.
+
+- **Stage B of Advanced FC Management (3D Alignment Tool):**
+  - Implemented the interactive 3D widget `FCCubeWidget` with perspective rendering of the FC board and vehicle heading (Front arrow), diffuse Lambertian shading, HUD XYZ axis preview, and mouse orbit camera controls.
+  - Built the `FCAlignmentDialog` modal dialog enabling visual adjustment of FC board angles (Roll, Pitch, Yaw), quick rotation presets (0°, CW 90°, CW 180°, CW 270°, Flip), compass orientation assignments (`align_mag` across 10 `sensor_align_e` presets), real-time CLI command preview, and EEPROM persistence.
+  - Extended the MSP protocol layer with `MSP_SENSOR_ALIGNMENT` (151) and `MSP_SET_SENSOR_ALIGNMENT` (152) encoders/decoders and delegation through `MSPRFStrategy` and `CommManager`.
+  - Added native "Betaflight / INAV (MSP USB)" connection mode option across Cockpit and Connection tabs, enabling direct USB CDC connections (e.g., COM9).
+  - Ensured 100% translation coverage across all 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished entries and comprehensive unit test coverage.
+
+- **Stage A of Advanced FC Management (UART Ports Matrix):**
+  - Implemented the modal dialog `FCPortsDialog` enabling full flight controller serial ports configuration (UART1–UART8 / VCP) directly within RCSIM GCS, replacing external INAV/Betaflight configurators.
+  - Added support for `MSP_PORT_CONFIG` (143) and `MSP_SET_PORT_CONFIG` (144) with dynamic decoding and encoding of port function masks (MSP, Serial RX for CRSF/ELRS/SBUS, Telemetry, GPS, VTX SmartAudio) and baud rates (9600–921600).
+  - Enforced safety guard: prevents disabling the MSP function on all ports to protect the link against locking out GCS communication.
+  - Integrated the "Save and Reboot FC" (`MSP_EEPROM_WRITE` + `MSP_REBOOT`) procedure with automatic confirmation and reboot.
+  - Added "FC Ports Matrix (UART)" trigger button in `FCManagementPanel` with 100% translation coverage across 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH).
+
+- **Stages 5, 6, 7 & Transport of FC & Sensor Integration (INAV / Betaflight MSP, CommManager & MAVLink Parameters):**
+  - Implemented the physical serial transport strategy `MSPRFStrategy` in `CommManager` for MSP (`"MSP"`, `"BETAFLIGHT"`, `"INAV"`): 100 Hz worker loop, automatic identity probing, cyclic IMU/attitude/status streaming, `MSP_SET_RAW_RC` handling, and delegation of level calibration, compass calibration, and FC reboot.
+  - Connected direct opening of the FC onboard parameters editor (`MAVLinkFCParametersDialog`) directly from the dedicated button `btn_refresh_params` in `FCManagementPanel` (Fusion/Diagnostics tab), preserving full safety states and existing translations.
+  - Fully implemented the MultiWii Serial Protocol (MSP v1 and v2) with an interference-resilient streaming FSM, CRC8-DVB-S2 (poly 0xD5) and XOR checksums, buffer limits (4096 B), and frame resynchronization.
+  - Implemented `BetaflightAdapter` and `INAVAdapter` with decoders for FC identity, versions, board info, arming status, Euler angles, and scaled IMU telemetry.
+  - Built an asynchronous `MSPCommandService` with strict DISARM safety preconditioning, single-shot transaction semantics (no blind retries), timeouts, and generation reset.
+  - Integrated `betaflight_msp` and `inav_msp` persistent device profiles into `SensorProfileManager` and `sensor_policy.py`.
+  - Optimized `SimHubBridge` to strictly prioritize explicit telemetry units (`accel_unit`, `gyro_unit`) over magnitude heuristics, rest-calibrated gravity compensation, and bounded file size (<500 lines of code).
+  - Verification: 100% passing unit tests suite (including 35 MSP tests and 41 parameters/profiles tests) and 100% translation coverage across all 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished entries.
+
+- **Stage 4 of FC & Sensor Integration (ArduPilot / MAVLink Management):**
+  - Implemented an asynchronous MAVLink command transaction service (`MAVLinkCalibrationTransaction`) with System ID / Component ID verification and support for gyro, accelerometer level, compass calibration, and FC reboot.
+  - Enforced safety preconditions: command execution blocked when ARMED or when armed status is unconfirmed; single-shot execution with no blind side-effect retries.
+  - Expanded `FCManagementPanel` with action triggers, status indicators, and progress bars with 100% i18n translation in 8 languages.
+
+- Quick Zero for all sources changes only the Roll/Pitch/Yaw reference, without gyro/accelerometer corrections or filter resets. Active profile mounting offsets are also saved; incomplete, non-finite and stale FC attitude is rejected.
+
+- Removed the X/Y/Yaw position-reset button from the visible IMU panel: sensor calibration and GCS/SimHub orientation alignment are separate from SLAM. A hidden, disabled compatibility attribute is retained.
+
+- Fixed fusion diagnostics integration: status queries preserve the auto profile, local calibration respects profile permissions, missing armed state remains unknown, and Quick Zero is wired to horizon zeroing instead of the position-reset button.
+
+- Implemented Stage 3 of sensor integration: capability-driven diagnostics UI. Split the fusion tab into 5 dedicated panels (SourceStatusPanel, SensorCalibrationPanel, FCManagementPanel, MountAlignmentPanel, FilterTuningPanel) featuring dynamic sample age / freshness indicators, disabling local filter sliders for FC-owned attitude (preventing double estimation), safe blocking of local calibration for FC devices, explicit auto/manual source selection, distinction of 6 accelerometer positions from physical axes in wizard, and complete i18n localization in 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH).
+
+- Fixed IMU correction isolation: neutral 0/1 values and zero mounting offsets in the active profile are no longer replaced by global legacy settings. The default legacy profile retains its existing corrections.
+
+- Implemented Stage 2 of sensor integration: persistent IMU device profiles (SensorProfileManager, IMUDeviceProfile, SensorCorrections, MountAlignment) separating sensor corrections from GCS mount alignment, automatic and manual source selection, robust cache and interpolator flushing upon device switching, and lossless backwards compatibility for legacy configuration.
+
+- Explicit MAVLink IMU provenance keeps calibration and estimation FC-owned after ATTITUDE expires; local fusion no longer takes over those samples. Stale FC attitude blocks zeroing instead of saving incorrect corrections.
+
+- Started separating FC and local IMU calibration with a shared attitude/freshness policy and staged MAVLink/MSP integration plan, without automatically sending hardware calibration commands.
+
+- Fixed resolution and sharpness of the application logo and window icon in the "About RCSIM" dialog and title bar. Replaced low-res 16x16 ICO frame extraction with 1024x1024 PNG rendering supporting High-DPI/Retina display scaling and multi-resolution window icon (16–1024px).
+
+- Fixed CRSF acceleration units in G-force and IMU filter input. SimHub auto mode honors explicit telemetry units, preserved through interpolation, instead of incorrectly scaling small SI readings.
+
+- Fixed nested FC attitude (MAVLink) forwarding to Processed; fresh FC orientation is no longer overwritten by local IMU fusion. Mount offsets and fallback after attitude expiry are preserved.
+
 ## [v1.4.10] - 2026-10-11
 
 ### 🚀 Highlights

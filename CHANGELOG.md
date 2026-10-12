@@ -6,6 +6,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.11] - 2026-10-12
+
+- **Zero-Lag Telemetria w Czasie Rzeczywistym (Decoupled Plotter Rendering):**
+  - Wyeliminowano ~2-sekundowe opóźnienie wizualne oraz zacinanie kolejki zdarzeń Qt w zakładce "Real time Telemetry" (Diagnostyka).
+  - Wdrożono odseparowanie odbioru pakietów od odświeżania GUI: pakiety są natychmiast buforowane $O(1)$, a przerysowywanie krzywych `setData()` realizowane jest w dedykowanym timerze 30 FPS (`QTimer`, 33ms) wyłącznie wtedy, gdy pojawiły się nowe próbki i zakładka jest widoczna (`isVisible()`).
+  - Zastąpiono sztuczne inkrementowanie osi X rzeczywistym czasem monotonicznym (`time.monotonic()`), gwarantując idealną płynność i zgodność ze skalą czasu rzeczywistego.
+
+- **Etap B Zaawansowanego Zarządzania FC (Narzędzie Orientacji Montażu 3D / Alignment Tool):**
+  - Zaimplementowano interaktywny trójwymiarowy widżet `FCCubeWidget` z perspektywicznym renderowaniem płytki FC i kierunku pojazdu (Front arrow), cieniowaniem diffuse, mini-osiami współrzędnych HUD XYZ oraz orbitującą kamerą sterowaną myszką.
+  - Wdrożono okno modalne `FCAlignmentDialog` umożliwiające wizualną korektę kątów płytki FC (Roll, Pitch, Yaw), szybkie presety (0°, CW 90°, CW 180°, CW 270°, Flip), przypisywanie orientacji magnetometru (`align_mag` z 10 presetami `sensor_align_e`), podgląd komend CLI i zapis do EEPROM.
+  - Rozszerzono bibliotekę MSP o obsługę rozkazów `MSP_SENSOR_ALIGNMENT` (151) oraz `MSP_SET_SENSOR_ALIGNMENT` (152) z pełną propagacją przez `MSPRFStrategy` i `CommManager`.
+  - Dodano natywną opcję "Betaflight / INAV (MSP USB)" do selektorów trybu połączenia w Kokpicie oraz w zakładce Konfiguracji, umożliwiając bezpośrednie łączenie po wirtualnym porcie USB CDC (np. COM9).
+  - Zapewniono 100% lokalizację dla wszystkich 8 języków (PL, EN, DE, ES, FR, IT, CS, ZH) z 0 brakującymi wpisami (0 unfinished) oraz zestaw testów jednostkowych.
+
+- **Etap A Zaawansowanego Zarządzania FC (Matryca Portów UART / Ports Matrix):**
+  - Zaimplementowano okno modalne `FCPortsDialog` umożliwiające pełną konfigurację portów szeregowych kontrolera lotu (UART1–UART8 / VCP) bezpośrednio ze stacji RCSIM na wzór INAV/Betaflight Configuratora.
+  - Wdrożono obsługę komunikatów `MSP_PORT_CONFIG` (143) oraz `MSP_SET_PORT_CONFIG` (144) z dynamicznym dekodowaniem i kodowaniem masek funkcji (MSP, Serial RX dla CRSF/ELRS/SBUS, Telemetria, GPS, VTX SmartAudio) oraz prędkości baudrate (9600–921600).
+  - Wprowadzono bezpiecznik integralności: blokada możliwości wyłączenia flagi MSP na wszystkich portach, chroniąca przed odcięciem łączności stacji GCS z kontrolerem lotu.
+  - Zintegrowano procedurę "Zapisz i Restartuj FC" (`Save and Reboot`) z automatycznym zapisem do EEPROM (`MSP_EEPROM_WRITE`) i restartem (`MSP_REBOOT`).
+  - Podpięto przycisk "Matryca Portów FC (UART)" w panelu `FCManagementPanel` z pełnym 100% tłumaczeniem w 8 językach (PL, EN, DE, ES, FR, IT, CS, ZH).
+
+- **Etap 5 & 6 & 7 & Transport Integracji FC i Sensorów (INAV / Betaflight MSP, CommManager & MAVLink Parameters):**
+  - Zaimplementowano fizyczną strategię transportową szeregową `MSPRFStrategy` w `CommManager` dla protokołu MSP (`"MSP"`, `"BETAFLIGHT"`, `"INAV"`): pętla robocza 100 Hz, automatyczne odpytywanie tożsamości, cykliczny streaming IMU/orientacji/statusu, obsługa `MSP_SET_RAW_RC`, delegacja komend kalibracji poziomu i magnetometru oraz restartu FC.
+  - Zintegrowano bezpośrednie otwieranie okna parametrów pokładowych FC (`MAVLinkFCParametersDialog`) z poziomu dedykowanego przycisku `btn_refresh_params` w panelu `FCManagementPanel` (zakładka Fuzja/Diagnostyka) z pełnym zachowaniem stanu bezpieczeństwa i istniejących tłumaczeń.
+  - Zaimplementowano pełną obsługę protokołu MSP (MultiWii Serial Protocol v1 i v2) z odpornym analizatorem FSM, sumami kontrolnymi CRC8-DVB-S2 (poly 0xD5) i XOR, limitami bufora (4096 B) i odzyskiwaniem synchronizacji po zakłóceniach.
+  - Wdrożono adaptery `BetaflightAdapter` i `INAVAdapter` z automatycznym dekodowaniem identyfikatorów, wersji, statusu uzbrojenia, kątów orientacji i skalowanych przeciążeń IMU.
+  - Utworzono asynchroniczny serwis komend `MSPCommandService` z rygorystyczną blokadą bezpieczeństwa DISARMED, pojedynczym wysyłaniem (brak ślepych powtórzeń) i timeoutem.
+  - Zintegrowano profile urządzeń `betaflight_msp` oraz `inav_msp` w `SensorProfileManager` i `sensor_policy.py`.
+  - Zoptymalizowano `SimHubBridge` pod kątem jawnych jednostek IMU (`accel_unit`, `gyro_unit`), wygaszania grawitacji oraz rygorystycznego limitu wielkości plików (<500 linii kodu).
+  - Weryfikacja: pełen zestaw testów jednostkowych przechodzących bezbłędnie (w tym 35 testów MSP i 41 testów parametrów/profili) oraz 100% pokrycia tłumaczeń dla wszystkich 8 języków (PL, EN, DE, ES, FR, IT, CS, ZH) z 0 brakującymi wpisami (0 unfinished).
+
+- **Etap 4 Integracji FC i Sensorów (ArduPilot / MAVLink Management):**
+  - Zaimplementowano asynchroniczny serwis transakcji MAVLink (`MAVLinkCalibrationTransaction`) z weryfikacją System ID / Component ID i obsługą kalibracji żyroskopu, poziomu akcelerometru, magnetometru i rebootu FC.
+  - Wprowadzono blokady bezpieczeństwa: brak możliwości uruchomienia kalibracji lub restartu przy stanie ARMED lub braku potwierdzonego statusu w telemetrii; pojedyncze wysyłanie transakcji bez ślepych powtórzeń.
+  - Rozszerzono panel `FCManagementPanel` o przyciski akcji, wskaźniki stanu i paski postępu kalibracji z pełnym 100% tłumaczeniem w 8 językach.
+
+- Quick Zero dla wszystkich źródeł zmienia wyłącznie odniesienie Roll/Pitch/Yaw, bez korekt żyroskopu/akcelerometru i resetów filtrów. Zapisuje również montaż aktywnego profilu; odrzuca niepełne, niefinitywne i przeterminowane kąty FC.
+
+- Usunięto z widocznego panelu IMU przycisk resetu pozycji X/Y/Yaw: kalibracja sensorów i odniesienie orientacji GCS/SimHub są niezależne od funkcji SLAM. Zachowano ukryty, nieaktywny atrybut dla zgodności API.
+
+- Poprawiono integrację diagnostyki fuzji: odczyt statusu nie przełącza profilu auto, lokalna kalibracja respektuje uprawnienia profilu, brak stanu uzbrojenia pozostaje nieznany, a Quick Zero jest podłączone do zerowania horyzontu zamiast przycisku resetu pozycji.
+
+- Wdrożono Etap 3 integracji sensorów: interfejs diagnostyczny sterowany możliwościami urządzeń (Capability-driven diagnostics UI). Rozbito zakładkę fuzji na 5 dedykowanych paneli (SourceStatusPanel, SensorCalibrationPanel, FCManagementPanel, MountAlignmentPanel, FilterTuningPanel) z dynamicznym wskaźnikiem świeżości próbek, blokadą suwaków lokalnych filtrów dla orientacji FC (zapobieganie podwójnej estymacji), bezpiecznym blokowaniem lokalnej kalibracji dla FC, selekcją źródła auto/manual, rozróżnieniem 6 pozycji akcelerometru od osi fizycznych w kreatorze oraz pełną lokalizacją w 8 językach (PL, EN, DE, ES, FR, IT, CS, ZH).
+
+- Poprawiono izolację korekt IMU: neutralne wartości 0/1 aktywnego profilu oraz zerowe offsety montażowe nie są zastępowane globalnymi ustawieniami legacy. Domyślny profil legacy nadal zachowuje dotychczasowe korekty.
+
+- Wdrożono Etap 2 integracji sensorów: trwałe profile urządzeń IMU (SensorProfileManager, IMUDeviceProfile, SensorCorrections, MountAlignment) z separacją korekt sensora od kątów montażu GCS, automatycznym i manualnym wyborem źródła, bezpiecznym czyszczeniem pamięci podręcznej i interpolatora przy przełączaniu urządzeń oraz pełną bezstratną zgodnością wsteczną konfiguracji legacy.
+
+- Jawne pochodzenie IMU MAVLink utrzymuje kalibrację i estymację po stronie FC także po wygaśnięciu ATTITUDE; lokalna fuzja nie przejmuje takich próbek. Nieświeża orientacja FC blokuje zerowanie, zamiast zapisywać błędne korekty.
+
+- Rozpoczęto rozdzielenie kalibracji FC i lokalnych IMU: wspólna polityka świeżości/orientacji oraz plan etapowej integracji MAVLink/MSP, bez automatycznego wysyłania komend kalibracji do sprzętu.
+
+- Poprawiono rozdzielczość i ostrość logo oraz ikony okna w oknie "O programie RCSIM" (AboutDialog) oraz w pasku tytułowym aplikacji. Zastąpiono ładowanie domyślnej klatki 16x16 z pliku ICO bezpośrednim renderowaniem z 1024x1024 PNG z obsługą High-DPI/Retina oraz wielorozdzielczą ikoną okna (16–1024px).
+
+- Poprawiono jednostki przyspieszenia CRSF w przeciążeniach i wejściu filtra IMU. SimHub w trybie auto respektuje jawne jednostki telemetrii, zachowywane również po interpolacji, zamiast błędnie skalować małe odczyty SI.
+
+- Poprawiono przekazywanie zagnieżdżonej orientacji FC (MAVLink) do Processed; świeża orientacja FC nie jest nadpisywana lokalną fuzją IMU. Zachowano offsety montażowe i powrót do fuzji po utracie świeżych danych.
+
 ## [v1.4.10] - 2026-10-11
 
 ### 🚀 Najważniejsze Nowości (Highlights)
