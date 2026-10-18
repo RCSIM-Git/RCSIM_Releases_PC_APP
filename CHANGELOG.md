@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.4.11] - 2026-10-18
+## [v1.4.12] - 2026-10-19
 
 ### 🎮 Poprawka Pakowania Zależności FFB (PySDL2 & SDL2 DLL)
 

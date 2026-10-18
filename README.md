@@ -19,18 +19,18 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 | Parametr | Wartość |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.11** |
-| **Data Wydania (Release Date)** | 2026-10-18 |
-| **Rozmiar Pliku Pełnego (Full Size)** | ~2.02 GB (2066 MB) (2,165,942,634 B) |
-| **Suma Kontrolna SHA-256** | `d47c377445b30eb7dfe879811b8230a7ab07754c1ffcfa50f80b255fc53a1269` |
+| **Aktualna Wersja (Current Version)** | **v1.4.12** |
+| **Data Wydania (Release Date)** | 2026-10-19 |
+| **Rozmiar Pliku Pełnego (Full Size)** | ~2.02 GB (2066 MB) (2,166,017,099 B) |
+| **Suma Kontrolna SHA-256** | `af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
 | **Bezpośredni Link CDN (Full)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
-| **Bezpośredni Link CDN (Multi/Alpha)** | [setup_RCSIM_v1.4.11_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.11_alpha.exe) |
+| **Bezpośredni Link CDN (Multi/Alpha)** | [setup_RCSIM_v1.4.12_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.12_alpha.exe) |
 | **Szybka Łatka (Quick Patch)** | [setup_RCSIM_patch.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_patch.exe) |
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.11 (Highlights)
+## 🌟 Najważniejsze Nowości w v1.4.12 (Highlights)
 
 - **🎮 Poprawka Pakowania Zależności FFB (PySDL2 & SDL2 DLL):**
   - Dodano dołączanie modułów `sdl2` oraz `sdl2dll` do EXE oraz jawną zależność `PySDL2==0.9.17`.
@@ -50,9 +50,9 @@ Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli Power
 Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 ```
 
-Oczekiwany hash dla v1.4.11:
+Oczekiwany hash dla v1.4.12:
 ```
-d47c377445b30eb7dfe879811b8230a7ab07754c1ffcfa50f80b255fc53a1269
+af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390
 ```
 
 ---
