@@ -20,27 +20,25 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 | Parametr | Wartość |
 |---|---|
 | **Aktualna Wersja (Current Version)** | **v1.4.11** |
-| **Data Wydania (Release Date)** | 2026-10-12 |
-| **Rozmiar Pliku (File Size)** | ~2.01 GB (2060 MB) (2,159,719,391 B) |
-| **Suma Kontrolna SHA-256** | `80103a4138093ae4990167924de36390b933cda5f19ecc13be3d821aa1626f17` |
+| **Data Wydania (Release Date)** | 2026-10-18 |
+| **Rozmiar Pliku Pełnego (Full Size)** | ~2.02 GB (2066 MB) (2,165,942,634 B) |
+| **Suma Kontrolna SHA-256** | `d47c377445b30eb7dfe879811b8230a7ab07754c1ffcfa50f80b255fc53a1269` |
 | **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
-| **Bezpośredni Link CDN (R2)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
+| **Bezpośredni Link CDN (Full)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
+| **Bezpośredni Link CDN (Multi/Alpha)** | [setup_RCSIM_v1.4.11_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.11_alpha.exe) |
+| **Szybka Łatka (Quick Patch)** | [setup_RCSIM_patch.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_patch.exe) |
 
 ---
 
 ## 🌟 Najważniejsze Nowości w v1.4.11 (Highlights)
 
-- **📈 Zero-Lag Telemetria w Czasie Rzeczywistym (Decoupled Plotter):**
-  - Wyeliminowano ~2-sekundowe opóźnienie wykresów w zakładce Real time Telemetry.
-  - O(1) buforowanie próbek oraz odseparowany timer renderowania pyqtgraph (30 FPS, QTimer 33ms) z czasem monotonicznym.
-- **🧭 Zaawansowane Narzędzie Orientacji Montażu FC 3D (Alignment Tool):**
-  - Interaktywny sześcian 3D `FCCubeWidget`, rotacje Roll/Pitch/Yaw, presety, przypisywanie magnetometru i zapis do EEPROM.
-- **🔌 Matryca Portów Szeregowych FC (UART Ports Matrix):**
-  - Wizualna konfiguracja UART1–UART8 kontrolera lotu (MSP, Serial RX, Telemetria, GPS, VTX) bezpośrednio w GCS.
-- **⚡ Natywna Łączność Betaflight / INAV MSP:**
-  - Bezpośrednia obsługa protokołu MSP przez USB CDC w Kokpicie i Konfiguracji z pętlą 100 Hz.
-- **🌍 Pełna Lokalizacja (8 języków):**
-  - 100% przetłumaczonych fraz we wszystkich 8 oficjalnych językach (PL, EN, DE, ES, FR, IT, CS, ZH) wraz ze skompilowanymi plikami `.qm`.
+- **🎮 Poprawka Pakowania Zależności FFB (PySDL2 & SDL2 DLL):**
+  - Dodano dołączanie modułów `sdl2` oraz `sdl2dll` do EXE oraz jawną zależność `PySDL2==0.9.17`.
+  - Wprowadzono asercję przerywającą build przy braku bindingów SDL2, zapewniając bezbłędne działanie Force Feedbacku na kierownicach Direct Drive.
+- **🧭 Profile Urządzeń IMU i Integracja MSP FC:**
+  - Wdrożono profile urządzeń IMU, bezpośrednie odpytywanie kontrolerów lotu MSP oraz optymalizację minimapy FPV i wirtualnych bramek.
+- **⚡ Szybka Łatka (Delta Patch):**
+  - Lekki instalator aktualizacyjny dla użytkowników posiadających już RCSIM na PC — zawiera zaktualizowane binaria i biblioteki FFB bez pobierania PyTorcha.
 
 ---
 
@@ -54,7 +52,7 @@ Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
 
 Oczekiwany hash dla v1.4.11:
 ```
-80103a4138093ae4990167924de36390b933cda5f19ecc13be3d821aa1626f17
+d47c377445b30eb7dfe879811b8230a7ab07754c1ffcfa50f80b255fc53a1269
 ```
 
 ---

@@ -6,179 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.4.11] - 2026-10-12
+## [v1.4.11] - 2026-10-18
 
-- **Zero-Lag Real-Time Telemetry Plotter (Decoupled Plotter Rendering):**
-  - Completely eliminated the ~2-second visual delay and Qt event loop backlog in the "Real time Telemetry" diagnostics tab.
-  - Implemented event-decoupled rendering: packets are appended into in-memory buffers in $O(1)$, while pyqtgraph curve redraws (`setData()`) execute on a decoupled 30 FPS timer (`QTimer`, 33ms) only when fresh data exists and the tab is currently visible (`isVisible()`).
-  - Switched from synthetic incremental stepping to true monotonic time (`time.monotonic()`), guaranteeing precise real-time synchronization.
+### 🎮 FFB Dependency Packaging Fix (PySDL2 & SDL2 DLL)
 
-- **Stage B of Advanced FC Management (3D Alignment Tool):**
-  - Implemented the interactive 3D widget `FCCubeWidget` with perspective rendering of the FC board and vehicle heading (Front arrow), diffuse Lambertian shading, HUD XYZ axis preview, and mouse orbit camera controls.
-  - Built the `FCAlignmentDialog` modal dialog enabling visual adjustment of FC board angles (Roll, Pitch, Yaw), quick rotation presets (0°, CW 90°, CW 180°, CW 270°, Flip), compass orientation assignments (`align_mag` across 10 `sensor_align_e` presets), real-time CLI command preview, and EEPROM persistence.
-  - Extended the MSP protocol layer with `MSP_SENSOR_ALIGNMENT` (151) and `MSP_SET_SENSOR_ALIGNMENT` (152) encoders/decoders and delegation through `MSPRFStrategy` and `CommManager`.
-  - Added native "Betaflight / INAV (MSP USB)" connection mode option across Cockpit and Connection tabs, enabling direct USB CDC connections (e.g., COM9).
-  - Ensured 100% translation coverage across all 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished entries and comprehensive unit test coverage.
+- Added explicit `PySDL2==0.9.17` dependency and bundled `sdl2` and `sdl2dll` into PyInstaller specifications (`RCSIM.spec`, `RCSIM_secure.spec`).
+- Added build-time assertion to fail the build if SDL2 bindings or binaries are missing from the environment.
+- Guaranteed complete hardware Force Feedback functionality for Direct Drive wheelbases in production builds and Delta Patch.
 
-- **Stage A of Advanced FC Management (UART Ports Matrix):**
-  - Implemented the modal dialog `FCPortsDialog` enabling full flight controller serial ports configuration (UART1–UART8 / VCP) directly within RCSIM GCS, replacing external INAV/Betaflight configurators.
-  - Added support for `MSP_PORT_CONFIG` (143) and `MSP_SET_PORT_CONFIG` (144) with dynamic decoding and encoding of port function masks (MSP, Serial RX for CRSF/ELRS/SBUS, Telemetry, GPS, VTX SmartAudio) and baud rates (9600–921600).
-  - Enforced safety guard: prevents disabling the MSP function on all ports to protect the link against locking out GCS communication.
-  - Integrated the "Save and Reboot FC" (`MSP_EEPROM_WRITE` + `MSP_REBOOT`) procedure with automatic confirmation and reboot.
-  - Added "FC Ports Matrix (UART)" trigger button in `FCManagementPanel` with 100% translation coverage across 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH).
+### 🧭 IMU Device Profiles, MSP FC & OSD Polish
 
-- **Stages 5, 6, 7 & Transport of FC & Sensor Integration (INAV / Betaflight MSP, CommManager & MAVLink Parameters):**
-  - Implemented the physical serial transport strategy `MSPRFStrategy` in `CommManager` for MSP (`"MSP"`, `"BETAFLIGHT"`, `"INAV"`): 100 Hz worker loop, automatic identity probing, cyclic IMU/attitude/status streaming, `MSP_SET_RAW_RC` handling, and delegation of level calibration, compass calibration, and FC reboot.
-  - Connected direct opening of the FC onboard parameters editor (`MAVLinkFCParametersDialog`) directly from the dedicated button `btn_refresh_params` in `FCManagementPanel` (Fusion/Diagnostics tab), preserving full safety states and existing translations.
-  - Fully implemented the MultiWii Serial Protocol (MSP v1 and v2) with an interference-resilient streaming FSM, CRC8-DVB-S2 (poly 0xD5) and XOR checksums, buffer limits (4096 B), and frame resynchronization.
-  - Implemented `BetaflightAdapter` and `INAVAdapter` with decoders for FC identity, versions, board info, arming status, Euler angles, and scaled IMU telemetry.
-  - Built an asynchronous `MSPCommandService` with strict DISARM safety preconditioning, single-shot transaction semantics (no blind retries), timeouts, and generation reset.
-  - Integrated `betaflight_msp` and `inav_msp` persistent device profiles into `SensorProfileManager` and `sensor_policy.py`.
-  - Optimized `SimHubBridge` to strictly prioritize explicit telemetry units (`accel_unit`, `gyro_unit`) over magnitude heuristics, rest-calibrated gravity compensation, and bounded file size (<500 lines of code).
-  - Verification: 100% passing unit tests suite (including 35 MSP tests and 41 parameters/profiles tests) and 100% translation coverage across all 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished entries.
-
-- **Stage 4 of FC & Sensor Integration (ArduPilot / MAVLink Management):**
-  - Implemented an asynchronous MAVLink command transaction service (`MAVLinkCalibrationTransaction`) with System ID / Component ID verification and support for gyro, accelerometer level, compass calibration, and FC reboot.
-  - Enforced safety preconditions: command execution blocked when ARMED or when armed status is unconfirmed; single-shot execution with no blind side-effect retries.
-  - Expanded `FCManagementPanel` with action triggers, status indicators, and progress bars with 100% i18n translation in 8 languages.
-
-- Quick Zero for all sources changes only the Roll/Pitch/Yaw reference, without gyro/accelerometer corrections or filter resets. Active profile mounting offsets are also saved; incomplete, non-finite and stale FC attitude is rejected.
-
-- Removed the X/Y/Yaw position-reset button from the visible IMU panel: sensor calibration and GCS/SimHub orientation alignment are separate from SLAM. A hidden, disabled compatibility attribute is retained.
-
-- Fixed fusion diagnostics integration: status queries preserve the auto profile, local calibration respects profile permissions, missing armed state remains unknown, and Quick Zero is wired to horizon zeroing instead of the position-reset button.
-
-- Implemented Stage 3 of sensor integration: capability-driven diagnostics UI. Split the fusion tab into 5 dedicated panels (SourceStatusPanel, SensorCalibrationPanel, FCManagementPanel, MountAlignmentPanel, FilterTuningPanel) featuring dynamic sample age / freshness indicators, disabling local filter sliders for FC-owned attitude (preventing double estimation), safe blocking of local calibration for FC devices, explicit auto/manual source selection, distinction of 6 accelerometer positions from physical axes in wizard, and complete i18n localization in 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH).
-
-- Fixed IMU correction isolation: neutral 0/1 values and zero mounting offsets in the active profile are no longer replaced by global legacy settings. The default legacy profile retains its existing corrections.
-
-- Implemented Stage 2 of sensor integration: persistent IMU device profiles (SensorProfileManager, IMUDeviceProfile, SensorCorrections, MountAlignment) separating sensor corrections from GCS mount alignment, automatic and manual source selection, robust cache and interpolator flushing upon device switching, and lossless backwards compatibility for legacy configuration.
-
-- Explicit MAVLink IMU provenance keeps calibration and estimation FC-owned after ATTITUDE expires; local fusion no longer takes over those samples. Stale FC attitude blocks zeroing instead of saving incorrect corrections.
-
-- Started separating FC and local IMU calibration with a shared attitude/freshness policy and staged MAVLink/MSP integration plan, without automatically sending hardware calibration commands.
-
-- Fixed resolution and sharpness of the application logo and window icon in the "About RCSIM" dialog and title bar. Replaced low-res 16x16 ICO frame extraction with 1024x1024 PNG rendering supporting High-DPI/Retina display scaling and multi-resolution window icon (16–1024px).
-
-- Fixed CRSF acceleration units in G-force and IMU filter input. SimHub auto mode honors explicit telemetry units, preserved through interpolation, instead of incorrectly scaling small SI readings.
-
-- Fixed nested FC attitude (MAVLink) forwarding to Processed; fresh FC orientation is no longer overwritten by local IMU fusion. Mount offsets and fallback after attitude expiry are preserved.
-
-## [v1.4.10] - 2026-10-11
-
-### 🚀 Highlights
-- **🗺️ FPV Minimap GPS Trail Fix:** Eliminated black polygon interior fill by enforcing `NoBrush` in the trail path rendering. Trail is now rendered as a clean, sharp cyan line.
-- **✨ SLAM Haze Removal on Maps:** Prevented SLAM occupancy grid rendering on OpenStreetMap tiles when SLAM is inactive in GPS mode, restoring clear satellite and street imagery.
-- **🏁 Virtual Track Gates Rendering in FPV:** Added live rendering of virtual track gates (`virtual_track`): golden start/finish lines, neon cyan sectors, orange checkpoints, gate posts, and directional race vectors.
-- **🔍 RC Scale Minimap Zoom Polish:** Increased default stationary/low-speed zoom to Level 19, delivering a 2x closer field of view tailored for RC scale circuits.
-- **🛠️ Virtual Track Creator Auto-ID:** Added automated gate ID generation and enforced required start/finish gate type for track creation, eliminating configuration errors.
-- **🌍 Complete 8-Language Localization:** 100% finished translations across all 8 supported languages (PL, EN, DE, ES, FR, IT, CS, ZH).
-
-## [v1.4.09] - 2026-10-10
-
-### 🚀 Highlights
-- **⚡ Fast Delta Patch Updates:** Introduced a lightweight patch installer (~15–25 MB instead of 2.01 GB). It downloads and updates modified application binaries only, preserving existing PyTorch/AI runtimes and user configs.
-- **🛡️ Steam Guard for SteamPipe:** Full Steam compliance – external HTTP .exe update checks are silenced in Steam mode, delegating delta delivery entirely to SteamPipe.
-- **🎯 Kalman EKF Packaging Fix:** Bundled `filterpy` properly into PyInstaller production distributions, restoring sensor fusion EKF pose estimation.
-- **🖥️ 4K High-DPI & UI Scaling Polish:** Fixed DPI scale configuration loading from split config (`general.json`), increased progress bar height, improved checkboxes, and rebalanced Cockpit layout columns on UHD monitors.
-- **🌍 Complete 8-Language Localization:** 100% finished translations across all 8 supported languages (PL, EN, DE, ES, FR, IT, CS, ZH).
-
-## [v1.4.08] - 2026-10-10
-
-### 🚀 Highlights
-- **Standalone Non-Steam Release:** Removed Steam client license enforcement when running directly (`setup_RCSIM.exe` downloaded from rcsim.org).
-- **Flexible DRM Verification:** Steam AppID 5383000 ownership checks are now strictly restricted to dedicated Steam storefront builds (`RCSIM_STEAM_BUILD=1` or `--steam-drm`).
-- **Resilient Boot Fallback:** Added safe boot handling – absence of Steam client or unowned app ID in standalone mode bypasses DRM without terminating the application process.
-- **Full Feature Availability:** Standalone edition retains full access to telemetry, sim-racing, and robotics tooling.
-
-## [v1.4.07] - 2026-10-10
-
-### 🚀 Highlights
-- **CRSF Wi-Fi TX Backpack Wireless Bridge (CRWF v1 Protocol):** Full integration with TX Backpack modules (RadioMaster Nomad / Pocket / MT12) over Wi-Fi UDP port 8888 with 32-bit random session, 300 ms renewable lease, and bidirectional CRSF telemetry downlink in EdgeTX Master/CRSF mode.
-- **Advanced Battery Profiles & Power Telemetry:** Added support for 1S–12S cells, chemistry profiles (LiPo, Li-Ion, LiFePO4, NiMH), optional voltage-based state-of-charge (SoC) estimation, and independent receipt timestamps for voltage and current in OSD.
-- **Race Director, Standings & Robust Lobby:** Accurate race standings sorted by completed laps and elapsed times, Hotlap comparison mode, session clock freeze at finish line, and fault-tolerant MQTT embedded broker and UDP discovery handlers.
-- **Redesigned Startup Window & Driver Profile Bar:** Polished asynchronous startup screen with asset integrity checks and dynamic progress bar, plus a quick driver profile and transmitter bar in the main view.
-- **Hardened RP2350 Communications & Navigation Fixes:** Resilient USB CDC serial disconnection guarding against driver exceptions, 100 ms write timeout, corrected RTH bearing-to-home direction, equator/prime meridian GPS fix support, and Mercator dateline tiling.
-- **Steam Commercial Licensing & Sim-Center Pass:** Steam DRM readiness, Steam PC Café support, "Sim-Center Annual Commercial Pass" manifests, and standalone "Racing Pro & Multiplayer DLC" packaging.
-- **Complete 8-Language Localization (i18n):** 100% translation coverage for all new UI elements across PL, EN, DE, ES, FR, IT, CS, and ZH with updated compiled `.qm` binaries.
-
-### GCS
-
-- Added experimental wireless bridge `BackpackCRSFTransport` (`backpack_transport.py`) forwarding RC channels (type 0x16) in CRWF v1 datagrams over Wi-Fi UDP port 8888. Protected with a 32-bit session token, 300 ms renewable lease, packet sequence numbering, and duplicate/expired token rejection. Receives CRSF downlink telemetry on the same client socket. Compatible with EdgeTX 2.11+ (Master/CRSF).
-- Added redesigned asynchronous startup window (`startup_window.py`) with asset verification, splash screen rendering, and dynamic progress bar.
-- Added driver profile bar (`driver_profile_bar.py`) providing instant visibility and selection of active driver, vehicle, and transmitter profiles from the cockpit.
-- Separated advanced GCS settings into safety, battery, and ACC sections. Added battery chemistry, cell count, empty/full per-cell voltages, and optional approximate voltage-based charge estimation. Existing voltage alarm thresholds remain independent. Loading a profile no longer emits partial settings; 110 battery, form, telemetry, OSD, and CRSF tests passed. New labels were translated and compiled for all eight languages.
-- Battery voltage and current now have independent receipt times. Voltage-only packets no longer make old current readings appear fresh in the OSD; missing or invalid measurements retain their previous value and timestamp. Partial battery packets do not reset omitted current or charge readings.
-- Fixed race standings to use completed laps and their completion time; Hotlap compares the best lap. The session clock freezes at the finish. The lobby waits for broker readiness before joining the host, validates connection ports, and handles startup failures; malformed MQTT messages are rejected.
-- Multiplayer telemetry throttling, connection debounce, and opponent timeouts now use a monotonic clock. System clock adjustments no longer stall transmission or expire opponents prematurely; the existing 10 Hz, 5 s, and 2 s limits remain unchanged.
-- Failed lobby discovery startup closes the allocated socket and clears service state, including socket configuration and thread startup failures. UDP lobby discovery rejects malformed UTF-8, non-object JSON, and invalid server data without terminating the listener.
-- Fixed `bearing_to_home` to calculate the vehicle-to-home bearing rather than the reverse. The RTH indicator now receives the correct direction; distance is unchanged. Seven regressions cover cardinal directions, dateline crossings, and a spherical route; 51 GPS and telemetry tests passed.
-- GPS now sets home for a valid fix on the equator (lat=0) and prime meridian. Missing, non-finite, or out-of-range coordinates neither set home nor update navigation; altitude processing remains active. 44 GPS and telemetry-processor tests passed.
-- Hardened RP2350 disconnection against driver errors when closing the port: state is cleared and disconnection is still reported. RP2350 ARM/E-STOP write failures now close the connection and report disconnection, matching channel-write failures. RP2350 serial writes have a 100 ms timeout instead of unlimited waiting.
-- Unified tile and pixel-offset calculations at Mercator map boundaries; non-finite coordinates are rejected. Local goals across ±180° use the shorter longitude difference.
-- GUI/map refresh uses a monotonic clock, so wall-clock rollback no longer stalls updates (25 Hz GUI and 10 Hz map-grid limits). `speed_kmh` samples refresh speed validity and receipt time, including zero.
-- Saving a profile specified by a bare filename now uses the current directory. Nested navigation merge errors use the profile validation fallback and protect files from being overwritten. The configuration cache is replaced only after all files are saved successfully. Navigation configuration write failures abort the save and report failure.
-- Implemented commercial licensing model: manifests and support for "Sim-Center Annual Commercial Pass" and Steam PC Café subscription. Separated multiplayer into "Racing Pro & Multiplayer DLC" while preserving educational and streaming rights. Updated multilingual EULAs across 8 languages.
-
-### MCS
-- ARM64 image builds now require successful CI for the same commit and verification of the pinned base OS SHA256. Added MCS installation checks in chroot and image/ZIP integrity checks before publication. Manual builds default to artifacts only. Removed empty SSH passwords and unverified PiShrink downloads; first boot regenerates host keys and imports the operator's public key from the boot partition. Physical RPi 5 boot requires separate hardware validation.
-
-- The gearbox measures its 250 ms debounce interval with a monotonic clock. Backward system clock adjustments no longer block shifts, and forward adjustments cannot bypass the debounce. The first shift remains immediately available; regression tests cover clock adjustments, debounce timing and gear limits.
-
-### Embedded (RPi)
-
-- Pure Pursuit uses the existing module logger instead of undefined `self.logger`. Fixed an `AttributeError` interrupting path tracking before steering and throttle calculation; regressions cover straight driving, both turn directions and stopping near an obstacle.
-
-- Path packets (`PT`) with a zero fragment count, an out-of-range index or an inconsistent fragment count are rejected before modifying the buffer. This prevents `KeyError` and premature path assembly; valid fragments may still arrive out of order or with duplicates.
-
-### CI/CD
-
-- Removed the global NumPy mock installed while importing map tests. Added an isolated-interpreter regression checking NumPy preservation; all 6 module tests passed. Full collection discovers 1159 tests but still reports 16 errors: other modules also replace dependencies globally.
-
-- Verified the local Windows build after the ICU fix: the packaged EXE passed startup-import and Qt event-loop checks (`--smoke-test`, exit 0, report `ok`); 13 regression tests passed. This does not validate the full GUI or hardware configurations.
-
-- Excluded the root-level Windows `icuuc.dll` picked up from an external `PATH` (Poppler). Qt uses the Windows ICU API; the foreign library exporting `_78` symbols caused QtWidgets/Qt6Core loading error 127. Private ICU libraries remain bundled.
-
-- Fixed Ackermann physics, asset manager and heuristic test imports after extracting the GCS repository. These three modules no longer depend on monorepo directory names; all 9 tests passed in a standalone checkout. Full collection now discovers 1156 tests and reports 16 remaining errors (previously 19).
-
-- GCS packaging includes AHRS resources (including `WMM2025/WMM.COF`). Added full Windows/Linux test discovery and a packaged EXE startup-import/Qt event-loop gate before nightly publication. Full collection exposed 19 legacy test errors; complete suite validation remains pending.
-
-- Restored complete submodule declarations for the PC release application and Radiomaster game scripts. GitHub Actions can now initialize every tracked gitlink instead of failing because `.gitmodules` lacks a URL. GCS now has a separate safe Cloudflare R2 nightly pipeline that publishes only versioned archives under `nightly/`.
-
-## [v1.4.06] - 2026-10-04
-
-### 🏎️ USB Video Pipeline Optimization (MJPG 60 FPS), Audio Smoothness & Force Feedback
-- **Zero-Copy USB Video Pipeline & MJPG 60 FPS:** Completely redesigned and optimized USB video stream acquisition for FPV cameras and HDMI capture cards. Implemented minimal hardware driver latency (`CAP_PROP_BUFFERSIZE = 1`), automatic hardware `MJPG` compression negotiation in DirectShow constructor eliminating the 9.4 FPS lock caused by uncompressed YUY2 over USB 2.0, and fast grab-based frame draining `cap.grab()` (~0.1 ms) when GUI thread is busy.
-- **Zero-Copy FPV Renderer (QImage Format_BGR888):** Replaced expensive main-thread color conversions `cv2.cvtColor(BGR2RGB)` with direct zero-copy wrapping via `QImage.Format.Format_BGR888`, saving ~1.8 ms per frame and 372 MB/s of RAM churn at 1080p 60 FPS.
-- **GUI USB Format Standardization:** Standardized the video format selector in `video_tab.py` and default config (`connection.json`) exclusively to reliable hardware `MJPG`, removing legacy/unsupported codecs (`YUY2`, `XVID`) with automatic backwards-compatibility coercion.
-- **Audio Dropout & Underrun Elimination:** Increased `RealtimeEngineStream` audio blocksize from 512 to 1024 samples (~46.4 ms DAC buffer headroom), eliminating audio crackles and underflows caused by Python GIL contention under heavy 50 Hz telemetry load. Replaced per-frame Pydantic `TypeAdapter` validation in the audio loop with direct attribute propagation.
-- **Simucube / DirectInput FFB & Telemetry Unblock:** Resolved Assetto Corsa telemetry ingestion block and re-enabled dynamic FFB haptic effect generation on DirectInput/Simucube wheelbases.
-- **Simulation Network Error Suppression (WinError 10054):** Silenced repetitive socket 10054 errors and added select polling in `sim_network.py` to prevent CPU busy-loops during simulation disconnect.
-
-## [v1.4.05] - 2026-10-04
-
-### 🏎️ Assetto Corsa Integration & SimHub Telemetry Bridge
-- **Assetto Corsa Windows Shared Memory:** Implemented direct physical telemetry, engine RPM, vehicle speed, wheel slip, G-forces, and track status ingestion via native Windows memory mapping (`acpmf_physics`, `acpmf_graphics`, `acpmf_static`).
-- **SimHub Bi-Directional Telemetry Bridge:** Enhanced `simhub_bridge.py` with automatic telemetry translation and seamless data streaming for motion cueing rigs and FFB haptics.
-- **Connection Configuration & GUI:** Added dedicated Assetto Corsa / SimHub telemetry configuration controls in the Connection tab with port customization, memory mapping toggles, and update frequency tuning.
-- **Complete Internationalization (100% i18n):** Provided verified translations across all 8 supported languages (PL, EN, DE, ES, FR, IT, CS, ZH) with 0 unfinished translation keys.
-- **Unit Test Coverage:** Added 16 comprehensive unit tests validating shared memory structure layout, telemetry unpacking, and bridge forwarding (`test_assetto_corsa.py`).
-
-## [v1.4.04] - 2026-10-03
-
-### ⚖️ Legal Compliance, License Audit & LGPL Packaging
-- **LGPL Compliance in PyInstaller:** Configured `module_collection_mode={'paramiko': 'py', 'pymavlink': 'py'}` in build specifications, ensuring unbundled readable `.py` sources in `_internal/` for LGPL components.
-- **Complete Legal Suite in 8 Languages:** Deployed comprehensive EULA and Privacy Policy in 8 languages (PL, EN, DE, ES, FR, IT, CS, ZH), compliance statements, `PYTHON_LICENSES.txt` audit manifest, and full SPDX license texts in installer.
-- **Intellectual Property & Repository Hygiene:** Explicitly excluded proprietary vendor SDK binaries from public repository tracking.
-
-### 🔊 Realtime Audio Engine & Sound Synthesis (Combustion & Turbo)
-- **Acoustic Combustion Engine Synthesis:** Integrated procedural ICE audio synthesis with dynamic load, RPM, harmonic simulation, and cylinder firing profiles (`combustion_profiles.py`, `realtime_engine.py`).
-- **Turbo Blow-Off Valve & Wastegate:** Implemented boost pressure physics model and blow-off valve sound generator upon rapid throttle release (`turbo_blowoff.py`).
-- **Induction Layers, Starter & Supercharger Sounds:** Enhanced the audio engine with procedural engine starter acoustics (`engine_starter.py`), intake manifold induction layers (`induction_layers.py`), and mechanical supercharger whine with complete GUI volume adjustment.
-
-### 🧭 CI/CD & AHRS Packaging
-- GCS packaging now bundles complete AHRS geomagnetic models (`WMM2025/WMM.COF`).
-- Completed 100% translation coverage across all 8 languages (0 unfinished).
+- Added IMU hardware device profiles, advanced MSP Flight Controller telemetry integration, and High-DPI icon polish.
+- FPV Minimap improvements: fixed GPS trail rendering, haze reduction, and virtual race gate overlays.
+- Hardened updater process lifecycle (process decoupling and safe application termination).
 
 ## [v1.4.03] - 2026-09-30
 
@@ -203,18 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Altitude and vertical-speed instruments use fresh FC measurements. A configurable telemetry widget displays vertical speed, current, consumed capacity, flight mode, link quality, both antenna RSSI readings, TX power, and satellites.
 - Aircraft, offroad, and racing presets include additional separate telemetry fields. The editor offers a measurement selector; missing or expired readings display a dash while valid zero readings remain visible. New labels are translated into all eight languages.
-
-### 🏁 QR racing — complete sectors
-
-- The finish line records a lap on a sectorized track only after every configured intermediate gate is detected. The rule supports enum and string marker definitions, while tracks without sectors keep their existing behavior.
-
-### 🧭 SLAM — 0° heading
-
-- SLAM telemetry preserves a valid `0°` top-level heading instead of replacing it with orientation, simulator, or GPS fallback data. Fallbacks are used only when the higher-priority source is absent.
-
-### 🛠️ GCS — Moza H-shifter gear range
-
-- Moza H-shifter codes are bounded to the configured number of forward gears: code `0` selects reverse, `8` neutral, and an excessive or malformed code safely selects neutral instead of creating a phantom gear or interrupting the control loop.
 
 ### 📡 Extended CRSF and MAVLink telemetry
 
