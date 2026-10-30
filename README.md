@@ -1,8 +1,8 @@
-# 🏎️ RCSIM — Ground Control Station (GCS) Release Repository & Changelogs
+# 🏎️ RCSIM — PC Release Notes & Changelogs
 
-Oficjalne repozytorium wydań, sum kontrolnych oraz pełnej historii zmian oprogramowania **RCSIM GCS (Ground Control Station)** dla komputerów PC (Windows 10 / 11).
+To repozytorium przechowuje historię zmian i notatki wydań aplikacji **RCSIM GCS**. Oficjalny zakup, instalacja i aktualizacje aplikacji PC odbywają się przez Steam.
 
-Official release repository, integrity checksums, and complete change history for **RCSIM GCS (Ground Control Station)** for Windows 10 / 11.
+This repository contains release notes and changelogs for **RCSIM GCS**. Official purchase, installation and updates for the PC app are handled by Steam. This repository does not distribute PC installers.
 
 ---
 
@@ -15,18 +15,20 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
 
 ---
 
-## 🚀 Pobieranie Najnowszej Wersji (Latest Download)
+## 🚀 Aplikacja PC na Steam (PC App on Steam)
 
 | Parametr | Wartość |
 |---|---|
 | **Aktualna Wersja (Current Version)** | **v1.4.12** |
 | **Data Wydania (Release Date)** | 2026-10-19 |
-| **Rozmiar Pliku Pełnego (Full Size)** | ~2.02 GB (2066 MB) (2,166,017,099 B) |
-| **Suma Kontrolna SHA-256** | `af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390` |
-| **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
-| **Bezpośredni Link CDN (Full)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
-| **Bezpośredni Link CDN (Multi/Alpha)** | [setup_RCSIM_v1.4.12_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.12_alpha.exe) |
-| **Szybka Łatka (Quick Patch)** | [setup_RCSIM_patch.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_patch.exe) |
+| **Steam App ID** | `5383000` |
+| **Strona aplikacji (Store page)** | [RCSIM na Steam](https://store.steampowered.com/app/5383000/) |
+
+---
+
+Wybierz „Obserwuj” lub kup aplikację na Steam. Steam odpowiada za instalację, weryfikację uprawnień i aktualizacje. To repozytorium nie jest źródłem instalatorów.
+
+Use the Steam store page to wishlist or purchase the app. Steam handles installation, entitlement checks and updates. This repository is not an installer source.
 
 ---
 
@@ -39,21 +41,6 @@ Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i napraw
   - Wdrożono profile urządzeń IMU, bezpośrednie odpytywanie kontrolerów lotu MSP oraz optymalizację minimapy FPV i wirtualnych bramek.
 - **⚡ Szybka Łatka (Delta Patch):**
   - Lekki instalator aktualizacyjny dla użytkowników posiadających już RCSIM na PC — zawiera zaktualizowane binaria i biblioteki FFB bez pobierania PyTorcha.
-
----
-
-## 🔐 Weryfikacja Integralności (SHA-256 Checksum)
-
-Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli PowerShell:
-
-```powershell
-Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
-```
-
-Oczekiwany hash dla v1.4.12:
-```
-af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390
-```
 
 ---
 
