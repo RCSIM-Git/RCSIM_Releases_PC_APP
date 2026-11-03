@@ -1,69 +1,53 @@
-# 🏎️ RCSIM — Ground Control Station (GCS) Release Repository & Changelogs
+# 🏎️ RCSIM — PC Release Notes & Changelogs
 
-Oficjalne repozytorium wydań, sum kontrolnych oraz pełnej historii zmian oprogramowania **RCSIM GCS (Ground Control Station)** dla komputerów PC (Windows 10 / 11).
+> 🌐 **Language / Język:** **English** | [Polski](README_PL.md)
 
-Official release repository, integrity checksums, and complete change history for **RCSIM GCS (Ground Control Station)** for Windows 10 / 11.
+This repository contains official release notes, changelogs, and integrity checksums for the **RCSIM GCS (Ground Control Station)** application for Windows 10 / 11. Official distribution, installation, and automatic updates are handled through Steam.
 
 ---
 
-## 📜 Pełna Historia Zmian (Complete Changelogs)
+## 📜 Complete Changelogs
 
-Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i naprawionych błędów znajduje się w dedykowanych plikach:
+Detailed records of all software updates, technical improvements, optimizations, and bug fixes are maintained in dedicated changelog documents:
 
-- 🇵🇱 **[CHANGELOG.md (Wersja Polska)](CHANGELOG.md)** — kompletna historia zmian od wersji V1.0.0 do najnowszej.
 - 🇬🇧 **[CHANGELOG_EN.md (English Version)](CHANGELOG_EN.md)** — full changelog and release notes in English.
+- 🇵🇱 **[CHANGELOG.md (Polish Version)](CHANGELOG.md)** — complete change history from v1.0.0 to the latest release in Polish.
 
 ---
 
-## 🚀 Pobieranie Najnowszej Wersji (Latest Download)
+## 🚀 PC Application on Steam
 
-| Parametr | Wartość |
+| Parameter | Value |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.12** |
-| **Data Wydania (Release Date)** | 2026-10-19 |
-| **Rozmiar Pliku Pełnego (Full Size)** | ~2.02 GB (2066 MB) (2,166,017,099 B) |
-| **Suma Kontrolna SHA-256** | `af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390` |
-| **Oficjalna Strona WWW** | [https://rcsim.org/download](https://rcsim.org/download) |
-| **Bezpośredni Link CDN (Full)** | [setup_RCSIM.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM.exe) |
-| **Bezpośredni Link CDN (Multi/Alpha)** | [setup_RCSIM_v1.4.12_alpha.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_v1.4.12_alpha.exe) |
-| **Szybka Łatka (Quick Patch)** | [setup_RCSIM_patch.exe](https://pub-82a77ffa62bd4ab7a9cbd0b9810b3b99.r2.dev/setup_RCSIM_patch.exe) |
+| **Current Version** | **v1.4.12** |
+| **Release Date** | 2026-10-19 |
+| **Steam App ID** | `5383000` |
+| **Steam Store Page** | [RCSIM on Steam](https://store.steampowered.com/app/5383000/) |
+| **Official Website** | [https://rcsim.org](https://rcsim.org) |
+
+Wishlist or purchase the application on Steam. Steam handles verified installation, entitlement checks, and automatic delta updates.
 
 ---
 
-## 🌟 Najważniejsze Nowości w v1.4.12 (Highlights)
+## 🌟 Highlights in v1.4.12
 
-- **🎮 Poprawka Pakowania Zależności FFB (PySDL2 & SDL2 DLL):**
-  - Dodano dołączanie modułów `sdl2` oraz `sdl2dll` do EXE oraz jawną zależność `PySDL2==0.9.17`.
-  - Wprowadzono asercję przerywającą build przy braku bindingów SDL2, zapewniając bezbłędne działanie Force Feedbacku na kierownicach Direct Drive.
-- **🧭 Profile Urządzeń IMU i Integracja MSP FC:**
-  - Wdrożono profile urządzeń IMU, bezpośrednie odpytywanie kontrolerów lotu MSP oraz optymalizację minimapy FPV i wirtualnych bramek.
-- **⚡ Szybka Łatka (Delta Patch):**
-  - Lekki instalator aktualizacyjny dla użytkowników posiadających już RCSIM na PC — zawiera zaktualizowane binaria i biblioteki FFB bez pobierania PyTorcha.
-
----
-
-## 🔐 Weryfikacja Integralności (SHA-256 Checksum)
-
-Aby zweryfikować poprawność pobranego pliku `setup_RCSIM.exe` w konsoli PowerShell:
-
-```powershell
-Get-FileHash .\setup_RCSIM.exe -Algorithm SHA256
-```
-
-Oczekiwany hash dla v1.4.12:
-```
-af17b8ef5e24e2a622b568ffd3fba4bd068764e6b24f1c0ba9cb3ecfc1201390
-```
+- **🎮 Force Feedback (FFB) Dependency Integration (PySDL2 & SDL2 DLL):**
+  - Bundled `sdl2` and `sdl2dll` binary runtimes into the distribution executable with explicit dependency on `PySDL2==0.9.17`.
+  - Added build assertions guaranteeing seamless Force Feedback operation across Direct Drive steering wheel bases.
+- **🧭 IMU Device Profiles & MSP Flight Controller Integration:**
+  - Implemented configurable IMU sensor profiles, native MSP polling for Betaflight/INAV flight controllers, and optimized FPV minimap rendering with virtual track gates.
+- **⚡ Performance & Stability:**
+  - Low-latency control loop tuning (100–250 Hz) and enhanced failsafe handling for RC vehicle safety.
 
 ---
 
-## 💻 Wymagania Systemowe (System Requirements)
+## 💻 System Requirements
 
-- **System Operacyjny:** Windows 10 / Windows 11 (64-bit).
-- **Pamięć RAM:** Min. 4 GB RAM (zalecane 8 GB+).
-- **Procesor:** Intel / AMD 64-bit Dual-Core 2.0 GHz+.
-- **Łączność:** Port USB 2.0/3.0 (dla nadajnika ELRS/CRSF lub kabla audio PPM Tier 0) oraz karta Wi-Fi / VPN (Tailscale).
-- **Kontrolery:** Bazy kierownic DirectInput (Fanatec, Moza, Logitech, Thrustmaster) lub gamepad Xbox.
+- **Operating System:** Windows 10 / Windows 11 (64-bit).
+- **RAM:** Minimum 4 GB RAM (8 GB+ recommended).
+- **Processor:** Intel / AMD 64-bit Dual-Core 2.0 GHz+.
+- **Connectivity:** USB 2.0/3.0 port (for ExpressLRS/CRSF USB transceiver or Tier 0 3.5mm DSC audio PPM cable), Wi-Fi adapter or VPN (Tailscale).
+- **Supported Controllers:** DirectInput steering wheels (Fanatec, Moza, Simagic, Logitech, Thrustmaster) or standard Xbox/XInput gamepads.
 
 ---
 
