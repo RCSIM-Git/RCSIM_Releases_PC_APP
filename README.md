@@ -1,56 +1,53 @@
 # 🏎️ RCSIM — PC Release Notes & Changelogs
 
-To repozytorium przechowuje historię zmian i notatki wydań aplikacji **RCSIM GCS**. Oficjalny zakup, instalacja i aktualizacje aplikacji PC odbywają się przez Steam.
+> 🌐 **Language / Język:** **English** | [Polski](README_PL.md)
 
-This repository contains release notes and changelogs for **RCSIM GCS**. Official purchase, installation and updates for the PC app are handled by Steam. This repository does not distribute PC installers.
+This repository contains official release notes, changelogs, and integrity checksums for the **RCSIM GCS (Ground Control Station)** application for Windows 10 / 11. Official distribution, installation, and automatic updates are handled through Steam.
 
 ---
 
-## 📜 Pełna Historia Zmian (Complete Changelogs)
+## 📜 Complete Changelogs
 
-Pełny wykaz wszystkich aktualizacji, zmian technicznych, optymalizacji i naprawionych błędów znajduje się w dedykowanych plikach:
+Detailed records of all software updates, technical improvements, optimizations, and bug fixes are maintained in dedicated changelog documents:
 
-- 🇵🇱 **[CHANGELOG.md (Wersja Polska)](CHANGELOG.md)** — kompletna historia zmian od wersji V1.0.0 do najnowszej.
 - 🇬🇧 **[CHANGELOG_EN.md (English Version)](CHANGELOG_EN.md)** — full changelog and release notes in English.
+- 🇵🇱 **[CHANGELOG.md (Polish Version)](CHANGELOG.md)** — complete change history from v1.0.0 to the latest release in Polish.
 
 ---
 
-## 🚀 Aplikacja PC na Steam (PC App on Steam)
+## 🚀 PC Application on Steam
 
-| Parametr | Wartość |
+| Parameter | Value |
 |---|---|
-| **Aktualna Wersja (Current Version)** | **v1.4.12** |
-| **Data Wydania (Release Date)** | 2026-10-19 |
+| **Current Version** | **v1.4.12** |
+| **Release Date** | 2026-10-19 |
 | **Steam App ID** | `5383000` |
-| **Strona aplikacji (Store page)** | [RCSIM na Steam](https://store.steampowered.com/app/5383000/) |
+| **Steam Store Page** | [RCSIM on Steam](https://store.steampowered.com/app/5383000/) |
+| **Official Website** | [https://rcsim.org](https://rcsim.org) |
+
+Wishlist or purchase the application on Steam. Steam handles verified installation, entitlement checks, and automatic delta updates.
 
 ---
 
-Wybierz „Obserwuj” lub kup aplikację na Steam. Steam odpowiada za instalację, weryfikację uprawnień i aktualizacje. To repozytorium nie jest źródłem instalatorów.
+## 🌟 Highlights in v1.4.12
 
-Use the Steam store page to wishlist or purchase the app. Steam handles installation, entitlement checks and updates. This repository is not an installer source.
-
----
-
-## 🌟 Najważniejsze Nowości w v1.4.12 (Highlights)
-
-- **🎮 Poprawka Pakowania Zależności FFB (PySDL2 & SDL2 DLL):**
-  - Dodano dołączanie modułów `sdl2` oraz `sdl2dll` do EXE oraz jawną zależność `PySDL2==0.9.17`.
-  - Wprowadzono asercję przerywającą build przy braku bindingów SDL2, zapewniając bezbłędne działanie Force Feedbacku na kierownicach Direct Drive.
-- **🧭 Profile Urządzeń IMU i Integracja MSP FC:**
-  - Wdrożono profile urządzeń IMU, bezpośrednie odpytywanie kontrolerów lotu MSP oraz optymalizację minimapy FPV i wirtualnych bramek.
-- **⚡ Szybka Łatka (Delta Patch):**
-  - Lekki instalator aktualizacyjny dla użytkowników posiadających już RCSIM na PC — zawiera zaktualizowane binaria i biblioteki FFB bez pobierania PyTorcha.
+- **🎮 Force Feedback (FFB) Dependency Integration (PySDL2 & SDL2 DLL):**
+  - Bundled `sdl2` and `sdl2dll` binary runtimes into the distribution executable with explicit dependency on `PySDL2==0.9.17`.
+  - Added build assertions guaranteeing seamless Force Feedback operation across Direct Drive steering wheel bases.
+- **🧭 IMU Device Profiles & MSP Flight Controller Integration:**
+  - Implemented configurable IMU sensor profiles, native MSP polling for Betaflight/INAV flight controllers, and optimized FPV minimap rendering with virtual track gates.
+- **⚡ Performance & Stability:**
+  - Low-latency control loop tuning (100–250 Hz) and enhanced failsafe handling for RC vehicle safety.
 
 ---
 
-## 💻 Wymagania Systemowe (System Requirements)
+## 💻 System Requirements
 
-- **System Operacyjny:** Windows 10 / Windows 11 (64-bit).
-- **Pamięć RAM:** Min. 4 GB RAM (zalecane 8 GB+).
-- **Procesor:** Intel / AMD 64-bit Dual-Core 2.0 GHz+.
-- **Łączność:** Port USB 2.0/3.0 (dla nadajnika ELRS/CRSF lub kabla audio PPM Tier 0) oraz karta Wi-Fi / VPN (Tailscale).
-- **Kontrolery:** Bazy kierownic DirectInput (Fanatec, Moza, Logitech, Thrustmaster) lub gamepad Xbox.
+- **Operating System:** Windows 10 / Windows 11 (64-bit).
+- **RAM:** Minimum 4 GB RAM (8 GB+ recommended).
+- **Processor:** Intel / AMD 64-bit Dual-Core 2.0 GHz+.
+- **Connectivity:** USB 2.0/3.0 port (for ExpressLRS/CRSF USB transceiver or Tier 0 3.5mm DSC audio PPM cable), Wi-Fi adapter or VPN (Tailscale).
+- **Supported Controllers:** DirectInput steering wheels (Fanatec, Moza, Simagic, Logitech, Thrustmaster) or standard Xbox/XInput gamepads.
 
 ---
 
